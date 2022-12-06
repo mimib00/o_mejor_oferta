@@ -8,9 +8,10 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
+import 'package:mejor_oferta/meta/models/user.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 
-class Authenticator extends GetxController {
+class Authenticator {
   /// Handels all user actions
   ///
   /// from login to register to getting user info.
@@ -72,12 +73,34 @@ class Authenticator extends GetxController {
     try {
       Get.dialog(const Center(child: CircularProgressIndicator(color: kPrimaryColor)));
       const url = "$baseUrl/authentication/users/";
-      await dio.post(url, data: data);
+      await dio.post(
+        url,
+        data: data,
+      );
       Get.offAllNamed(Routes.login);
     } on DioError catch (e) {
       Get.back();
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
+    }
+  }
+
+  Future<User?> getUser() async {
+    try {
+      const url = "$baseUrl/authentication/users/me";
+      final tokens = fetchToken();
+      final res = await dio.get(
+        url,
+        options: Options(headers: {
+          "Authorization": "Bearer ${tokens["access"]}",
+        }),
+      );
+
+      return User.fromJson(res.data);
+    } on DioError catch (e) {
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+      return null;
     }
   }
 }

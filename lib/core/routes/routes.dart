@@ -4,7 +4,7 @@ import 'package:mejor_oferta/core/controller/app_bindings.dart';
 import 'package:mejor_oferta/views/OTP/otp.dart';
 import 'package:mejor_oferta/views/auth/login.dart';
 import 'package:mejor_oferta/views/auth/register.dart';
-import 'package:mejor_oferta/views/auth/root/root.dart';
+import 'package:mejor_oferta/views/root/root.dart';
 import 'package:mejor_oferta/views/splash/splash.dart';
 
 class Routes {
