@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/core/theme/app_theme.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await GetStorage.init("Auth");
   runApp(const MyApp());
 }
 

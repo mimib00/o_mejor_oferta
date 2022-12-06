@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/main_button.dart';
@@ -29,11 +30,20 @@ class LoginScreen extends GetView<LoginController> {
                 CustomTextInput(
                   controller: controller.email,
                   labelText: "Email",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return "Field required";
+                    if (!value.isEmail) return "Email miss formated";
+                    return null;
+                  },
                 ),
                 CustomTextInput(
                   controller: controller.password,
                   labelText: "Password",
                   obscure: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return "Field required";
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -51,7 +61,16 @@ class LoginScreen extends GetView<LoginController> {
                 ),
                 SizedBox(height: 2.h),
                 MainButton(
-                  onTap: () {},
+                  onTap: () {
+                    if (controller.loginForm.currentState!.validate()) {
+                      final data = {
+                        "email": controller.email.text.trim(),
+                        "password": controller.password.text.trim(),
+                      };
+
+                      Authenticator.instance.login(data);
+                    }
+                  },
                   text: "Login",
                 ),
                 SizedBox(height: 3.h),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -21,26 +22,54 @@ class Authenticator extends GetxController {
 
   final _box = GetStorage('Auth');
 
-  _saveToken(String aToken, String rToken) {
-    _box.write("refresh_token", rToken);
-    _box.write("access_token", aToken);
-  }
+  void _saveToken(Map<String, dynamic> tokens) async => await _box.write("tokens", tokens);
 
   Map<String, dynamic> fetchToken() {
-    return {
-      "refresh_token": _box.read<String>("refresh_token"),
-      "access_token": _box.read<String>("access_token"),
-    };
+    return _box.read<Map<String, dynamic>>("tokens") ?? {};
   }
 
-  _removeToken() {
-    _box.remove("refresh_token");
-    _box.remove("access_token");
+  void _removeToken() async => await _box.remove("tokens");
+
+  /// Changes auth state of user in realtime.
+  Stream<bool> onAuthStateChange() {
+    StreamController<bool> controller = StreamController<bool>();
+    if (_box.read("tokens") != null) {
+      controller.add(true);
+    } else {
+      controller.add(false);
+    }
+
+    _box.listenKey("tokens", (token) {
+      if (token == null) {
+        controller.add(false);
+      } else {
+        controller.add(true);
+      }
+    });
+
+    return controller.stream;
+  }
+
+  Future<void> login(Map<String, dynamic> data) async {
+    try {
+      Get.dialog(const Center(child: CircularProgressIndicator(color: kPrimaryColor)));
+      const url = "$baseUrl/token/";
+      final res = await dio.post(
+        url,
+        data: data,
+      );
+
+      _saveToken(res.data);
+      Get.back();
+    } on DioError catch (e) {
+      Get.back();
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    }
   }
 
   Future<void> signup(Map<String, dynamic> data) async {
     try {
-      log(data.toString());
       Get.dialog(const Center(child: CircularProgressIndicator(color: kPrimaryColor)));
       const url = "$baseUrl/authentication/users/";
       await dio.post(url, data: data);
