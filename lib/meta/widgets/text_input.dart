@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 
-class TextInput extends StatelessWidget {
-  final TextEditingController controller;
+class CustomTextInput extends StatelessWidget {
+  final TextEditingController? controller;
   final String? labelText;
   final String? hintText;
   final bool obscure;
-  const TextInput({
+  final String? Function(String? value)? validator;
+  const CustomTextInput({
     super.key,
     required this.controller,
     this.hintText,
     this.labelText,
     this.obscure = false,
+    this.validator,
   });
 
   @override
@@ -25,10 +27,12 @@ class TextInput extends StatelessWidget {
         border: Border.all(color: const Color(0xffE3E5E5), width: 1),
       ),
       child: TextFormField(
+        controller: controller,
         cursorColor: kPrimaryColor,
         style: text1,
         obscureText: obscure,
         autocorrect: false,
+        validator: validator,
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText ?? labelText,

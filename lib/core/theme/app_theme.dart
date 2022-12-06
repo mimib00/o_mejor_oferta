@@ -13,7 +13,7 @@ class AppTheme {
       backgroundColor: kWhiteColor,
       foregroundColor: kBlackColor,
       centerTitle: true,
-      titleTextStyle: headline2.copyWith(fontWeight: FontWeight.bold),
+      titleTextStyle: headline1.copyWith(fontWeight: FontWeight.bold),
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: InputBorder.none,
@@ -26,7 +26,7 @@ class AppTheme {
         elevation: 0,
         backgroundColor: kPrimaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(45)),
-        textStyle: headline3,
+        textStyle: headline2,
         padding: const EdgeInsets.symmetric(vertical: 15),
       ),
     ),
