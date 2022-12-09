@@ -45,6 +45,8 @@ dependencies:
   pinput: ^2.2.16
   fluttertoast: ^8.1.1
   unicons: ^2.1.0
+  cached_network_image: ^3.2.3
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:

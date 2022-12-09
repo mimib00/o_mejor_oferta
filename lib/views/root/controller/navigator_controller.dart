@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/views/profile/profile.dart';
 
 class NavigatorController extends GetxController {
   RxInt index = 0.obs;
@@ -11,7 +12,7 @@ class NavigatorController extends GetxController {
     Container(color: Colors.blue),
     Container(),
     Container(color: Colors.red),
-    Container(color: Colors.green),
+    const ProfileScreen(),
   ];
 
   void goto(int i) {

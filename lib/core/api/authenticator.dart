@@ -29,7 +29,7 @@ class Authenticator {
     return _box.read<Map<String, dynamic>>("tokens") ?? {};
   }
 
-  void _removeToken() async => await _box.remove("tokens");
+  Future<void> _removeToken() async => await _box.remove("tokens");
 
   /// Changes auth state of user in realtime.
   Stream<bool> onAuthStateChange() {
@@ -102,5 +102,9 @@ class Authenticator {
       Fluttertoast.showToast(msg: e.message);
       return null;
     }
+  }
+
+  Future<void> logout() async {
+    await _removeToken();
   }
 }
