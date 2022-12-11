@@ -23,6 +23,8 @@ class Authenticator {
 
   final _box = GetStorage('Auth');
 
+  User? user;
+
   void _saveToken(Map<String, dynamic> tokens) async => await _box.write("tokens", tokens);
 
   Map<String, dynamic> fetchToken() {
@@ -95,8 +97,8 @@ class Authenticator {
           "Authorization": "Bearer ${tokens["access"]}",
         }),
       );
-
-      return User.fromJson(res.data);
+      user = User.fromJson(res.data);
+      return user;
     } on DioError catch (e) {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);

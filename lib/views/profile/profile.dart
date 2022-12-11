@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
-import 'package:mejor_oferta/meta/models/user.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/profile/components/profile_tile.dart';
 import 'package:mejor_oferta/views/profile/controller/profile_controller.dart';
@@ -15,6 +14,7 @@ class ProfileScreen extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Authenticator.instance.user;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
@@ -29,51 +29,45 @@ class ProfileScreen extends GetView<ProfileController> {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 10),
         children: [
-          FutureBuilder<User?>(
-            future: Authenticator.instance.getUser(),
-            builder: (context, snapshot) {
-              final user = snapshot.data;
-              return ListTile(
-                contentPadding: EdgeInsets.zero,
-                horizontalTitleGap: 0,
-                leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(45),
-                  child: CachedNetworkImage(
-                    imageUrl: "",
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            horizontalTitleGap: 0,
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(45),
+              child: CachedNetworkImage(
+                imageUrl: "",
+                height: 80,
+                width: 80,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) {
+                  return Container(
                     height: 80,
                     width: 80,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) {
-                      return Container(
-                        height: 80,
-                        width: 80,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: kPrimaryColor,
-                        ),
-                        child: const Icon(
-                          UniconsLine.user,
-                          color: Colors.white,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                title: Text(
-                  user?.name ?? "User Name",
-                  style: headline1,
-                ),
-                subtitle: RatingBarIndicator(
-                  rating: 5,
-                  itemBuilder: (context, index) => const Icon(
-                    UniconsSolid.star,
-                    color: Colors.amber,
-                  ),
-                  itemCount: 5,
-                  itemSize: 30,
-                ),
-              );
-            },
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: kPrimaryColor,
+                    ),
+                    child: const Icon(
+                      UniconsLine.user,
+                      color: Colors.white,
+                    ),
+                  );
+                },
+              ),
+            ),
+            title: Text(
+              user?.name ?? "User Name",
+              style: headline1,
+            ),
+            subtitle: RatingBarIndicator(
+              rating: 5,
+              itemBuilder: (context, index) => const Icon(
+                UniconsSolid.star,
+                color: Colors.amber,
+              ),
+              itemCount: 5,
+              itemSize: 30,
+            ),
           ),
           SizedBox(height: 3.h),
           Padding(
