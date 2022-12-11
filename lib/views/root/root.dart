@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/root/controller/navigator_controller.dart';
 import 'package:unicons/unicons.dart';
@@ -15,7 +16,7 @@ class RootScreen extends GetView<NavigatorController> {
           body: controller.screen,
           floatingActionButton: FloatingActionButton(
             elevation: 0,
-            onPressed: () {},
+            onPressed: () => Get.toNamed(Routes.addPost),
             backgroundColor: kPrimaryColor,
             child: const Icon(
               UniconsLine.camera,

@@ -32,36 +32,36 @@ const Color kBlackColor = Color(0xff121826);
 
 final headline1 = GoogleFonts.inter(
   fontWeight: FontWeight.w700,
-  fontSize: 18.sp,
+  fontSize: 20.sp,
   color: kBlackColor,
 );
 
 final headline2 = GoogleFonts.inter(
   fontWeight: FontWeight.w600,
-  fontSize: 16.sp,
+  fontSize: 18.sp,
   color: kBlackColor,
 );
 
 final headline3 = GoogleFonts.inter(
   fontWeight: FontWeight.w600,
-  fontSize: 14.sp,
+  fontSize: 16.sp,
   color: kBlackColor,
 );
 
 final text1 = GoogleFonts.inter(
   fontWeight: FontWeight.w400,
-  fontSize: 14.sp,
+  fontSize: 16.sp,
   color: kBlackColor,
 );
 
 final text2 = GoogleFonts.inter(
   fontWeight: FontWeight.w400,
-  fontSize: 12.sp,
+  fontSize: 14.sp,
   color: kBlackColor,
 );
 
 final text3 = GoogleFonts.inter(
   fontWeight: FontWeight.w400,
-  fontSize: 10.sp,
+  fontSize: 12.sp,
   color: kBlackColor,
 );
