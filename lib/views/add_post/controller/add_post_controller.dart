@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
+import 'package:mejor_oferta/meta/models/state.dart';
 import 'package:mejor_oferta/views/add_post/steps/category.dart';
 import 'package:mejor_oferta/views/add_post/steps/info.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/condition.dart';
@@ -27,7 +28,7 @@ class AddPostController extends GetxController {
   Category? category;
   Category? subCategory;
 
-  RxString location = "Location".obs;
+  Rx<States?> location = Rx(null);
   RxString condition = "".obs;
 
   List<Widget> steps = [

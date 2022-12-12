@@ -28,7 +28,7 @@ class LocationStep extends GetView<AddPostController> {
           const SizedBox(height: 20),
           GestureDetector(
             onTap: () {
-              Get.bottomSheet(LocationSheet(), isScrollControlled: true);
+              Get.bottomSheet(const LocationSheet(), isScrollControlled: true);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -46,7 +46,7 @@ class LocationStep extends GetView<AddPostController> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        controller.location.value,
+                        controller.location.value?.name ?? " Location",
                         style: text1.copyWith(color: kWhiteColor4),
                       ),
                     ],
@@ -64,7 +64,7 @@ class LocationStep extends GetView<AddPostController> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: controller.location.value == "Location" ? null : () => controller.next(),
+                      onPressed: controller.location.value == null ? null : () => controller.next(),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         textStyle: headline3,

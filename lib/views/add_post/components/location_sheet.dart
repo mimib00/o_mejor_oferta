@@ -1,23 +1,36 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/config.dart';
+import 'package:mejor_oferta/meta/models/state.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LocationSheet extends GetView<AddPostController> {
-  LocationSheet({super.key});
+  const LocationSheet({super.key});
 
-  final List<String> locations = [
-    "Loiza",
-    "Canovanas",
-    "Carolina",
-    "Trujillo Alto",
-    "San Juan",
-    "Guaynabo",
-    "Bayamon",
-    "Catano",
-    "Toa Baja"
-  ];
+  Future<List<States>> getStates() async {
+    try {
+      final dio = Dio();
+      const url = "$baseUrl/listings/states";
+      final res = await dio.get(url);
+
+      List<States> states = [];
+
+      for (var state in res.data) {
+        states.add(States.fromJson(state));
+      }
+      return states;
+    } on DioError catch (e) {
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +49,33 @@ class LocationSheet extends GetView<AddPostController> {
             "Locations",
             style: headline2.copyWith(fontWeight: FontWeight.bold),
           ),
-          Expanded(
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: locations.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    controller.location.value = locations[index];
-                    Get.back();
-                  },
-                  title: Text(locations[index]),
+          FutureBuilder<List<States>>(
+              future: getStates(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: kPrimaryColor),
+                  );
+                }
+                if (snapshot.data == null || snapshot.data!.isEmpty) return Container();
+
+                final locations = snapshot.data!;
+                return Expanded(
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: locations.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () {
+                          controller.location.value = locations[index];
+                          Get.back();
+                        },
+                        title: Text(locations[index].name),
+                      );
+                    },
+                  ),
                 );
-              },
-            ),
-          ),
+              }),
         ],
       ),
     );
