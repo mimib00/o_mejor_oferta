@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/views/add_post/steps/category.dart';
+import 'package:mejor_oferta/views/add_post/steps/location.dart';
 import 'package:mejor_oferta/views/add_post/steps/sub_category.dart';
 
 class AddPostController extends GetxController {
@@ -21,9 +22,12 @@ class AddPostController extends GetxController {
   Category? category;
   Category? subCategory;
 
+  RxString location = "Location".obs;
+
   List<Widget> steps = [
     const CategoryStep(),
     const SubCategoryStep(),
+    const LocationStep(),
   ];
 
   void next() {
