@@ -8,18 +8,22 @@ class InfoStep extends GetView<AddPostController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        LinearProgressIndicator(
-          value: controller.percentage,
-          color: kPrimaryColor,
-          backgroundColor: kWhiteColor2,
-        ),
-        Expanded(
-          child: controller.infoStep,
-        )
-      ],
+    return Obx(
+      () {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LinearProgressIndicator(
+              value: controller.percentage,
+              color: kPrimaryColor,
+              backgroundColor: kWhiteColor2,
+            ),
+            Expanded(
+              child: controller.infoStep,
+            )
+          ],
+        );
+      },
     );
   }
 }

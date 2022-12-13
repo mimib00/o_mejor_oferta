@@ -64,7 +64,12 @@ class LocationStep extends GetView<AddPostController> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: controller.location.value == null ? null : () => controller.next(),
+                      onPressed: controller.location.value == null
+                          ? null
+                          : () async {
+                              await controller.getAttributes();
+                              controller.next();
+                            },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         textStyle: headline3,

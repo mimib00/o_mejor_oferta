@@ -7,6 +7,8 @@ class CustomTextInput extends StatelessWidget {
   final String? hintText;
   final bool obscure;
   final String? Function(String? value)? validator;
+  final Function(String? value)? onChanged;
+  final TextInputType keyboardType;
   const CustomTextInput({
     super.key,
     required this.controller,
@@ -14,6 +16,8 @@ class CustomTextInput extends StatelessWidget {
     this.labelText,
     this.obscure = false,
     this.validator,
+    this.onChanged,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -29,10 +33,12 @@ class CustomTextInput extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         cursorColor: kPrimaryColor,
+        onChanged: (value) => onChanged?.call(value),
         style: text1,
         obscureText: obscure,
         autocorrect: false,
         validator: validator,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText ?? labelText,
