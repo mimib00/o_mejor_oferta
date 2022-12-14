@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1039323289231",
+    "project_id": "mejor-oferta-c88d1",
+    "storage_bucket": "mejor-oferta-c88d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039323289231:android:16ea6cc5ce77c2985f42fa",
+        "android_client_info": {
+          "package_name": "com.duseca.mejor_oferta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039323289231-tp4bssdj6insk684gab3u2naga0j9mmd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADrvIFULAXZZa9J4ph1BKnqk70Eu5wFfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039323289231-tp4bssdj6insk684gab3u2naga0j9mmd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1039323289231-hgsskt67eurkjt1ukuad7rabpq6naucb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.duseca.mejorOferta"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

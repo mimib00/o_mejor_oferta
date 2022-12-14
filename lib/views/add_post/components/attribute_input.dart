@@ -45,6 +45,7 @@ class AttributeInput extends GetView<AddPostController> {
                   "value": value,
                   "possible_attribute": attribute.id,
                 };
+                if (attribute.title.toLowerCase() == "price") controller.price = value;
                 controller.attributes.add(data);
               },
             ),
@@ -201,7 +202,9 @@ class AttributeInput extends GetView<AddPostController> {
                               : () {
                                   controller.nextInfo();
                                 }
-                          : () {},
+                          : () {
+                              controller.postListing();
+                            },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         textStyle: headline3,

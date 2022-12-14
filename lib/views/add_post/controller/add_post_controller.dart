@@ -1,17 +1,22 @@
 // ignore_for_file: prefer_final_fields
 
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as gety;
 import 'package:image_picker/image_picker.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
+import 'package:mejor_oferta/core/controller/location_controller.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
 import 'package:mejor_oferta/meta/models/brand.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/state.dart';
+import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/steps/category.dart';
 import 'package:mejor_oferta/views/add_post/steps/info.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/attributes.dart';
@@ -19,12 +24,15 @@ import 'package:mejor_oferta/views/add_post/steps/info_steps/brands.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/condition.dart';
 import 'package:mejor_oferta/views/add_post/steps/location.dart';
 import 'package:mejor_oferta/views/add_post/steps/sub_category.dart';
+import 'package:uuid/uuid.dart';
 
-class AddPostController extends GetxController {
+class AddPostController extends gety.GetxController {
   final dio = Dio();
 
-  RxInt _step = 0.obs;
-  RxInt _infoStep = 1.obs;
+  final LocationController controller = gety.Get.find();
+
+  gety.RxInt _step = 0.obs;
+  gety.RxInt _infoStep = 1.obs;
 
   Widget get step => steps[_step.value];
   Widget get infoStep => infoSteps[_infoStep.value - 1];
@@ -38,12 +46,13 @@ class AddPostController extends GetxController {
 
   String title = "";
   String description = "";
+  String price = "";
 
-  Rx<States?> location = Rx(null);
-  RxString condition = "".obs;
-  RxSet<Map<String, dynamic>> attributes = <Map<String, dynamic>>{}.obs;
-  RxBool negotiable = false.obs;
-  RxList<XFile> images = <XFile>[].obs;
+  gety.Rx<States?> location = gety.Rx(null);
+  gety.RxString condition = "".obs;
+  gety.RxSet<Map<String, dynamic>> attributes = <Map<String, dynamic>>{}.obs;
+  gety.RxBool negotiable = false.obs;
+  gety.RxList<XFile> images = <XFile>[].obs;
 
   List<Widget> steps = [
     const CategoryStep(),
@@ -55,6 +64,18 @@ class AddPostController extends GetxController {
   List<Widget> infoSteps = [
     const ConditionStep(),
   ];
+
+  void next() {
+    if (_step.value == steps.length) return;
+    _step.value += 1;
+    update();
+  }
+
+  void nextInfo() {
+    if (_infoStep.value == infoSteps.length) return;
+    _infoStep.value += 1;
+    update();
+  }
 
   Future<void> getBrands() async {
     try {
@@ -119,18 +140,6 @@ class AddPostController extends GetxController {
     }
   }
 
-  void next() {
-    if (_step.value == steps.length) return;
-    _step.value += 1;
-    update();
-  }
-
-  void nextInfo() {
-    if (_infoStep.value == infoSteps.length) return;
-    _infoStep.value += 1;
-    update();
-  }
-
   Future<List<Category>> getCategories() async {
     try {
       const url = "$baseUrl/listings/categories";
@@ -142,7 +151,6 @@ class AddPostController extends GetxController {
       }
       return categories;
     } on DioError catch (e) {
-      Get.back();
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
       return [];
@@ -160,10 +168,81 @@ class AddPostController extends GetxController {
       }
       return categories;
     } on DioError catch (e) {
-      Get.back();
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
       return [];
+    }
+  }
+
+  Future<void> postListing() async {
+    try {
+      final storage = FirebaseStorage.instance.ref();
+      const uuid = Uuid();
+      const url = "$baseUrl/listings/listings/";
+      final token = Authenticator.instance.fetchToken();
+      gety.Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(
+            color: kPrimaryColor,
+          ),
+        ),
+        barrierDismissible: false,
+      );
+      final data = {
+        "name": title,
+        "description": description,
+        "product_model": product?.id,
+        "state": location.value!.id,
+        "location_lat": controller.locationData.latitude.toString(),
+        "location_long": controller.locationData.longitude.toString(),
+        "price": price,
+        "is_negotiable": negotiable.value,
+        "condition": condition.value.replaceAll("-", "").replaceAll(" ", "_").toUpperCase().toUpperCase(),
+        "attributes": attributes.toList(),
+      };
+      List<String> photos = [];
+      final id = uuid.v4();
+      for (final image in images) {
+        try {
+          final snapshot = await storage.child("listings/$id/${image.name}").putFile(
+                File(image.path),
+                SettableMetadata(
+                  contentType: "image/jpeg",
+                ),
+              );
+          if (snapshot.state == TaskState.error || snapshot.state == TaskState.canceled) {
+            throw "There was an error during upload";
+          }
+          if (snapshot.state == TaskState.success) {
+            var imageUrl = await snapshot.ref.getDownloadURL();
+            photos.add(imageUrl);
+          }
+        } on FirebaseException catch (e) {
+          log(e.code);
+        }
+      }
+
+      await dio.post(
+        url,
+        data: {
+          ...data,
+          "images": photos,
+        },
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      gety.Get.back();
+      gety.Get.back();
+    } on DioError catch (e) {
+      gety.Get.back();
+      log(e.message);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+      return;
     }
   }
 
