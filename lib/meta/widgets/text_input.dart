@@ -9,6 +9,7 @@ class CustomTextInput extends StatelessWidget {
   final String? Function(String? value)? validator;
   final Function(String? value)? onChanged;
   final TextInputType keyboardType;
+  final int? lines;
   const CustomTextInput({
     super.key,
     required this.controller,
@@ -18,6 +19,7 @@ class CustomTextInput extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.keyboardType = TextInputType.text,
+    this.lines,
   });
 
   @override
@@ -34,14 +36,15 @@ class CustomTextInput extends StatelessWidget {
         controller: controller,
         cursorColor: kPrimaryColor,
         onChanged: (value) => onChanged?.call(value),
+        maxLines: lines,
         style: text1,
         obscureText: obscure,
         autocorrect: false,
         validator: validator,
         keyboardType: keyboardType,
         decoration: InputDecoration(
-          labelText: labelText,
-          hintText: hintText ?? labelText,
+          labelText: lines == null ? labelText : null,
+          hintText: lines == null ? hintText ?? labelText : null,
         ),
       ),
     );

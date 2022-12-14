@@ -3,7 +3,9 @@ enum AttributeTypes {
   number,
   boolean,
   checkbox,
-  radiobox;
+  radiobox,
+  images,
+  textarea;
 
   const AttributeTypes();
 
@@ -19,6 +21,10 @@ enum AttributeTypes {
         return AttributeTypes.radiobox;
       case "CHECKBOX":
         return AttributeTypes.checkbox;
+      case "IMAGES":
+        return AttributeTypes.images;
+      case "TEXTAREA":
+        return AttributeTypes.textarea;
       default:
         return AttributeTypes.text;
     }

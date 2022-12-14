@@ -6,13 +6,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
+import 'package:mejor_oferta/meta/models/brand.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/state.dart';
 import 'package:mejor_oferta/views/add_post/steps/category.dart';
 import 'package:mejor_oferta/views/add_post/steps/info.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/attributes.dart';
+import 'package:mejor_oferta/views/add_post/steps/info_steps/brands.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/condition.dart';
 import 'package:mejor_oferta/views/add_post/steps/location.dart';
 import 'package:mejor_oferta/views/add_post/steps/sub_category.dart';
@@ -30,9 +33,17 @@ class AddPostController extends GetxController {
   Category? category;
   Category? subCategory;
 
+  Brand? brand;
+  Brand? product;
+
+  String title = "";
+  String description = "";
+
   Rx<States?> location = Rx(null);
   RxString condition = "".obs;
   RxSet<Map<String, dynamic>> attributes = <Map<String, dynamic>>{}.obs;
+  RxBool negotiable = false.obs;
+  RxList<XFile> images = <XFile>[].obs;
 
   List<Widget> steps = [
     const CategoryStep(),
@@ -45,6 +56,42 @@ class AddPostController extends GetxController {
     const ConditionStep(),
   ];
 
+  Future<void> getBrands() async {
+    try {
+      final url = "$baseUrl/listings/subcategories/${subCategory!.id}/brands";
+      final res = await dio.get(url);
+
+      List<Brand> brands = [];
+      for (final brand in res.data) {
+        brands.add(Brand.fromJson(brand));
+      }
+
+      infoSteps.add(BrandsStep(brands: brands));
+    } on DioError catch (e) {
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+      return;
+    }
+  }
+
+  Future<void> getProducts() async {
+    try {
+      final url = "$baseUrl/listings/brands/${brand!.id}/product-models";
+      final res = await dio.get(url);
+
+      List<Brand> brands = [];
+      for (final brand in res.data) {
+        brands.add(Brand.fromJson(brand));
+      }
+
+      infoSteps.insert(2, BrandsStep(brands: brands, isBrands: false));
+    } on DioError catch (e) {
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+      return;
+    }
+  }
+
   Future<void> getAttributes() async {
     try {
       final url = "$baseUrl/listings/categories/${category!.id}/possible-attributes";
@@ -53,6 +100,18 @@ class AddPostController extends GetxController {
       for (final attribute in res.data) {
         infoSteps.add(AttributesStep(attribute: Attributes.fromJson(attribute)));
       }
+
+      final data = {
+        "id": -1,
+        "title": "Add photos",
+        "sub_title": "Upload pictures of your item?",
+        "sequence": 2147483647,
+        "is_required": true,
+        "input_type": "IMAGES",
+        "choices": [],
+        "category": -1,
+      };
+      infoSteps.add(AttributesStep(attribute: Attributes.fromJson(data)));
     } on DioError catch (e) {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);

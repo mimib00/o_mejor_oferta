@@ -67,7 +67,17 @@ class LocationStep extends GetView<AddPostController> {
                       onPressed: controller.location.value == null
                           ? null
                           : () async {
+                              Get.dialog(
+                                const Center(
+                                  child: CircularProgressIndicator(
+                                    color: kPrimaryColor,
+                                  ),
+                                ),
+                                barrierDismissible: false,
+                              );
+                              await controller.getBrands();
                               await controller.getAttributes();
+                              Get.back();
                               controller.next();
                             },
                       style: ElevatedButton.styleFrom(
