@@ -36,5 +36,8 @@ class AppTheme {
         foregroundColor: Colors.black,
       ),
     ),
+    tabBarTheme: const TabBarTheme(
+      labelColor: Colors.black,
+    ),
   );
 }

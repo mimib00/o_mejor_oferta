@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/views/home/home.dart';
 import 'package:mejor_oferta/views/profile/profile.dart';
 
 class NavigatorController extends GetxController {
@@ -8,7 +9,7 @@ class NavigatorController extends GetxController {
   Widget get screen => screens[index.value];
 
   List<Widget> screens = [
-    Container(color: Colors.amber),
+    const HomeScreen(),
     Container(color: Colors.blue),
     Container(),
     Container(color: Colors.red),
