@@ -1,3 +1,5 @@
+import 'package:mejor_oferta/meta/models/state.dart';
+
 enum ListingStatus {
   draft,
   published,
@@ -10,7 +12,7 @@ class Listing {}
 class ListingThumb {
   final int id;
   final String title;
-  final int state;
+  final States state;
   final double price;
   final String image;
   final DateTime created;
@@ -30,7 +32,7 @@ class ListingThumb {
     return ListingThumb(
       data["id"],
       data["name"],
-      data["state"],
+      States.fromJson(data["state"]),
       double.parse(data["price"]),
       data["image"],
       DateTime.parse(data["created_at"]),

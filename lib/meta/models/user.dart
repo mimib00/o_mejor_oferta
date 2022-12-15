@@ -23,8 +23,8 @@ class User {
       data["email"],
       data["phone_number"],
       data["location"],
-      data["location_lat"],
-      data["location_long"],
+      double.parse(data["location_lat"] ?? "0"),
+      double.parse(data["location_long"] ?? "0"),
       data["profile_picture"],
     );
   }

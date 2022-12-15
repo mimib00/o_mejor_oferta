@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mejor_oferta/core/config.dart';
+import 'package:mejor_oferta/core/controller/location_controller.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/user.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
@@ -106,6 +107,29 @@ class Authenticator extends GetxController {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
       return null;
+    }
+  }
+
+  Future<void> updateLocation() async {
+    try {
+      final LocationController controller = Get.find();
+      const url = "$baseUrl/authentication/users/me/";
+      final token = Authenticator.instance.fetchToken();
+      await dio.patch(
+        url,
+        data: {
+          "location_lat": controller.locationData.latitude.toString(),
+          "loaction_long": controller.locationData.longitude.toString(),
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
     }
   }
 

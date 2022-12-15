@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:location/location.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
 
 class LocationController extends GetxController {
   late LocationData locationData;
@@ -26,6 +27,7 @@ class LocationController extends GetxController {
     }
 
     locationData = await location.getLocation();
+    await Authenticator.instance.updateLocation();
     super.onInit();
   }
 }
