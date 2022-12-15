@@ -11,7 +11,11 @@ import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart'
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LocationSheet extends GetView<AddPostController> {
-  const LocationSheet({super.key});
+  final Function(States state)? onTap;
+  const LocationSheet({
+    super.key,
+    this.onTap,
+  });
 
   Future<List<States>> getStates() async {
     try {
@@ -67,6 +71,11 @@ class LocationSheet extends GetView<AddPostController> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         onTap: () {
+                          if (onTap != null) {
+                            onTap?.call(locations[index]);
+                            Get.back();
+                            return;
+                          }
                           controller.location.value = locations[index];
                           Get.back();
                         },

@@ -11,7 +11,7 @@ import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/user.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 
-class Authenticator {
+class Authenticator extends GetxController {
   /// Handels all user actions
   ///
   /// from login to register to getting user info.
@@ -23,7 +23,7 @@ class Authenticator {
 
   final _box = GetStorage('Auth');
 
-  User? user;
+  Rx<User?> user = Rx(null);
 
   void _saveToken(Map<String, dynamic> tokens) async => await _box.write("tokens", tokens);
 
@@ -93,12 +93,15 @@ class Authenticator {
       final tokens = fetchToken();
       final res = await dio.get(
         url,
-        options: Options(headers: {
-          "Authorization": "Bearer ${tokens["access"]}",
-        }),
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${tokens["access"]}",
+          },
+        ),
       );
-      user = User.fromJson(res.data);
-      return user;
+      user.value = User.fromJson(res.data);
+      update();
+      return user.value;
     } on DioError catch (e) {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);

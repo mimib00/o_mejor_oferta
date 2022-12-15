@@ -36,7 +36,7 @@ class CustomTextInput extends StatelessWidget {
         controller: controller,
         cursorColor: kPrimaryColor,
         onChanged: (value) => onChanged?.call(value),
-        maxLines: lines,
+        maxLines: obscure ? 1 : lines,
         style: text1,
         obscureText: obscure,
         autocorrect: false,

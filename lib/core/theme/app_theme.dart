@@ -13,7 +13,7 @@ class AppTheme {
       backgroundColor: kWhiteColor,
       foregroundColor: kBlackColor,
       centerTitle: true,
-      titleTextStyle: headline1.copyWith(fontWeight: FontWeight.bold),
+      titleTextStyle: headline2.copyWith(fontWeight: FontWeight.bold),
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: InputBorder.none,
@@ -32,7 +32,7 @@ class AppTheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        textStyle: headline2,
+        textStyle: headline3,
         foregroundColor: Colors.black,
       ),
     ),
