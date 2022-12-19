@@ -65,3 +65,23 @@ class Attributes {
     );
   }
 }
+
+class AttributeThumb {
+  final int id;
+  final String title;
+  final String value;
+
+  AttributeThumb(
+    this.id,
+    this.title,
+    this.value,
+  );
+
+  factory AttributeThumb.fromJson(Map<String, dynamic> data) {
+    return AttributeThumb(
+      data["id"],
+      data["title"],
+      data["value"],
+    );
+  }
+}

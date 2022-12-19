@@ -5,6 +5,7 @@ import 'package:mejor_oferta/views/OTP/otp.dart';
 import 'package:mejor_oferta/views/add_post/add_post.dart';
 import 'package:mejor_oferta/views/auth/login.dart';
 import 'package:mejor_oferta/views/auth/register.dart';
+import 'package:mejor_oferta/views/post/post.dart';
 import 'package:mejor_oferta/views/profile/pages/account/account_settings.dart';
 import 'package:mejor_oferta/views/root/root.dart';
 import 'package:mejor_oferta/views/splash/splash.dart';
@@ -17,6 +18,7 @@ class Routes {
   static const otp = "/otp";
   static const addPost = "/add_post";
   static const profileAccount = "/profile/account";
+  static const post = "/post";
 
   static List<GetPage<dynamic>> allRoutes = [
     GetPage<Widget>(name: root, page: () => const RootScreen(), binding: NavigationBinding()),
@@ -26,5 +28,6 @@ class Routes {
     GetPage<Widget>(name: otp, page: () => const OtpScreen(), binding: OtpBinding()),
     GetPage<Widget>(name: addPost, page: () => const AddPost(), binding: AddPostBinding()),
     GetPage<Widget>(name: profileAccount, page: () => const AccountSettings(), binding: AccountBinding()),
+    GetPage<Widget>(name: post, page: () => const PostScreen(), binding: PostBinding()),
   ];
 }

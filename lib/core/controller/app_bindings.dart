@@ -4,6 +4,7 @@ import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart'
 import 'package:mejor_oferta/views/auth/controller/login_controller.dart';
 import 'package:mejor_oferta/views/auth/controller/register_controller.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
+import 'package:mejor_oferta/views/post/controller/post_controller.dart';
 import 'package:mejor_oferta/views/profile/controller/account_controller.dart';
 import 'package:mejor_oferta/views/profile/controller/profile_controller.dart';
 import 'package:mejor_oferta/views/root/controller/navigator_controller.dart';
@@ -57,5 +58,12 @@ class AccountBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AccountController());
+  }
+}
+
+class PostBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(PostController());
   }
 }
