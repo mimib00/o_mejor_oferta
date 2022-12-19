@@ -53,7 +53,7 @@ class PostScreen extends GetView<PostController> {
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {},
-                  child: const Icon(UniconsLine.star),
+                  child: const Icon(Icons.star_outline),
                 ),
                 const SizedBox(width: 10),
               ],
@@ -64,6 +64,7 @@ class PostScreen extends GetView<PostController> {
           );
         }
         final listing = controller.listing.value!;
+        final saved = controller.saved.value;
         return Scaffold(
           appBar: AppBar(
             title: const Text("Details"),
@@ -79,8 +80,11 @@ class PostScreen extends GetView<PostController> {
               ),
               const SizedBox(width: 10),
               GestureDetector(
-                onTap: () {},
-                child: const Icon(UniconsLine.star),
+                onTap: () async => await controller.toggleSave(),
+                child: Icon(
+                  saved ? Icons.star_rounded : Icons.star_outline,
+                  color: saved ? Colors.yellow : null,
+                ),
               ),
               const SizedBox(width: 10),
             ],

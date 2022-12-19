@@ -17,6 +17,7 @@ class PostController extends GetxController {
   final dio = Dio();
 
   RxInt index = 0.obs;
+  RxBool saved = false.obs;
 
   Rx<Listing?> listing = Rx(null);
 
@@ -36,7 +37,36 @@ class PostController extends GetxController {
         ),
       );
       listing.value = Listing.fromJson(res.data);
+      saved.value = listing.value?.isFavorite ?? false;
       update();
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      Get.back();
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<void> toggleSave() async {
+    try {
+      final id = listing.value!.id;
+      final url = "$baseUrl/listings/listings/$id/toggle_favorite";
+      final token = Authenticator.instance.fetchToken();
+      await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      log("message");
+
+      await getListing();
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
