@@ -60,7 +60,6 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
     } catch (e, stackTrace) {
-      Get.back();
       log(e.toString());
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());

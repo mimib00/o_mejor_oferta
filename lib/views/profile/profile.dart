@@ -94,9 +94,10 @@ class ProfileScreen extends GetView<ProfileController> {
                       "Saves",
                       style: headline2,
                     ),
-                    const ProfileTile(
+                    ProfileTile(
                       icon: UniconsLine.star,
                       title: "Save items",
+                      onTap: () => Get.toNamed(Routes.profileSaved),
                     ),
                     Text(
                       "Account",
