@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/views/home/home.dart';
+import 'package:mejor_oferta/views/inbox/chatrooms.dart';
 import 'package:mejor_oferta/views/profile/profile.dart';
 
 class NavigatorController extends GetxController {
@@ -10,7 +11,7 @@ class NavigatorController extends GetxController {
 
   List<Widget> screens = [
     const HomeScreen(),
-    Container(color: Colors.blue),
+    const Inbox(),
     Container(),
     Container(color: Colors.red),
     const ProfileScreen(),

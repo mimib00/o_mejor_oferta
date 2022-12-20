@@ -4,6 +4,7 @@ import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart'
 import 'package:mejor_oferta/views/auth/controller/login_controller.dart';
 import 'package:mejor_oferta/views/auth/controller/register_controller.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
+import 'package:mejor_oferta/views/inbox/controller/chat_controller.dart';
 import 'package:mejor_oferta/views/offer/controller/offers_controller.dart';
 import 'package:mejor_oferta/views/post/controller/post_controller.dart';
 import 'package:mejor_oferta/views/profile/controller/account_controller.dart';
@@ -24,6 +25,7 @@ class NavigationBinding extends Bindings {
     Get.put(NavigatorController());
     Get.lazyPut(() => ProfileController());
     Get.lazyPut(() => HomeController());
+    Get.lazyPut(() => ChatController());
   }
 }
 
