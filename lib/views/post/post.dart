@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:map/map.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/meta/widgets/main_button.dart';
@@ -284,10 +285,16 @@ class PostScreen extends GetView<PostController> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: MainButton(onTap: () {}, text: "Chat"),
+                    child: MainButton(
+                      onTap: () {},
+                      text: "Chat",
+                    ),
                   ),
                   Expanded(
-                    child: MainButton(onTap: () {}, text: "Make Offer"),
+                    child: MainButton(
+                      onTap: () => Get.toNamed(Routes.offers, arguments: listing),
+                      text: "Make Offer",
+                    ),
                   ),
                 ],
               ),
