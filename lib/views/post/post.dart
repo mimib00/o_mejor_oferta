@@ -291,6 +291,7 @@ class PostScreen extends GetView<PostController> {
                   ),
                 ],
               ),
+              const SizedBox(height: 15)
             ],
           ),
         );
