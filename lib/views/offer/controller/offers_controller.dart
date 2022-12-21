@@ -8,6 +8,7 @@ import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
+import 'package:mejor_oferta/meta/models/offer.dart';
 
 class OffersController extends GetxController {
   final TextEditingController price = TextEditingController();
@@ -34,7 +35,7 @@ class OffersController extends GetxController {
         parameters: {
           "id": res.data["chat_thread"]["id"].toString(),
           "name": (listings ?? listing!).owner.name,
-          "uid": (listings ?? listing!).owner.id.toString()
+          "uid": (listings ?? listing!).owner.id.toString(),
         },
       );
     } on DioError catch (e, stackTrace) {
@@ -68,6 +69,85 @@ class OffersController extends GetxController {
       );
 
       await createChatRoom();
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<List<Offer>> getMyOffers() async {
+    try {
+      final url = "$baseUrl/offers/${listing!.id}/offers/";
+      final token = Authenticator.instance.fetchToken();
+
+      final res = await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+
+      List<Offer> offers = [];
+      for (var offer in res.data) {
+        offers.add(Offer.fromJson(offer, listing!));
+      }
+      return offers;
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return [];
+  }
+
+  Future<void> acceptOffer(int id) async {
+    try {
+      final url = "$baseUrl/offers/${listing!.id}/offers/$id/accept/";
+      final token = Authenticator.instance.fetchToken();
+
+      await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<void> rejectOffer(int id) async {
+    try {
+      final url = "$baseUrl/offers/${listing!.id}/offers/$id/decline/";
+      final token = Authenticator.instance.fetchToken();
+
+      await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());

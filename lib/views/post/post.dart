@@ -282,37 +282,53 @@ class PostScreen extends GetView<PostController> {
               ),
             ],
           ),
-          bottomNavigationBar: Visibility(
-            visible: listing.owner.id != me.id,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
+          bottomNavigationBar: listing.owner.id != me.id
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: MainButton(
-                        onTap: () {
-                          final OffersController offersController = Get.put(OffersController());
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: MainButton(
+                            onTap: () {
+                              final OffersController offersController = Get.put(OffersController());
 
-                          offersController.createChatRoom(listings: listing);
-                        },
-                        text: "Chat",
-                      ),
+                              offersController.createChatRoom(listings: listing);
+                            },
+                            text: "Chat",
+                          ),
+                        ),
+                        Expanded(
+                          child: MainButton(
+                            onTap: () => Get.toNamed(Routes.offers, arguments: listing),
+                            text: "Make Offer",
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: MainButton(
-                        onTap: () => Get.toNamed(Routes.offers, arguments: listing),
-                        text: "Make Offer",
-                      ),
+                    const SizedBox(height: 15)
+                  ],
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: MainButton(
+                            onTap: () => Get.toNamed(Routes.myOffers, arguments: listing),
+                            text: "See Offers",
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 15)
                   ],
                 ),
-                const SizedBox(height: 15)
-              ],
-            ),
-          ),
         );
       },
     );

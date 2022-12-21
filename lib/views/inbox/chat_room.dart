@@ -14,6 +14,7 @@ class ChatRoom extends GetView<ChatController> {
     final id = Get.parameters["id"];
     final name = Get.parameters["name"];
     final uid = Get.parameters["uid"];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(name!),
