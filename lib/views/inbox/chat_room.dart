@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/views/inbox/components/chat_bubble.dart';
 import 'package:mejor_oferta/views/inbox/controller/chat_controller.dart';
 
 class ChatRoom extends GetView<ChatController> {
-  ChatRoom({super.key});
+  const ChatRoom({super.key});
 
-  final TextEditingController input = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final id = Get.parameters["id"];
     final name = Get.parameters["name"];
+    final uid = Get.parameters["uid"];
     return Scaffold(
       appBar: AppBar(
         title: Text(name!),
@@ -26,14 +27,13 @@ class ChatRoom extends GetView<ChatController> {
       body: Column(
         children: [
           Expanded(
-            // child: Container(),
             child: FutureBuilder(
               future: controller.getChatRoom(id!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: Loading());
-                if (controller.messages.isEmpty) return Container();
                 return Obx(
                   () {
+                    if (controller.messages.isEmpty) return Container();
                     final messages = controller.messages.reversed.toList();
                     return ListView.builder(
                       physics: const BouncingScrollPhysics(),
@@ -62,7 +62,7 @@ class ChatRoom extends GetView<ChatController> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      controller: input,
+                      controller: controller.input,
                       decoration: InputDecoration(
                         hintText: "Type your message",
                         hintStyle: text1,
@@ -84,7 +84,15 @@ class ChatRoom extends GetView<ChatController> {
                   ),
                   IconButton(
                     onPressed: () {
-                      controller.sendMessage();
+                      if (controller.input.text.trim().isEmpty) return;
+                      final me = Authenticator.instance.user.value!;
+                      final data = {
+                        'message': controller.input.text.trim(),
+                        'sent_by': me.id,
+                        'send_to': uid,
+                        'thread_id': id,
+                      };
+                      controller.sendMessage(data);
                     },
                     icon: const Icon(Icons.send),
                   )

@@ -12,8 +12,10 @@ import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatController extends GetxController {
-  final dio = Dio();
   late WebSocketChannel channel;
+
+  final dio = Dio();
+  final TextEditingController input = TextEditingController();
 
   RxList<InboxThread> threads = <InboxThread>[].obs;
 
@@ -24,6 +26,7 @@ class ChatController extends GetxController {
     await getThreads(updating: true);
     // update chatroom
     await getChatRoom(message["thread_id"].toString(), updating: true);
+    input.clear();
     update();
   }
 
@@ -109,14 +112,8 @@ class ChatController extends GetxController {
     });
   }
 
-  void sendMessage() {
-    final data = {
-      'message': "Test",
-      'sent_by': 4,
-      'send_to': 1,
-      'thread_id': 1,
-    };
-    channel.sink.add(jsonEncode(data));
+  void sendMessage(Map<String, dynamic> message) {
+    channel.sink.add(jsonEncode(message));
   }
 
   Future<void> close() async {

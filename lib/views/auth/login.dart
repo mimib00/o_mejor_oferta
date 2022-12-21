@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
-import 'package:mejor_oferta/meta/widgets/main_button.dart';
 import 'package:mejor_oferta/meta/widgets/text_input.dart';
 import 'package:mejor_oferta/views/auth/controller/login_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

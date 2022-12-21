@@ -37,6 +37,6 @@ class Routes {
     GetPage<Widget>(name: profileSaved, page: () => const SavedPosts()),
     GetPage<Widget>(name: post, page: () => const PostScreen(), binding: PostBinding()),
     GetPage<Widget>(name: offers, page: () => const OfferScreen(), binding: OffersBinding()),
-    GetPage<Widget>(name: inbox, page: () => ChatRoom()),
+    GetPage<Widget>(name: inbox, page: () => const ChatRoom()),
   ];
 }
