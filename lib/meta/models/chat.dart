@@ -6,7 +6,7 @@ class InboxThread {
   final User user;
   final DateTime updated;
   final DateTime? lastMessage;
-  final String message;
+  String message;
 
   InboxThread(
     this.id,
@@ -26,8 +26,34 @@ class InboxThread {
       data["id"],
       user,
       DateTime.parse(data["updated"]),
-      data["last_messaged"] == null ? null : DateTime.parse(data["last_messaged"]),
-      data["message"] ?? "Nothing",
+      data["last_message_timestamp"] == null ? null : DateTime.parse(data["last_message_timestamp"]),
+      data["last_message"] ?? "No Message",
+    );
+  }
+}
+
+class Message {
+  final int id;
+  final int thread;
+  final User user;
+  final String message;
+  final DateTime timestamp;
+
+  Message(
+    this.id,
+    this.thread,
+    this.user,
+    this.message,
+    this.timestamp,
+  );
+
+  factory Message.fromJson(Map<String, dynamic> data) {
+    return Message(
+      data["id"],
+      data["thread"],
+      User.fromJson(data["user"]),
+      data["message"],
+      DateTime.parse(data["timestamp"]),
     );
   }
 }

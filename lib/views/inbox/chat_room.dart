@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/meta/widgets/loading.dart';
+import 'package:mejor_oferta/views/inbox/components/chat_bubble.dart';
+import 'package:mejor_oferta/views/inbox/controller/chat_controller.dart';
+
+class ChatRoom extends GetView<ChatController> {
+  ChatRoom({super.key});
+
+  final TextEditingController input = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    final id = Get.parameters["id"];
+    final name = Get.parameters["name"];
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(name!),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.more_vert_rounded),
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            // child: Container(),
+            child: FutureBuilder(
+              future: controller.getChatRoom(id!),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: Loading());
+                if (controller.messages.isEmpty) return Container();
+                return Obx(
+                  () {
+                    final messages = controller.messages.reversed.toList();
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: messages.length,
+                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                      reverse: true,
+                      itemBuilder: (context, index) {
+                        return ChatBubble(message: messages[index]);
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: kWhiteColor3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: input,
+                      decoration: InputDecoration(
+                        hintText: "Type your message",
+                        hintStyle: text1,
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(180),
+                          borderSide: const BorderSide(color: kWhiteColor3),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(180),
+                          borderSide: const BorderSide(color: kWhiteColor3),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(180),
+                          borderSide: const BorderSide(color: kWhiteColor3),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      controller.sendMessage();
+                    },
+                    icon: const Icon(Icons.send),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

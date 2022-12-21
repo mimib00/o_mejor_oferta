@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
-import 'package:mejor_oferta/meta/widgets/main_button.dart';
 import 'package:mejor_oferta/meta/widgets/text_input.dart';
 import 'package:mejor_oferta/views/offer/controller/offers_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

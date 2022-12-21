@@ -1,8 +1,8 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 
@@ -16,6 +16,7 @@ class InboxTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () => Get.toNamed(Routes.inbox, parameters: {"id": thread.id.toString(), "name": thread.user.name}),
       dense: true,
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(180),

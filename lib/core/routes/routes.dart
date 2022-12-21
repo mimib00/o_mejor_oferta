@@ -5,6 +5,7 @@ import 'package:mejor_oferta/views/OTP/otp.dart';
 import 'package:mejor_oferta/views/add_post/add_post.dart';
 import 'package:mejor_oferta/views/auth/login.dart';
 import 'package:mejor_oferta/views/auth/register.dart';
+import 'package:mejor_oferta/views/inbox/chat_room.dart';
 import 'package:mejor_oferta/views/offer/offers.dart';
 import 'package:mejor_oferta/views/post/post.dart';
 import 'package:mejor_oferta/views/profile/pages/account/account_settings.dart';
@@ -23,6 +24,7 @@ class Routes {
   static const profileSaved = "/profile/saved";
   static const post = "/post";
   static const offers = "/offers";
+  static const inbox = "/inbox/";
 
   static List<GetPage<dynamic>> allRoutes = [
     GetPage<Widget>(name: root, page: () => const RootScreen(), binding: NavigationBinding()),
@@ -35,5 +37,6 @@ class Routes {
     GetPage<Widget>(name: profileSaved, page: () => const SavedPosts()),
     GetPage<Widget>(name: post, page: () => const PostScreen(), binding: PostBinding()),
     GetPage<Widget>(name: offers, page: () => const OfferScreen(), binding: OffersBinding()),
+    GetPage<Widget>(name: inbox, page: () => ChatRoom()),
   ];
 }

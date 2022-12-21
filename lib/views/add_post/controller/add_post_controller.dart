@@ -115,7 +115,7 @@ class AddPostController extends gety.GetxController {
 
   Future<void> getAttributes() async {
     try {
-      final url = "$baseUrl/listings/categories/${category!.id}/possible-attributes";
+      final url = "$baseUrl/listings/categories/${subCategory!.id}/possible-attributes";
       final res = await dio.get(url);
 
       for (final attribute in res.data) {

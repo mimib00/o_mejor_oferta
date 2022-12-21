@@ -60,18 +60,40 @@ class LoginScreen extends GetView<LoginController> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                MainButton(
-                  onTap: () {
-                    if (controller.loginForm.currentState!.validate()) {
-                      final data = {
-                        "email": controller.email.text.trim(),
-                        "password": controller.password.text.trim(),
-                      };
+                // MainButton(
+                // onTap: () {
+                //   if (controller.loginForm.currentState!.validate()) {
+                //     final data = {
+                //       "email": controller.email.text.trim(),
+                //       "password": controller.password.text.trim(),
+                //     };
 
-                      Authenticator.instance.login(data);
-                    }
-                  },
-                  text: "Login",
+                //     Authenticator.instance.login(data);
+                //   }
+                // },
+                //   text: "Login",
+                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (controller.loginForm.currentState!.validate()) {
+                          final data = {
+                            "email": controller.email.text.trim(),
+                            "password": controller.password.text.trim(),
+                          };
+
+                          Authenticator.instance.login(data);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
+                        textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      child: const Text("Login"),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 3.h),
                 Row(

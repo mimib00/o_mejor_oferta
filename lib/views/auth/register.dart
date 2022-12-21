@@ -98,23 +98,49 @@ class RegisterScreen extends GetView<RegisterController> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                MainButton(
-                  onTap: () {
-                    if (controller.registerForm.currentState!.validate()) {
-                      Get.toNamed(
-                        Routes.otp,
-                        parameters: {
-                          "signup": "true",
-                          "phone": controller.phone.trim(),
-                          "name": controller.name.text.trim(),
-                          "email": controller.email.text.trim(),
-                          "password": controller.password.text.trim(),
-                        },
-                      );
-                    }
-                  },
-                  text: "Sign Up",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (controller.registerForm.currentState!.validate()) {
+                          Get.toNamed(
+                            Routes.otp,
+                            parameters: {
+                              "signup": "true",
+                              "phone": controller.phone.trim(),
+                              "name": controller.name.text.trim(),
+                              "email": controller.email.text.trim(),
+                              "password": controller.password.text.trim(),
+                            },
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
+                        textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      child: const Text("Sign Up"),
+                    ),
+                  ],
                 ),
+                // MainButton(
+                //   onTap: () {
+                //     if (controller.registerForm.currentState!.validate()) {
+                //       Get.toNamed(
+                //         Routes.otp,
+                //         parameters: {
+                //           "signup": "true",
+                //           "phone": controller.phone.trim(),
+                //           "name": controller.name.text.trim(),
+                //           "email": controller.email.text.trim(),
+                //           "password": controller.password.text.trim(),
+                //         },
+                //       );
+                //     }
+                //   },
+                //   text: "Sign Up",
+                // ),
               ],
             ),
           ),

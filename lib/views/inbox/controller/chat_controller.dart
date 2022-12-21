@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -7,11 +9,63 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/chat.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatController extends GetxController {
   final dio = Dio();
+  late WebSocketChannel channel;
 
-  Future<List<InboxThread>> getThreads() async {
+  RxList<InboxThread> threads = <InboxThread>[].obs;
+
+  RxList<Message> messages = <Message>[].obs;
+
+  void messagesHandler(Map<String, dynamic> message) async {
+    // update threads
+    await getThreads(updating: true);
+    // update chatroom
+    await getChatRoom(message["thread_id"].toString(), updating: true);
+    update();
+  }
+
+  Future<void> getChatRoom(String id, {bool updating = false}) async {
+    if (!updating) {
+      messages.clear();
+    }
+    try {
+      final url = "$baseUrl/chat/threads/$id";
+      final token = Authenticator.instance.fetchToken();
+      final res = await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+
+      for (var message in res.data) {
+        if (updating && messages.indexWhere((element) => element.id == message["id"]) == -1) {
+          messages.add(Message.fromJson(message));
+        } else if (!updating) {
+          messages.add(Message.fromJson(message));
+        }
+      }
+      // return messages;
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<void> getThreads({bool updating = false}) async {
+    if (!updating) {
+      threads.clear();
+    }
     try {
       const url = "$baseUrl/chat/threads/";
       final token = Authenticator.instance.fetchToken();
@@ -23,12 +77,16 @@ class ChatController extends GetxController {
           },
         ),
       );
-
-      List<InboxThread> threads = [];
       for (var thread in res.data) {
-        threads.add(InboxThread.fromJson(thread));
+        if (updating) {
+          final index = threads.indexWhere((element) => element.id == thread["id"]);
+          if (threads[index].message != thread["id"]) {
+            threads[index] = InboxThread.fromJson(thread);
+          }
+        } else {
+          threads.add(InboxThread.fromJson(thread));
+        }
       }
-      return threads;
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
@@ -38,6 +96,43 @@ class ChatController extends GetxController {
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());
     }
-    return [];
+  }
+
+  void connect() async {
+    final token = Authenticator.instance.fetchToken();
+    final url =
+        Uri.parse("wss://o-mejor-oferta.herokuapp.com/chat/").replace(queryParameters: {"token": token["access"]});
+    channel = WebSocketChannel.connect(url);
+    channel.stream.listen((event) {
+      log(event.toString());
+      messagesHandler(jsonDecode(event));
+    });
+  }
+
+  void sendMessage() {
+    final data = {
+      'message': "Test",
+      'sent_by': 4,
+      'send_to': 1,
+      'thread_id': 1,
+    };
+    channel.sink.add(jsonEncode(data));
+  }
+
+  Future<void> close() async {
+    await channel.sink.close();
+  }
+
+  @override
+  void onInit() {
+    connect();
+
+    super.onInit();
+  }
+
+  @override
+  void onClose() async {
+    await close();
+    super.onClose();
   }
 }
