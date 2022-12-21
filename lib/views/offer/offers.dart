@@ -22,7 +22,7 @@ class OfferScreen extends GetView<OffersController> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
-                    imageUrl: controller.listing.images.isNotEmpty ? controller.listing.images.first : "",
+                    imageUrl: controller.listing!.images.isNotEmpty ? controller.listing!.images.first : "",
                     height: 100,
                     width: 100,
                     fit: BoxFit.cover,
@@ -39,7 +39,7 @@ class OfferScreen extends GetView<OffersController> {
                 ),
                 const SizedBox(width: 15),
                 Text(
-                  controller.listing.title.capitalize!,
+                  controller.listing!.title.capitalize!,
                   style: headline2.copyWith(fontWeight: FontWeight.w600),
                 )
               ],

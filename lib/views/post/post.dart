@@ -6,12 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:map/map.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/meta/widgets/main_button.dart';
+import 'package:mejor_oferta/views/inbox/controller/chat_controller.dart';
+import 'package:mejor_oferta/views/offer/controller/offers_controller.dart';
 import 'package:mejor_oferta/views/post/components/attribute_tile.dart';
 import 'package:mejor_oferta/views/post/controller/post_controller.dart';
+import 'package:mejor_oferta/views/root/controller/navigator_controller.dart';
 import 'package:readmore/readmore.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
@@ -66,6 +70,7 @@ class PostScreen extends GetView<PostController> {
         }
         final listing = controller.listing.value!;
         final saved = controller.saved.value;
+        final me = Authenticator.instance.user.value!;
         return Scaffold(
           appBar: AppBar(
             title: const Text("Details"),
@@ -277,29 +282,36 @@ class PostScreen extends GetView<PostController> {
               ),
             ],
           ),
-          bottomNavigationBar: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: MainButton(
-                      onTap: () {},
-                      text: "Chat",
+          bottomNavigationBar: Visibility(
+            visible: listing.owner.id != me.id,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: MainButton(
+                        onTap: () {
+                          final OffersController offersController = Get.put(OffersController());
+
+                          offersController.createChatRoom(listings: listing);
+                        },
+                        text: "Chat",
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: MainButton(
-                      onTap: () => Get.toNamed(Routes.offers, arguments: listing),
-                      text: "Make Offer",
+                    Expanded(
+                      child: MainButton(
+                        onTap: () => Get.toNamed(Routes.offers, arguments: listing),
+                        text: "Make Offer",
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15)
-            ],
+                  ],
+                ),
+                const SizedBox(height: 15)
+              ],
+            ),
           ),
         );
       },

@@ -25,7 +25,7 @@ class NavigationBinding extends Bindings {
     Get.put(NavigatorController());
     Get.lazyPut(() => ProfileController());
     Get.lazyPut(() => HomeController());
-    Get.lazyPut(() => ChatController());
+    Get.lazyPut(() => ChatController(), fenix: true);
   }
 }
 
