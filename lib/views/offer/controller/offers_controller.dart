@@ -9,6 +9,7 @@ import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/models/offer.dart';
+import 'package:mejor_oferta/meta/widgets/loader.dart';
 
 class OffersController extends GetxController {
   final TextEditingController price = TextEditingController();
@@ -113,6 +114,7 @@ class OffersController extends GetxController {
 
   Future<void> acceptOffer(int id) async {
     try {
+      Loader.instance.showCircularProgressIndicatorWithText();
       final url = "$baseUrl/offers/${listing!.id}/offers/$id/accept/";
       final token = Authenticator.instance.fetchToken();
 
@@ -124,11 +126,14 @@ class OffersController extends GetxController {
           },
         ),
       );
+      Get.back();
     } on DioError catch (e, stackTrace) {
+      Get.back();
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
     } catch (e, stackTrace) {
+      Get.back();
       log(e.toString());
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());
@@ -137,6 +142,7 @@ class OffersController extends GetxController {
 
   Future<void> rejectOffer(int id) async {
     try {
+      Loader.instance.showCircularProgressIndicatorWithText();
       final url = "$baseUrl/offers/${listing!.id}/offers/$id/decline/";
       final token = Authenticator.instance.fetchToken();
 
@@ -148,11 +154,14 @@ class OffersController extends GetxController {
           },
         ),
       );
+      Get.back();
     } on DioError catch (e, stackTrace) {
+      Get.back();
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
     } catch (e, stackTrace) {
+      Get.back();
       log(e.toString());
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());

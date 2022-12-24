@@ -26,7 +26,10 @@ class SeeOffers extends GetView<OffersController> {
             itemCount: offers.length,
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
             itemBuilder: (context, index) {
-              return OfferTile(offer: offers[index]);
+              return OfferTile(
+                id: offers[index].id,
+                listing: offers[index].listing,
+              );
             },
           );
         },

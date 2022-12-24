@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:mejor_oferta/meta/models/listing.dart';
+import 'package:mejor_oferta/meta/models/user.dart';
 
 enum OfferStatus {
   pending,
@@ -26,7 +29,7 @@ enum OfferStatus {
 class Offer {
   final int id;
   final Listing listing;
-  final int user;
+  final User user;
   final String price;
   final OfferStatus status;
   final DateTime created;
@@ -46,7 +49,7 @@ class Offer {
     return Offer(
       data["id"],
       listing,
-      data["user"],
+      User.fromJson(data["user"]),
       data["price"],
       OfferStatus.getStatus(data["status"]),
       DateTime.parse(data["created_at"]),
