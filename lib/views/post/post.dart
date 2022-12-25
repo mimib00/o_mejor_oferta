@@ -11,11 +11,9 @@ import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/meta/widgets/main_button.dart';
-import 'package:mejor_oferta/views/inbox/controller/chat_controller.dart';
 import 'package:mejor_oferta/views/offer/controller/offers_controller.dart';
 import 'package:mejor_oferta/views/post/components/attribute_tile.dart';
 import 'package:mejor_oferta/views/post/controller/post_controller.dart';
-import 'package:mejor_oferta/views/root/controller/navigator_controller.dart';
 import 'package:readmore/readmore.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
@@ -45,23 +43,6 @@ class PostScreen extends GetView<PostController> {
           return Scaffold(
             appBar: AppBar(
               title: const Text("Details"),
-              actions: [
-                GestureDetector(
-                  onTap: () {},
-                  child: const Icon(UniconsLine.ban),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Icon(UniconsLine.share_alt),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Icon(Icons.star_outline),
-                ),
-                const SizedBox(width: 10),
-              ],
             ),
             body: const Center(
               child: Loading(),
@@ -71,29 +52,38 @@ class PostScreen extends GetView<PostController> {
         final listing = controller.listing.value!;
         final saved = controller.saved.value;
         final me = Authenticator.instance.user.value!;
+        final mine = listing.owner.id != me.id;
         return Scaffold(
           appBar: AppBar(
             title: const Text("Details"),
-            actions: [
-              GestureDetector(
-                onTap: () {},
-                child: const Icon(UniconsLine.ban),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () {},
-                child: const Icon(UniconsLine.share_alt),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () async => await controller.toggleSave(),
-                child: Icon(
-                  saved ? Icons.star_rounded : Icons.star_outline,
-                  color: saved ? Colors.yellow : null,
-                ),
-              ),
-              const SizedBox(width: 10),
-            ],
+            actions: !mine
+                ? [
+                    GestureDetector(
+                      onTap: () => Get.toNamed(Routes.dashboard, arguments: listing),
+                      child: const Icon(UniconsLine.chart),
+                    ),
+                    const SizedBox(width: 10),
+                  ]
+                : [
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Icon(UniconsLine.ban),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Icon(UniconsLine.share_alt),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () async => await controller.toggleSave(),
+                      child: Icon(
+                        saved ? Icons.star_rounded : Icons.star_outline,
+                        color: saved ? Colors.yellow : null,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
           ),
           body: ListView(
             physics: const BouncingScrollPhysics(),
@@ -282,7 +272,7 @@ class PostScreen extends GetView<PostController> {
               ),
             ],
           ),
-          bottomNavigationBar: listing.owner.id != me.id
+          bottomNavigationBar: mine
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,

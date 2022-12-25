@@ -5,6 +5,7 @@ import 'package:mejor_oferta/views/OTP/otp.dart';
 import 'package:mejor_oferta/views/add_post/add_post.dart';
 import 'package:mejor_oferta/views/auth/login.dart';
 import 'package:mejor_oferta/views/auth/register.dart';
+import 'package:mejor_oferta/views/dashboard/dashboard.dart';
 import 'package:mejor_oferta/views/inbox/chat_room.dart';
 import 'package:mejor_oferta/views/offer/my_offers.dart';
 import 'package:mejor_oferta/views/offer/offers.dart';
@@ -27,6 +28,7 @@ class Routes {
   static const offers = "/offers";
   static const myOffers = "/offers/me";
   static const inbox = "/inbox/";
+  static const dashboard = "/dashboard";
 
   static List<GetPage<dynamic>> allRoutes = [
     GetPage<Widget>(name: root, page: () => const RootScreen(), binding: NavigationBinding()),
@@ -41,5 +43,6 @@ class Routes {
     GetPage<Widget>(name: offers, page: () => const OfferScreen(), binding: OffersBinding()),
     GetPage<Widget>(name: myOffers, page: () => const SeeOffers(), binding: OffersBinding()),
     GetPage<Widget>(name: inbox, page: () => const ChatRoom()),
+    GetPage<Widget>(name: dashboard, page: () => const DashboardScreen(), binding: DashboardBinding()),
   ];
 }

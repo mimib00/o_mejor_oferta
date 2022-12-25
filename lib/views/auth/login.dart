@@ -59,19 +59,6 @@ class LoginScreen extends GetView<LoginController> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                // MainButton(
-                // onTap: () {
-                //   if (controller.loginForm.currentState!.validate()) {
-                //     final data = {
-                //       "email": controller.email.text.trim(),
-                //       "password": controller.password.text.trim(),
-                //     };
-
-                //     Authenticator.instance.login(data);
-                //   }
-                // },
-                //   text: "Login",
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
