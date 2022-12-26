@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/views/dashboard/controller/dashboard_controller.dart';
 import 'package:mejor_oferta/views/dashboard/stats.dart';
+import 'package:mejor_oferta/views/inbox/components/inbox_tile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
 
@@ -108,6 +111,22 @@ class DashboardScreen extends GetView<DashboardController> {
               indent: 30,
               endIndent: 30,
               thickness: 1,
+            ),
+            FutureBuilder<List<InboxThread>>(
+              future: controller.getListingThreads(listing.id),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: Loading());
+                if (snapshot.data == null) return Container();
+                final threads = snapshot.data!;
+                return ListView.builder(
+                  itemCount: threads.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return InboxTile(thread: threads[index]);
+                  },
+                );
+              },
             )
           ],
         ),
