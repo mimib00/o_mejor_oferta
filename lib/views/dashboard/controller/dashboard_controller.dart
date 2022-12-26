@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
+import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/models/stats.dart';
 import 'package:mejor_oferta/meta/widgets/loader.dart';
@@ -12,14 +13,14 @@ import 'package:mejor_oferta/meta/widgets/loader.dart';
 class DashboardController extends GetxController {
   final dio = Dio();
 
-  Listing listing = Get.arguments;
+  Listing? listing = Get.arguments;
 
   int total = 0;
 
-  Future<void> markSold() async {
+  Future<void> markSold({Listing? list}) async {
     try {
       Loader.instance.showCircularProgressIndicatorWithText();
-      final url = "$baseUrl/listings/listings/${listing.id}/mark_sold/";
+      final url = "$baseUrl/listings/listings/${list?.id ?? listing!.id}/mark_sold/";
       final token = Authenticator.instance.fetchToken();
       await dio.post(
         url,
@@ -39,7 +40,7 @@ class DashboardController extends GetxController {
 
   Future<List<Stats>> getStats() async {
     try {
-      final url = "$baseUrl/listings/listings/${listing.id}/get-monthly-stats-per-day/";
+      final url = "$baseUrl/listings/listings/${listing!.id}/get-monthly-stats-per-day/";
       final token = Authenticator.instance.fetchToken();
       final res = await dio.get(
         url,

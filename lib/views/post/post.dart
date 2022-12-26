@@ -56,34 +56,26 @@ class PostScreen extends GetView<PostController> {
         return Scaffold(
           appBar: AppBar(
             title: const Text("Details"),
-            actions: !mine
-                ? [
-                    GestureDetector(
-                      onTap: () => Get.toNamed(Routes.dashboard, arguments: listing),
-                      child: const Icon(UniconsLine.chart),
-                    ),
-                    const SizedBox(width: 10),
-                  ]
-                : [
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(UniconsLine.ban),
-                    ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(UniconsLine.share_alt),
-                    ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () async => await controller.toggleSave(),
-                      child: Icon(
-                        saved ? Icons.star_rounded : Icons.star_outline,
-                        color: saved ? Colors.yellow : null,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                  ],
+            actions: [
+              GestureDetector(
+                onTap: () {},
+                child: const Icon(UniconsLine.ban),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {},
+                child: const Icon(UniconsLine.share_alt),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () async => await controller.toggleSave(),
+                child: Icon(
+                  saved ? Icons.star_rounded : Icons.star_outline,
+                  color: saved ? Colors.yellow : null,
+                ),
+              ),
+              const SizedBox(width: 10),
+            ],
           ),
           body: ListView(
             physics: const BouncingScrollPhysics(),

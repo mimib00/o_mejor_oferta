@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/views/home/home.dart';
 import 'package:mejor_oferta/views/inbox/chatrooms.dart';
 import 'package:mejor_oferta/views/profile/profile.dart';
+import 'package:mejor_oferta/views/selling/selling.dart';
 
 class NavigatorController extends GetxController {
   RxInt index = 0.obs;
@@ -13,7 +14,7 @@ class NavigatorController extends GetxController {
     const HomeScreen(),
     const Inbox(),
     Container(),
-    Container(color: Colors.red),
+    const SellingScreen(),
     const ProfileScreen(),
   ];
 

@@ -11,6 +11,7 @@ import 'package:mejor_oferta/views/post/controller/post_controller.dart';
 import 'package:mejor_oferta/views/profile/controller/account_controller.dart';
 import 'package:mejor_oferta/views/profile/controller/profile_controller.dart';
 import 'package:mejor_oferta/views/root/controller/navigator_controller.dart';
+import 'package:mejor_oferta/views/selling/controller/selling_controller.dart';
 import 'package:mejor_oferta/views/splash/controller/splash_controller.dart';
 
 class SplashBinding extends Bindings {
@@ -27,6 +28,7 @@ class NavigationBinding extends Bindings {
     Get.lazyPut(() => ProfileController());
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => ChatController(), fenix: true);
+    Get.lazyPut(() => SellingController());
   }
 }
 

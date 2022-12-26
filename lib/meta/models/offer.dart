@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/models/user.dart';
 

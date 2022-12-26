@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,9 @@ class DashboardScreen extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
+    log(controller.listing.toString());
     final listing = controller.listing;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Item dashboard"),
@@ -28,7 +32,7 @@ class DashboardScreen extends GetView<DashboardController> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CachedNetworkImage(
-                      imageUrl: listing.images.first,
+                      imageUrl: listing!.images.first,
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
