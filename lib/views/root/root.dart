@@ -15,7 +15,7 @@ class RootScreen extends GetView<NavigatorController> {
         return Scaffold(
           body: controller.screen,
           floatingActionButton: FloatingActionButton(
-            elevation: 0,
+            elevation: 5,
             onPressed: () => Get.toNamed(Routes.addPost),
             backgroundColor: kPrimaryColor,
             child: const Icon(

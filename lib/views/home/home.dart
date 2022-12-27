@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/views/add_post/components/location_sheet.dart';
 import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
 import 'package:unicons/unicons.dart';
@@ -12,9 +13,9 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: kPrimaryColor5,
-      child: CustomScrollView(
+    return Scaffold(
+      backgroundColor: kPrimaryColor5,
+      body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
@@ -45,6 +46,29 @@ class HomeScreen extends GetView<HomeController> {
               controller: controller.tabController,
               labelPadding: EdgeInsets.zero,
               indicatorColor: Colors.transparent,
+              onTap: (value) {
+                switch (value) {
+                  case 0:
+                    Get.bottomSheet(
+                      LocationSheet(
+                        onTap: (state) {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.state = state.id;
+                          controller.pagingController.refresh();
+                        },
+                        onReset: () {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.state = null;
+                          Get.back();
+                          controller.pagingController.refresh();
+                        },
+                      ),
+                    );
+                    break;
+                }
+              },
               tabs: [
                 Tab(
                   child: Row(

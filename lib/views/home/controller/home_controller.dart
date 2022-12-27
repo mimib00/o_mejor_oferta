@@ -17,21 +17,28 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   final dio = Dio();
   final limit = 1;
 
-  int page = 1;
+  int page = 4;
 
   bool stop = false;
+
+  int? state;
+  int? category;
 
   Future<void> getListings() async {
     try {
       if (stop) return;
       const url = "$baseUrl/listings/listings/";
       final token = Authenticator.instance.fetchToken();
+
+      final query = {
+        "page": page,
+        "size": limit,
+        "state": state,
+      };
+      log(query.toString());
       final res = await dio.get(
         url,
-        queryParameters: {
-          "page": page,
-          "size": limit,
-        },
+        queryParameters: query,
         options: Options(
           headers: {
             "Authorization": "Bearer ${token["access"]}",
