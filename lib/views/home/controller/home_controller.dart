@@ -15,9 +15,9 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   final PagingController<int, ListingThumb> pagingController = PagingController(firstPageKey: 1);
 
   final dio = Dio();
-  final limit = 1;
+  final limit = 4;
 
-  int page = 4;
+  int page = 1;
 
   bool stop = false;
 
@@ -30,15 +30,13 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       const url = "$baseUrl/listings/listings/";
       final token = Authenticator.instance.fetchToken();
 
-      final query = {
-        "page": page,
-        "size": limit,
-        "state": state,
-      };
-      log(query.toString());
       final res = await dio.get(
         url,
-        queryParameters: query,
+        queryParameters: {
+          "page": page,
+          "size": limit,
+          "state": state,
+        },
         options: Options(
           headers: {
             "Authorization": "Bearer ${token["access"]}",
@@ -53,7 +51,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
       thumbs.sort((a, b) => a.updated.compareTo(b.updated));
 
-      page += limit;
+      page += 1;
       final isLastPage = thumbs.length < limit;
 
       if (isLastPage) {
