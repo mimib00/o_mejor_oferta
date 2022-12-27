@@ -8,6 +8,7 @@ class SplashController extends GetxController {
     Authenticator.instance.onAuthStateChange().listen((state) async {
       if (state) {
         await Authenticator.instance.getUser();
+        await Authenticator.instance.setFCMToken();
         Get.offAllNamed(Routes.root);
       } else {
         Get.offAllNamed(Routes.login);

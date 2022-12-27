@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -107,6 +109,40 @@ class Authenticator extends GetxController {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
       return null;
+    }
+  }
+
+  Future<void> setFCMToken() async {
+    try {
+      final fcm = await FirebaseMessaging.instance.getToken();
+      if (_box.read("FCM") == fcm) return;
+
+      const url = "$baseUrl/notifications/add-fcm-notification-device/";
+      final token = fetchToken();
+
+      await _box.write("FCM", fcm);
+
+      await dio.post(
+        url,
+        data: {
+          "name": user.value?.name,
+          "registration_id": fcm,
+          "type": Platform.operatingSystem,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 

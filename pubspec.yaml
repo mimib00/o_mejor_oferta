@@ -61,6 +61,8 @@ dependencies:
   latlng: ^0.2.0
   web_socket_channel: ^2.2.0
   fl_chart: ^0.55.2
+  firebase_messaging: ^14.2.0
+  flutter_local_notifications: ^13.0.0
 
 dev_dependencies:
   flutter_test:
