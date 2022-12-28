@@ -4,6 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/components/location_sheet.dart';
+import 'package:mejor_oferta/views/home/components/category_sheet.dart';
 import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
 import 'package:unicons/unicons.dart';
@@ -61,6 +62,25 @@ class HomeScreen extends GetView<HomeController> {
                           controller.stop = false;
                           controller.page = 1;
                           controller.state = null;
+                          Get.back();
+                          controller.pagingController.refresh();
+                        },
+                      ),
+                    );
+                    break;
+                  case 1:
+                    Get.bottomSheet(
+                      CategorySheet(
+                        onTap: (category) {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.category = category.id;
+                          controller.pagingController.refresh();
+                        },
+                        onReset: () {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.category = null;
                           Get.back();
                           controller.pagingController.refresh();
                         },

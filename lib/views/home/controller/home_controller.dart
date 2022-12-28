@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
+import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
@@ -36,6 +37,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
           "page": page,
           "size": limit,
           "state": state,
+          "sub_category": category,
         },
         options: Options(
           headers: {
@@ -69,6 +71,35 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());
     }
+  }
+
+  Future<List<FullCategory>> getCategories() async {
+    try {
+      const url = "$baseUrl/listings/categories-with-subcategories/";
+      final token = Authenticator.instance.fetchToken();
+      final res = await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      List<FullCategory> categories = [];
+      for (var category in res.data) {
+        categories.add(FullCategory.fromJson(category));
+      }
+      return categories;
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return [];
   }
 
   @override
