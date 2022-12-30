@@ -1,9 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/components/location_sheet.dart';
+import 'package:mejor_oferta/views/home/components/carousel_tile.dart';
 import 'package:mejor_oferta/views/home/components/category_sheet.dart';
 import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
@@ -130,27 +132,56 @@ class HomeScreen extends GetView<HomeController> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            sliver: PagedSliverGrid<int, ListingThumb>(
-              showNewPageProgressIndicatorAsGridChild: false,
-              showNoMoreItemsIndicatorAsGridChild: false,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: .7,
-              ),
-              pagingController: controller.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<ListingThumb>(
-                newPageProgressIndicatorBuilder: (context) => Container(),
-                noItemsFoundIndicatorBuilder: (context) => Center(
-                  child: Text(
-                    "No Posts Here 🙃",
-                    style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  FutureBuilder<List<ListingThumb>>(
+                    future: controller.getBoostedPosts(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null || snapshot.data!.isEmpty) return Container();
+                      final listings = snapshot.data!;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: CarouselSlider(
+                          items: listings.map((e) => CarouselTile(listing: e)).toList(),
+                          options: CarouselOptions(
+                            viewportFraction: 1,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                itemBuilder: (context, item, index) {
-                  return ListingTile(listing: item);
-                },
+                  Column(
+                    children: [
+                      PagedGridView<int, ListingThumb>(
+                        showNewPageProgressIndicatorAsGridChild: false,
+                        showNoMoreItemsIndicatorAsGridChild: false,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: .7,
+                        ),
+                        pagingController: controller.pagingController,
+                        builderDelegate: PagedChildBuilderDelegate<ListingThumb>(
+                          newPageProgressIndicatorBuilder: (context) => Container(),
+                          noItemsFoundIndicatorBuilder: (context) => Center(
+                            child: Text(
+                              "No Posts Here 🙃",
+                              style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          itemBuilder: (context, item, index) {
+                            return ListingTile(listing: item);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

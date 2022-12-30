@@ -35,6 +35,7 @@ class ListingThumb {
   final String image;
   final DateTime created;
   final DateTime updated;
+  final bool boosted;
 
   ListingThumb(
     this.id,
@@ -44,6 +45,7 @@ class ListingThumb {
     this.image,
     this.created,
     this.updated,
+    this.boosted,
   );
 
   factory ListingThumb.fromJson(Map<String, dynamic> data) {
@@ -55,6 +57,7 @@ class ListingThumb {
       data["image"],
       DateTime.parse(data["created_at"]),
       DateTime.parse(data["updated_at"]),
+      data["is_promoted"],
     );
   }
 }
