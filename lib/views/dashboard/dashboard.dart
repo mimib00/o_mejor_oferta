@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
@@ -78,7 +79,7 @@ class DashboardScreen extends GetView<DashboardController> {
                 Padding(
                   padding: EdgeInsets.only(right: 10.w),
                   child: ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () => Get.toNamed(Routes.boost, arguments: listing),
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10),
                       textStyle: headline3.copyWith(fontWeight: FontWeight.bold),

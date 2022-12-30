@@ -5,6 +5,8 @@ import 'package:mejor_oferta/views/OTP/otp.dart';
 import 'package:mejor_oferta/views/add_post/add_post.dart';
 import 'package:mejor_oferta/views/auth/login.dart';
 import 'package:mejor_oferta/views/auth/register.dart';
+import 'package:mejor_oferta/views/boost/boost.dart';
+import 'package:mejor_oferta/views/boost/boost_how.dart';
 import 'package:mejor_oferta/views/dashboard/dashboard.dart';
 import 'package:mejor_oferta/views/inbox/chat_room.dart';
 import 'package:mejor_oferta/views/offer/my_offers.dart';
@@ -29,6 +31,8 @@ class Routes {
   static const myOffers = "/offers/me";
   static const inbox = "/inbox/";
   static const dashboard = "/dashboard";
+  static const boost = "/boost";
+  static const boostHow = "/boost/how";
 
   static List<GetPage<dynamic>> allRoutes = [
     GetPage<Widget>(name: root, page: () => const RootScreen(), binding: NavigationBinding()),
@@ -44,5 +48,7 @@ class Routes {
     GetPage<Widget>(name: myOffers, page: () => const SeeOffers(), binding: OffersBinding()),
     GetPage<Widget>(name: inbox, page: () => const ChatRoom()),
     GetPage<Widget>(name: dashboard, page: () => const DashboardScreen(), binding: DashboardBinding()),
+    GetPage<Widget>(name: boost, page: () => const BoosterScreen(), binding: BoostBinding()),
+    GetPage<Widget>(name: boostHow, page: () => const BoostHowScreen()),
   ];
 }

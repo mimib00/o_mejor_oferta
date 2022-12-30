@@ -3,6 +3,7 @@ import 'package:mejor_oferta/views/OTP/controller/otp_controller.dart';
 import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart';
 import 'package:mejor_oferta/views/auth/controller/login_controller.dart';
 import 'package:mejor_oferta/views/auth/controller/register_controller.dart';
+import 'package:mejor_oferta/views/boost/controller/boost_controller.dart';
 import 'package:mejor_oferta/views/dashboard/controller/dashboard_controller.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
 import 'package:mejor_oferta/views/inbox/controller/chat_controller.dart';
@@ -85,5 +86,12 @@ class DashboardBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(DashboardController());
+  }
+}
+
+class BoostBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(BoostController());
   }
 }

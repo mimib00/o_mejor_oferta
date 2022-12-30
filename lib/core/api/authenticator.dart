@@ -106,6 +106,7 @@ class Authenticator extends GetxController {
       update();
       return user.value;
     } on DioError catch (e) {
+      await logout();
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
       return null;
