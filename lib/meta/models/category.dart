@@ -2,11 +2,13 @@ class Category {
   final int id;
   final String name;
   final String? photo;
+  final bool hasCondition;
 
   Category(
     this.id,
     this.name,
     this.photo,
+    this.hasCondition,
   );
 
   factory Category.fromJson(Map<String, dynamic> data) {
@@ -14,6 +16,7 @@ class Category {
       data["id"],
       data["name"],
       data["image"],
+      data["has_condition"] ?? false,
     );
   }
 }

@@ -21,7 +21,6 @@ import 'package:mejor_oferta/views/add_post/steps/category.dart';
 import 'package:mejor_oferta/views/add_post/steps/info.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/attributes.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/brands.dart';
-import 'package:mejor_oferta/views/add_post/steps/info_steps/condition.dart';
 import 'package:mejor_oferta/views/add_post/steps/location.dart';
 import 'package:mejor_oferta/views/add_post/steps/sub_category.dart';
 import 'package:uuid/uuid.dart';
@@ -61,9 +60,7 @@ class AddPostController extends gety.GetxController {
     const InfoStep(),
   ];
 
-  List<Widget> infoSteps = [
-    const ConditionStep(),
-  ];
+  List<Widget> infoSteps = [];
 
   void next() {
     if (_step.value == steps.length) return;
@@ -87,7 +84,7 @@ class AddPostController extends gety.GetxController {
         brands.add(Brand.fromJson(brand));
       }
 
-      infoSteps.add(BrandsStep(brands: brands));
+      if (brands.isNotEmpty) infoSteps.add(BrandsStep(brands: brands));
     } on DioError catch (e) {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
@@ -121,18 +118,52 @@ class AddPostController extends gety.GetxController {
       for (final attribute in res.data) {
         infoSteps.add(AttributesStep(attribute: Attributes.fromJson(attribute)));
       }
+      final data = [
+        {
+          "id": -1,
+          "title": "Title",
+          "sub_title": "Please add a short title here",
+          "sequence": 2147483647,
+          "is_required": true,
+          "input_type": "TEXT",
+          "choices": [],
+          "sub_category": -1,
+        },
+        {
+          "id": -1,
+          "title": "Description",
+          "sub_title": "Describe the main features of your item.",
+          "sequence": 2147483647,
+          "is_required": true,
+          "input_type": "TEXTAREA",
+          "choices": [],
+          "sub_category": -1,
+        },
+        {
+          "id": -1,
+          "title": "Price",
+          "sub_title": "How much do you want to sell your item for?",
+          "sequence": 2147483647,
+          "is_required": true,
+          "input_type": "NUMBER",
+          "choices": [],
+          "sub_category": -1,
+        },
+        {
+          "id": -1,
+          "title": "Add photos",
+          "sub_title": "Upload pictures of your item.",
+          "sequence": 2147483647,
+          "is_required": true,
+          "input_type": "IMAGES",
+          "choices": [],
+          "sub_category": -1,
+        },
+      ];
 
-      final data = {
-        "id": -1,
-        "title": "Add photos",
-        "sub_title": "Upload pictures of your item?",
-        "sequence": 2147483647,
-        "is_required": true,
-        "input_type": "IMAGES",
-        "choices": [],
-        "category": -1,
-      };
-      infoSteps.add(AttributesStep(attribute: Attributes.fromJson(data)));
+      for (var item in data) {
+        infoSteps.add(AttributesStep(attribute: Attributes.fromJson(item)));
+      }
     } on DioError catch (e) {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
@@ -188,6 +219,7 @@ class AddPostController extends gety.GetxController {
         ),
         barrierDismissible: false,
       );
+      attributes.removeWhere((element) => element["possible_attribute"] == -1);
       final data = {
         "name": title,
         "description": description,
@@ -197,6 +229,7 @@ class AddPostController extends gety.GetxController {
         "location_long": controller.locationData.longitude.toString(),
         "price": price,
         "is_negotiable": negotiable.value,
+        "sub_category": subCategory!.id,
         "condition": condition.value.replaceAll("-", "").replaceAll(" ", "_").toUpperCase().toUpperCase(),
         "attributes": attributes.toList(),
       };

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
@@ -18,6 +20,8 @@ class AttributeInput extends GetView<AddPostController> {
   @override
   Widget build(BuildContext context) {
     Widget child = Container();
+    log(attribute.title);
+    log(attribute.type.name);
     switch (attribute.type) {
       case AttributeTypes.number:
         child = Column(

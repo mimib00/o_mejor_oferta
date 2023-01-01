@@ -61,7 +61,7 @@ class Attributes {
       data["is_required"],
       AttributeTypes.getType(data["input_type"]),
       data["choices"].cast<String>(),
-      data["category"],
+      data["sub_category"],
     );
   }
 }
