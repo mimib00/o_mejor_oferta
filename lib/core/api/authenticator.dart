@@ -170,6 +170,26 @@ class Authenticator extends GetxController {
     }
   }
 
+  Future<void> deleteUser() async {
+    try {
+      const url = "$baseUrl/authentication/users/me";
+      final tokens = fetchToken();
+      await dio.delete(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${tokens["access"]}",
+          },
+        ),
+      );
+      await logout();
+    } on DioError catch (e) {
+      await logout();
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    }
+  }
+
   Future<void> logout() async {
     await _removeToken();
   }

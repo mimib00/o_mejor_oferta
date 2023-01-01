@@ -65,6 +65,35 @@ class AccountSettings extends GetView<AccountController> {
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios_rounded),
               ),
+              ListTile(
+                onTap: () {
+                  Get.defaultDialog(
+                    title: "Are you sure?",
+                    content: const Text(
+                      "Are you sure you want to delete your account?",
+                      textAlign: TextAlign.center,
+                    ),
+                    confirm: TextButton(
+                      onPressed: () => Authenticator.instance.deleteUser(),
+                      child: const Text(
+                        "Yes",
+                        style: TextStyle(color: kWarningColor),
+                      ),
+                    ),
+                    cancel: TextButton(
+                      onPressed: () => Get.back(),
+                      child: const Text(
+                        "No",
+                      ),
+                    ),
+                  );
+                },
+                horizontalTitleGap: 0,
+                title: Text(
+                  "Delete Account",
+                  style: text1.copyWith(color: kWarningColor),
+                ),
+              ),
             ],
           );
         },
