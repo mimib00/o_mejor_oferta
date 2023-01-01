@@ -64,9 +64,9 @@ class PostController extends GetxController {
           },
         ),
       );
-      log("message");
 
       await getListing();
+      Fluttertoast.showToast(msg: "Saved");
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());

@@ -13,6 +13,7 @@ import 'package:mejor_oferta/views/inbox/report.dart';
 import 'package:mejor_oferta/views/offer/my_offers.dart';
 import 'package:mejor_oferta/views/offer/offers.dart';
 import 'package:mejor_oferta/views/post/post.dart';
+import 'package:mejor_oferta/views/post/report.dart';
 import 'package:mejor_oferta/views/profile/pages/account/account_settings.dart';
 import 'package:mejor_oferta/views/profile/pages/saves/saved.dart';
 import 'package:mejor_oferta/views/root/root.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const profileAccount = "/profile/account";
   static const profileSaved = "/profile/saved";
   static const post = "/post";
+  static const postReport = "/post/report";
   static const offers = "/offers";
   static const myOffers = "/offers/me";
   static const inbox = "/inbox/";
@@ -53,5 +55,6 @@ class Routes {
     GetPage<Widget>(name: boost, page: () => const BoosterScreen(), binding: BoostBinding()),
     GetPage<Widget>(name: boostHow, page: () => const BoostHowScreen()),
     GetPage<Widget>(name: inboxReport, page: () => const ChatReport()),
+    GetPage<Widget>(name: postReport, page: () => const ListingReport()),
   ];
 }

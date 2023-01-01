@@ -58,15 +58,15 @@ class PostScreen extends GetView<PostController> {
             title: const Text("Details"),
             actions: [
               GestureDetector(
-                onTap: () {},
+                onTap: () => Get.toNamed(Routes.postReport, parameters: {"id": listing.id.toString()}),
                 child: const Icon(UniconsLine.ban),
               ),
               const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () {},
-                child: const Icon(UniconsLine.share_alt),
-              ),
-              const SizedBox(width: 10),
+              // GestureDetector(
+              //   onTap: () {},
+              //   child: const Icon(UniconsLine.share_alt),
+              // ),
+              // const SizedBox(width: 10),
               GestureDetector(
                 onTap: () async => await controller.toggleSave(),
                 child: Icon(
