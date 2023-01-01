@@ -7,6 +7,8 @@ class InboxThread {
   final DateTime updated;
   final DateTime? lastMessage;
   String message;
+  final bool blocked;
+  final int? blocker;
 
   InboxThread(
     this.id,
@@ -14,6 +16,8 @@ class InboxThread {
     this.updated,
     this.lastMessage,
     this.message,
+    this.blocked,
+    this.blocker,
   );
 
   factory InboxThread.fromJson(Map<String, dynamic> data) {
@@ -28,6 +32,8 @@ class InboxThread {
       DateTime.parse(data["updated"]),
       data["last_message_timestamp"] == null ? null : DateTime.parse(data["last_message_timestamp"]),
       data["last_message"] ?? "No Message",
+      data["is_blocked"],
+      data["blocked_by"],
     );
   }
 }

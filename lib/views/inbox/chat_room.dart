@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
+import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/views/inbox/components/chat_bubble.dart';
@@ -16,7 +17,7 @@ class ChatRoom extends GetView<ChatController> {
     final id = Get.parameters["id"];
     final name = Get.parameters["name"];
     final uid = Get.parameters["uid"];
-
+    final InboxThread thread = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(name!),
@@ -28,7 +29,15 @@ class ChatRoom extends GetView<ChatController> {
                 builder: (context) => CupertinoActionSheet(
                   actions: [
                     CupertinoActionSheetAction(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (thread.blocked && thread.blocker == Authenticator.instance.user.value!.id) {
+                          controller.unBlockChat(id!);
+                          Get.back();
+                        } else {
+                          controller.blockChat(id!);
+                          Get.back();
+                        }
+                      },
                       isDestructiveAction: true,
                       child: Text(
                         "Block",
@@ -94,46 +103,53 @@ class ChatRoom extends GetView<ChatController> {
                   top: BorderSide(color: kWhiteColor3),
                 ),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: controller.input,
-                      decoration: InputDecoration(
-                        hintText: "Type your message",
-                        hintStyle: text1,
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(180),
-                          borderSide: const BorderSide(color: kWhiteColor3),
+              child: thread.blocked
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text("This chat is Blocked"),
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: controller.input,
+                            decoration: InputDecoration(
+                              hintText: "Type your message",
+                              hintStyle: text1,
+                              isDense: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(180),
+                                borderSide: const BorderSide(color: kWhiteColor3),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(180),
+                                borderSide: const BorderSide(color: kWhiteColor3),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(180),
+                                borderSide: const BorderSide(color: kWhiteColor3),
+                              ),
+                            ),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(180),
-                          borderSide: const BorderSide(color: kWhiteColor3),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(180),
-                          borderSide: const BorderSide(color: kWhiteColor3),
-                        ),
-                      ),
+                        IconButton(
+                          onPressed: () {
+                            if (controller.input.text.trim().isEmpty) return;
+                            final me = Authenticator.instance.user.value!;
+                            final data = {
+                              'message': controller.input.text.trim(),
+                              'sent_by': me.id,
+                              'send_to': uid,
+                              'thread_id': id,
+                            };
+                            controller.sendMessage(data);
+                          },
+                          icon: const Icon(Icons.send),
+                        )
+                      ],
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      if (controller.input.text.trim().isEmpty) return;
-                      final me = Authenticator.instance.user.value!;
-                      final data = {
-                        'message': controller.input.text.trim(),
-                        'sent_by': me.id,
-                        'send_to': uid,
-                        'thread_id': id,
-                      };
-                      controller.sendMessage(data);
-                    },
-                    icon: const Icon(Icons.send),
-                  )
-                ],
-              ),
             ),
           ),
         ],

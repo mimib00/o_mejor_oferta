@@ -30,6 +30,60 @@ class ChatController extends GetxController {
     update();
   }
 
+  Future<void> blockChat(String id) async {
+    try {
+      final url = "$baseUrl/chat/block-thread/$id/";
+      final token = Authenticator.instance.fetchToken();
+      await dio.post(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+
+      await getThreads();
+      await Fluttertoast.showToast(msg: "Chat blocked");
+      Get.back();
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<void> unBlockChat(String id) async {
+    try {
+      final url = "$baseUrl/chat/unblock-thread/$id/";
+      final token = Authenticator.instance.fetchToken();
+      await dio.post(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+
+      await getThreads();
+      await Fluttertoast.showToast(msg: "Chat unblocked");
+      Get.back();
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   Future<void> getChatRoom(String id, {bool updating = false}) async {
     if (!updating) {
       messages.clear();

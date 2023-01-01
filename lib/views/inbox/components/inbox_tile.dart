@@ -16,8 +16,11 @@ class InboxTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => Get.toNamed(Routes.inbox,
-          parameters: {"id": thread.id.toString(), "name": thread.user.name, "uid": thread.user.id.toString()}),
+      onTap: () => Get.toNamed(
+        Routes.inbox,
+        parameters: {"id": thread.id.toString(), "name": thread.user.name, "uid": thread.user.id.toString()},
+        arguments: thread,
+      ),
       dense: true,
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(180),
