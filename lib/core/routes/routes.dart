@@ -9,6 +9,7 @@ import 'package:mejor_oferta/views/boost/boost.dart';
 import 'package:mejor_oferta/views/boost/boost_how.dart';
 import 'package:mejor_oferta/views/dashboard/dashboard.dart';
 import 'package:mejor_oferta/views/inbox/chat_room.dart';
+import 'package:mejor_oferta/views/inbox/report.dart';
 import 'package:mejor_oferta/views/offer/my_offers.dart';
 import 'package:mejor_oferta/views/offer/offers.dart';
 import 'package:mejor_oferta/views/post/post.dart';
@@ -30,6 +31,7 @@ class Routes {
   static const offers = "/offers";
   static const myOffers = "/offers/me";
   static const inbox = "/inbox/";
+  static const inboxReport = "/inbox/report";
   static const dashboard = "/dashboard";
   static const boost = "/boost";
   static const boostHow = "/boost/how";
@@ -50,5 +52,6 @@ class Routes {
     GetPage<Widget>(name: dashboard, page: () => const DashboardScreen(), binding: DashboardBinding()),
     GetPage<Widget>(name: boost, page: () => const BoosterScreen(), binding: BoostBinding()),
     GetPage<Widget>(name: boostHow, page: () => const BoostHowScreen()),
+    GetPage<Widget>(name: inboxReport, page: () => const ChatReport()),
   ];
 }

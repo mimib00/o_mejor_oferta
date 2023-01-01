@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/views/inbox/components/chat_bubble.dart';
@@ -20,7 +22,40 @@ class ChatRoom extends GetView<ChatController> {
         title: Text(name!),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showCupertinoModalPopup(
+                context: context,
+                builder: (context) => CupertinoActionSheet(
+                  actions: [
+                    CupertinoActionSheetAction(
+                      onPressed: () {},
+                      isDestructiveAction: true,
+                      child: Text(
+                        "Block",
+                        style: headline3.copyWith(color: kWarningColor),
+                      ),
+                    ),
+                    CupertinoActionSheetAction(
+                      onPressed: () => {
+                        Get.back(),
+                        Get.toNamed(Routes.inboxReport, parameters: {"id": id!})
+                      },
+                      child: Text(
+                        "Report",
+                        style: headline3.copyWith(color: kPrimaryColor),
+                      ),
+                    ),
+                  ],
+                  cancelButton: CupertinoActionSheetAction(
+                    onPressed: () => Get.back(),
+                    child: Text(
+                      "Cancel",
+                      style: headline3.copyWith(color: kPrimaryColor),
+                    ),
+                  ),
+                ),
+              );
+            },
             icon: const Icon(Icons.more_vert_rounded),
           )
         ],
