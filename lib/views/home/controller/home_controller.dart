@@ -27,6 +27,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   int? state;
   int? category;
 
+  RxString query = "".obs;
+
   Future<void> getListings() async {
     try {
       if (stop) return;
@@ -40,6 +42,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
           "size": limit,
           "state": state,
           "sub_category": category,
+          "search": query.value,
         },
         options: Options(
           headers: {
@@ -138,6 +141,14 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   void onInit() {
     tabController = TabController(length: 3, vsync: this);
     pagingController.addPageRequestListener((pageKey) => getListings());
+    debounce(
+      query,
+      (callback) {
+        page = 1;
+        stop = false;
+        pagingController.refresh();
+      },
+    );
     super.onInit();
   }
 }

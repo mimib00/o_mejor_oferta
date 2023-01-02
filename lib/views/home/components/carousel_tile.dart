@@ -16,53 +16,59 @@ class CarouselTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Get.toNamed(Routes.post, parameters: {"id": listing.id.toString()}),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: CachedNetworkImage(
-                imageUrl: listing.image,
-                errorWidget: (context, url, error) {
-                  return Container(
-                    alignment: Alignment.center,
-                    color: kPrimaryColor,
-                    child: const Icon(Icons.error),
-                  );
-                },
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [kBlackColor.withOpacity(.8), kWhiteColor8.withOpacity(.3)],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: CachedNetworkImage(
+                  imageUrl: listing.image,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) {
+                    return Container(
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: kPrimaryColor,
+                      ),
+                      child: const Icon(Icons.error),
+                    );
+                  },
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 20,
-            left: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  listing.title,
-                  style: headline3.copyWith(color: Colors.white),
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [kBlackColor.withOpacity(.8), kWhiteColor8.withOpacity(.3)],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
                 ),
-                Text(
-                  "\$${listing.price}",
-                  style: headline1.copyWith(color: Colors.white),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 20,
+              left: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    listing.title,
+                    style: headline3.copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    "\$${listing.price}",
+                    style: headline1.copyWith(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
