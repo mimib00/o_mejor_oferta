@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
-import 'package:mejor_oferta/meta/widgets/main_button.dart';
 import 'package:mejor_oferta/views/OTP/controller/otp_controller.dart';
 import 'package:pinput/pinput.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -67,18 +67,33 @@ class OtpScreen extends GetView<OtpController> {
                 () {
                   return Visibility(
                     visible: controller.valid.value,
-                    child: MainButton(
-                      onTap: () {
-                        Authenticator.instance.signup(
-                          {
-                            "name": controller.name,
-                            "email": controller.email,
-                            "phone_number": controller.phone,
-                            "password": controller.password,
-                          },
-                        );
-                      },
-                      text: "Continue",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (controller.signup) {
+                                Authenticator.instance.signup(
+                                  {
+                                    "name": controller.name,
+                                    "email": controller.email,
+                                    "phone_number": controller.phone,
+                                    "password": controller.password,
+                                  },
+                                );
+                              } else {
+                                Get.toNamed(Routes.changePassword, parameters: {"phone": controller.phone});
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
+                              textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            child: const Text("Continue"),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },

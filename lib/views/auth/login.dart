@@ -45,17 +45,20 @@ class LoginScreen extends GetView<LoginController> {
                   },
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  "Forgot password?",
-                  style: headline2.copyWith(color: kPrimaryColor, fontWeight: FontWeight.bold),
+                GestureDetector(
+                  onTap: () => Get.toNamed(Routes.forgot),
+                  child: Text(
+                    "Forgot password?",
+                    style: text1.copyWith(color: kPrimaryColor, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 SizedBox(height: 15.h),
                 Wrap(
                   children: [
-                    Text("By continuing, you agree to our ", style: headline3.copyWith(fontWeight: FontWeight.w400)),
-                    Text("Terms of Service ", style: headline3.copyWith(color: kPrimaryColor)),
-                    Text("and ", style: headline3.copyWith(fontWeight: FontWeight.w400)),
-                    Text("Privacy Policy.", style: headline3.copyWith(color: kPrimaryColor)),
+                    Text("By continuing, you agree to our ", style: text1.copyWith(fontWeight: FontWeight.w400)),
+                    Text("Terms of Service ", style: text1.copyWith(color: kPrimaryColor)),
+                    Text("and ", style: text1.copyWith(fontWeight: FontWeight.w400)),
+                    Text("Privacy Policy.", style: text1.copyWith(color: kPrimaryColor)),
                   ],
                 ),
                 SizedBox(height: 2.h),

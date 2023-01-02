@@ -8,6 +8,8 @@ import 'package:mejor_oferta/views/auth/register.dart';
 import 'package:mejor_oferta/views/boost/boost.dart';
 import 'package:mejor_oferta/views/boost/boost_how.dart';
 import 'package:mejor_oferta/views/dashboard/dashboard.dart';
+import 'package:mejor_oferta/views/forgot/forgot.dart';
+import 'package:mejor_oferta/views/forgot/password_rest.dart';
 import 'package:mejor_oferta/views/inbox/chat_room.dart';
 import 'package:mejor_oferta/views/inbox/report.dart';
 import 'package:mejor_oferta/views/offer/my_offers.dart';
@@ -37,6 +39,8 @@ class Routes {
   static const dashboard = "/dashboard";
   static const boost = "/boost";
   static const boostHow = "/boost/how";
+  static const forgot = "/forgot/";
+  static const changePassword = "/forgot/change";
 
   static List<GetPage<dynamic>> allRoutes = [
     GetPage<Widget>(name: root, page: () => const RootScreen(), binding: NavigationBinding()),
@@ -56,5 +60,7 @@ class Routes {
     GetPage<Widget>(name: boostHow, page: () => const BoostHowScreen()),
     GetPage<Widget>(name: inboxReport, page: () => const ChatReport()),
     GetPage<Widget>(name: postReport, page: () => const ListingReport()),
+    GetPage<Widget>(name: forgot, page: () => ForgotPassword()),
+    GetPage<Widget>(name: changePassword, page: () => PasswordReset()),
   ];
 }

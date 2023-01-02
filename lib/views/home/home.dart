@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -214,66 +213,6 @@ class HomeScreen extends GetView<HomeController> {
           ],
         ),
       ),
-
-      //     SliverPadding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      //       sliver: SliverFillRemaining(
-      //         hasScrollBody: true,
-      //         child: SmartRefresher(
-      //           controller: controller.refreshController,
-      //           onRefresh: () => {controller.stop = false, controller.page = 1, controller.pagingController.refresh()},
-      //           physics: NeverScrollableScrollPhysics(),
-      //           child: SingleChildScrollView(
-      // child: Column(
-      //   children: [
-      //     FutureBuilder<List<ListingThumb>>(
-      //       future: controller.getBoostedPosts(),
-      //       builder: (context, snapshot) {
-      //         if (snapshot.data == null || snapshot.data!.isEmpty) return Container();
-      //         final listings = snapshot.data!;
-      //         return Padding(
-      //           padding: const EdgeInsets.only(bottom: 10),
-      //           child: CarouselSlider(
-      //             items: listings.map((e) => CarouselTile(listing: e)).toList(),
-      //             options: CarouselOptions(viewportFraction: 1, height: 200),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //     PagedGridView<int, ListingThumb>(
-      //       showNewPageProgressIndicatorAsGridChild: false,
-      //       showNoMoreItemsIndicatorAsGridChild: false,
-      //       shrinkWrap: true,
-      //       padding: EdgeInsets.zero,
-      //       physics: const NeverScrollableScrollPhysics(),
-      //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //         crossAxisCount: 2,
-      //         crossAxisSpacing: 10,
-      //         mainAxisSpacing: 10,
-      //         childAspectRatio: .7,
-      //       ),
-      //       pagingController: controller.pagingController,
-      //       builderDelegate: PagedChildBuilderDelegate<ListingThumb>(
-      //         newPageProgressIndicatorBuilder: (context) => Container(),
-      //         noItemsFoundIndicatorBuilder: (context) => Center(
-      //           child: Text(
-      //             "No Posts Here 🙃",
-      //             style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),
-      //           ),
-      //         ),
-      //         itemBuilder: (context, item, index) {
-      //           return ListingTile(listing: item);
-      //         },
-      //       ),
-      //     ),
-      //   ],
-      // ),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
