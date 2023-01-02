@@ -9,11 +9,13 @@ import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
 
   final PagingController<int, ListingThumb> pagingController = PagingController(firstPageKey: 1);
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   final dio = Dio();
   final limit = 4;
@@ -62,6 +64,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         pagingController.appendPage(thumbs, page);
       }
       if (res.data["next"] == null) stop = true;
+      refreshController.refreshCompleted();
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());

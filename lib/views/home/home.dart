@@ -9,6 +9,7 @@ import 'package:mejor_oferta/views/home/components/carousel_tile.dart';
 import 'package:mejor_oferta/views/home/components/category_sheet.dart';
 import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:unicons/unicons.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -132,27 +133,28 @@ class HomeScreen extends GetView<HomeController> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  FutureBuilder<List<ListingThumb>>(
-                    future: controller.getBoostedPosts(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null || snapshot.data!.isEmpty) return Container();
-                      final listings = snapshot.data!;
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: CarouselSlider(
-                          items: listings.map((e) => CarouselTile(listing: e)).toList(),
-                          options: CarouselOptions(
-                            viewportFraction: 1,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  Column(
+            sliver: SliverFillRemaining(
+              hasScrollBody: true,
+              child: SmartRefresher(
+                controller: controller.refreshController,
+                onRefresh: () => {controller.stop = false, controller.page = 1, controller.pagingController.refresh()},
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
+                      FutureBuilder<List<ListingThumb>>(
+                        future: controller.getBoostedPosts(),
+                        builder: (context, snapshot) {
+                          if (snapshot.data == null || snapshot.data!.isEmpty) return Container();
+                          final listings = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CarouselSlider(
+                              items: listings.map((e) => CarouselTile(listing: e)).toList(),
+                              options: CarouselOptions(viewportFraction: 1, height: 200),
+                            ),
+                          );
+                        },
+                      ),
                       PagedGridView<int, ListingThumb>(
                         showNewPageProgressIndicatorAsGridChild: false,
                         showNoMoreItemsIndicatorAsGridChild: false,
@@ -181,7 +183,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
