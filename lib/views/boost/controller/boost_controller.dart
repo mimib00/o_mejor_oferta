@@ -65,6 +65,11 @@ class BoostController extends GetxController {
         paymentSheetParameters: SetupPaymentSheetParameters(
           merchantDisplayName: 'O Mejor Offerta',
           paymentIntentClientSecret: secret,
+          // applePay: const PaymentSheetApplePay(merchantCountryCode: "PR"),
+          // googlePay: const PaymentSheetGooglePay(
+          //   merchantCountryCode: "PR",
+          //   testEnv: true,
+          // ),
         ),
       );
       Get.back();

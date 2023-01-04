@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +25,7 @@ class ListingVertTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () => Get.toNamed(Routes.boost, arguments: listing),
             child: Text(
               "Boost",
               style: text2.copyWith(color: kPrimaryColor),

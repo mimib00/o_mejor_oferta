@@ -18,8 +18,7 @@ class DashboardScreen extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    log(controller.listing.toString());
-    final listing = controller.listing;
+    final listing = Get.arguments;
 
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +35,7 @@ class DashboardScreen extends GetView<DashboardController> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CachedNetworkImage(
-                      imageUrl: listing!.images.first,
+                      imageUrl: listing?.images.first ?? "",
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
@@ -48,12 +47,12 @@ class DashboardScreen extends GetView<DashboardController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        listing.title,
+                        listing?.title ?? "",
                         style: text1,
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "\$${listing.price}",
+                        "\$${listing?.price}",
                         style: headline3,
                       ),
                     ],
@@ -114,7 +113,7 @@ class DashboardScreen extends GetView<DashboardController> {
               thickness: 1,
             ),
             FutureBuilder<List<InboxThread>>(
-              future: controller.getListingThreads(listing.id),
+              future: controller.getListingThreads(listing?.id ?? 0),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: Loading());
                 if (snapshot.data == null) return Container();

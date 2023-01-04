@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/stats.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/dashboard/controller/dashboard_controller.dart';
@@ -152,7 +153,6 @@ class StatsScreen extends GetView<DashboardController> {
                                       end: Alignment.bottomCenter,
                                     ),
                                   ),
-                                  spots: [],
                                 ),
                               ],
                             ),
@@ -247,7 +247,8 @@ class StatsScreen extends GetView<DashboardController> {
                               ),
                               bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
-                                  interval: (stats.length / 3).roundToDouble(),
+                                  interval:
+                                      (stats.length / 3).roundToDouble() <= 0 ? .5 : (stats.length / 3).roundToDouble(),
                                   showTitles: true,
                                   getTitlesWidget: (value, meta) => bottomTitleWidgets(stats, value, meta),
                                 ),
@@ -291,7 +292,7 @@ class StatsScreen extends GetView<DashboardController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () => Get.toNamed(Routes.boost, arguments: listing),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10),
                     textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
