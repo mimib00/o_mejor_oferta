@@ -1,11 +1,48 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
+import 'package:mejor_oferta/core/config.dart';
+import 'package:mejor_oferta/meta/models/notification.dart';
 
 class NotificationController extends GetxController {
+  final dio = Dio();
+  Future<List<NotificationMessage>> getNotifications() async {
+    try {
+      const url = "$baseUrl/notifications/notifications/";
+      final token = Authenticator.instance.fetchToken();
+      final res = await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      List<NotificationMessage> messages = [];
+      for (var message in res.data) {
+        messages.add(NotificationMessage.fromJson(message));
+      }
+      return messages;
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return [];
+  }
+
+  // Notification Config
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   void requestIOSPermissions(FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
