@@ -105,6 +105,7 @@ class HomeScreen extends GetView<HomeController> {
                             controller.page = 1;
                             controller.category = category.id;
                             controller.pagingController.refresh();
+                            Get.back();
                           },
                           onReset: () {
                             controller.stop = false;
@@ -112,6 +113,7 @@ class HomeScreen extends GetView<HomeController> {
                             controller.category = null;
                             Get.back();
                             controller.pagingController.refresh();
+                            Get.back();
                           },
                         ),
                       );

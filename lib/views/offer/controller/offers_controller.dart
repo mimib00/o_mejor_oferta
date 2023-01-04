@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
+import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/models/offer.dart';
 import 'package:mejor_oferta/meta/widgets/loader.dart';
@@ -18,7 +19,6 @@ class OffersController extends GetxController {
   Listing? listing = Get.arguments;
 
   Future<void> createChatRoom({Listing? listings}) async {
-    log((listings ?? listing!).owner.id.toString());
     try {
       final url = "$baseUrl/chat/get-thread/${(listings ?? listing!).owner.email}/";
       final token = Authenticator.instance.fetchToken();
@@ -30,7 +30,9 @@ class OffersController extends GetxController {
           },
         ),
       );
+
       Get.back();
+      final InboxThread thread = InboxThread.fromJson(res.data["chat_thread"]);
       Get.toNamed(
         Routes.inbox,
         parameters: {
@@ -38,6 +40,7 @@ class OffersController extends GetxController {
           "name": (listings ?? listing!).owner.name,
           "uid": (listings ?? listing!).owner.id.toString(),
         },
+        arguments: thread,
       );
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
@@ -52,6 +55,7 @@ class OffersController extends GetxController {
 
   Future<void> makeOffer() async {
     try {
+      Loader.instance.showCircularProgressIndicatorWithText();
       final url = "$baseUrl/offers/${listing!.id}/offers/";
       final token = Authenticator.instance.fetchToken();
 
@@ -71,10 +75,12 @@ class OffersController extends GetxController {
 
       await createChatRoom();
     } on DioError catch (e, stackTrace) {
+      Get.back();
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
-      Fluttertoast.showToast(msg: e.message);
+      Fluttertoast.showToast(msg: e.response!.data["detail"]);
     } catch (e, stackTrace) {
+      Get.back();
       log(e.toString());
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());
@@ -83,6 +89,7 @@ class OffersController extends GetxController {
 
   Future<List<Offer>> getMyOffers() async {
     try {
+      Loader.instance.showCircularProgressIndicatorWithText();
       final url = "$baseUrl/offers/${listing!.id}/offers/";
       final token = Authenticator.instance.fetchToken();
 
@@ -99,12 +106,15 @@ class OffersController extends GetxController {
       for (var offer in res.data) {
         offers.add(Offer.fromJson(offer, listing!));
       }
+      Get.back();
       return offers;
     } on DioError catch (e, stackTrace) {
+      Get.back();
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
     } catch (e, stackTrace) {
+      Get.back();
       log(e.toString());
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());

@@ -276,7 +276,6 @@ class PostScreen extends GetView<PostController> {
                           child: MainButton(
                             onTap: () {
                               final OffersController offersController = Get.put(OffersController());
-
                               offersController.createChatRoom(listings: listing);
                             },
                             text: "Chat",

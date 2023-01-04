@@ -79,16 +79,12 @@ class ProfileScreen extends GetView<ProfileController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Transactions",
+                      "Offers",
                       style: headline2,
                     ),
                     const ProfileTile(
                       icon: UniconsLine.dollar_alt,
-                      title: "Purchases & Sales",
-                    ),
-                    const ProfileTile(
-                      icon: UniconsLine.credit_card,
-                      title: "Payment & Deposite methods",
+                      title: "My Offers",
                     ),
                     Text(
                       "Saves",

@@ -34,7 +34,7 @@ class CategorySheet extends GetView<HomeController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Locations",
+                "Categories",
                 style: headline2.copyWith(fontWeight: FontWeight.bold),
               ),
               Visibility(
