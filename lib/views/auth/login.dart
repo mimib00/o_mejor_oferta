@@ -56,9 +56,15 @@ class LoginScreen extends GetView<LoginController> {
                 Wrap(
                   children: [
                     Text("By continuing, you agree to our ", style: text1.copyWith(fontWeight: FontWeight.w400)),
-                    Text("Terms of Service ", style: text1.copyWith(color: kPrimaryColor)),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(Routes.terms),
+                      child: Text("Terms of Service ", style: text1.copyWith(color: kPrimaryColor)),
+                    ),
                     Text("and ", style: text1.copyWith(fontWeight: FontWeight.w400)),
-                    Text("Privacy Policy.", style: text1.copyWith(color: kPrimaryColor)),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(Routes.policy),
+                      child: Text("Privacy Policy.", style: text1.copyWith(color: kPrimaryColor)),
+                    ),
                   ],
                 ),
                 SizedBox(height: 2.h),

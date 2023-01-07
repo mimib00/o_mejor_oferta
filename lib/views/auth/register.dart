@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/text_input.dart';
@@ -43,28 +41,15 @@ class RegisterScreen extends GetView<RegisterController> {
                     return null;
                   },
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: kWhiteColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xffE3E5E5), width: 1),
-                  ),
-                  child: IntlPhoneField(
-                    initialCountryCode: "DZ",
-                    validator: (phone) {
-                      if (phone == null || phone.number.isEmpty) return "Field required";
-                      return null;
-                    },
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    decoration: const InputDecoration(
-                      counterText: "",
-                      hintText: "Phone number",
-                    ),
-                    onChanged: (value) => controller.phone = value.completeNumber,
-                  ),
+                CustomTextInput(
+                  controller: controller.phone,
+                  labelText: "Phone number",
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return "Field required";
+                    if (!value.isPhoneNumber) return "Please enter a valid phone number";
+                    return null;
+                  },
                 ),
                 CustomTextInput(
                   controller: controller.password,
@@ -91,9 +76,15 @@ class RegisterScreen extends GetView<RegisterController> {
                 Wrap(
                   children: [
                     Text("By continuing, you agree to our ", style: headline3.copyWith(fontWeight: FontWeight.w400)),
-                    Text("Terms of Service ", style: headline3.copyWith(color: kPrimaryColor)),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(Routes.terms),
+                      child: Text("Terms of Service ", style: headline3.copyWith(color: kPrimaryColor)),
+                    ),
                     Text("and ", style: headline3.copyWith(fontWeight: FontWeight.w400)),
-                    Text("Privacy Policy.", style: headline3.copyWith(color: kPrimaryColor)),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(Routes.policy),
+                      child: Text("Privacy Policy.", style: text1.copyWith(color: kPrimaryColor)),
+                    ),
                   ],
                 ),
                 SizedBox(height: 2.h),
@@ -107,7 +98,7 @@ class RegisterScreen extends GetView<RegisterController> {
                             Routes.otp,
                             parameters: {
                               "signup": "true",
-                              "phone": controller.phone.trim(),
+                              "phone": controller.phone.text.trim(),
                               "name": controller.name.text.trim(),
                               "email": controller.email.text.trim(),
                               "password": controller.password.text.trim(),
@@ -123,23 +114,6 @@ class RegisterScreen extends GetView<RegisterController> {
                     ),
                   ],
                 ),
-                // MainButton(
-                //   onTap: () {
-                //     if (controller.registerForm.currentState!.validate()) {
-                //       Get.toNamed(
-                //         Routes.otp,
-                //         parameters: {
-                //           "signup": "true",
-                //           "phone": controller.phone.trim(),
-                //           "name": controller.name.text.trim(),
-                //           "email": controller.email.text.trim(),
-                //           "password": controller.password.text.trim(),
-                //         },
-                //       );
-                //     }
-                //   },
-                //   text: "Sign Up",
-                // ),
               ],
             ),
           ),

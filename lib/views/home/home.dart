@@ -8,6 +8,7 @@ import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/components/location_sheet.dart';
 import 'package:mejor_oferta/views/home/components/carousel_tile.dart';
 import 'package:mejor_oferta/views/home/components/category_sheet.dart';
+import 'package:mejor_oferta/views/home/components/filter_sheet.dart';
 import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -25,7 +26,7 @@ class HomeScreen extends GetView<HomeController> {
         physics: const BouncingScrollPhysics(),
         controller: controller.refreshController,
         onRefresh: () => {controller.stop = false, controller.page = 1, controller.pagingController.refresh()},
-        child: Column(
+        child: ListView(
           children: [
             AppBar(
               automaticallyImplyLeading: false,
@@ -119,6 +120,28 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       );
                       break;
+                    case 2:
+                      Get.bottomSheet(
+                        FilterSheet(
+                          onTap: (priceLTE, priceGTE, order) {
+                            controller.stop = false;
+                            controller.page = 1;
+                            controller.order = order;
+                            controller.pagingController.refresh();
+                            Get.back();
+                          },
+                          onReset: () {
+                            controller.stop = false;
+                            controller.page = 1;
+                            controller.order = null;
+                            controller.priceGTE = null;
+                            controller.priceLTE = null;
+                            controller.pagingController.refresh();
+                            Get.back();
+                          },
+                        ),
+                      );
+                      break;
                   }
                 },
                 tabs: [
@@ -187,6 +210,7 @@ class HomeScreen extends GetView<HomeController> {
                   PagedGridView<int, ListingThumb>(
                     showNewPageProgressIndicatorAsGridChild: false,
                     showNoMoreItemsIndicatorAsGridChild: false,
+                    cacheExtent: 1000,
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),

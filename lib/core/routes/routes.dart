@@ -12,6 +12,8 @@ import 'package:mejor_oferta/views/forgot/forgot.dart';
 import 'package:mejor_oferta/views/forgot/password_rest.dart';
 import 'package:mejor_oferta/views/inbox/chat_room.dart';
 import 'package:mejor_oferta/views/inbox/report.dart';
+import 'package:mejor_oferta/views/leagal/policy.dart';
+import 'package:mejor_oferta/views/leagal/terms.dart';
 import 'package:mejor_oferta/views/notifications/notification.dart';
 import 'package:mejor_oferta/views/offer/my_offers.dart';
 import 'package:mejor_oferta/views/offer/offers.dart';
@@ -43,6 +45,8 @@ class Routes {
   static const forgot = "/forgot/";
   static const changePassword = "/forgot/change";
   static const notification = "/notifications";
+  static const terms = "/terms";
+  static const policy = "/policy";
 
   static List<GetPage<dynamic>> allRoutes = [
     GetPage<Widget>(name: root, page: () => const RootScreen(), binding: NavigationBinding()),
@@ -65,5 +69,7 @@ class Routes {
     GetPage<Widget>(name: forgot, page: () => ForgotPassword()),
     GetPage<Widget>(name: changePassword, page: () => PasswordReset()),
     GetPage<Widget>(name: notification, page: () => const NotificationScreen()),
+    GetPage<Widget>(name: terms, page: () => const TermsScreen()),
+    GetPage<Widget>(name: policy, page: () => const PolicyScreen()),
   ];
 }

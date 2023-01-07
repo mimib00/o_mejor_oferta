@@ -29,21 +29,29 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   RxString query = "".obs;
 
+  String? order;
+  String? priceLTE;
+  String? priceGTE;
+
   Future<void> getListings() async {
     try {
       if (stop) return;
       const url = "$baseUrl/listings/listings/";
       final token = Authenticator.instance.fetchToken();
+      final param = {
+        "page": page,
+        "size": limit,
+        "state": state,
+        "sub_category": category,
+        "search": query.value,
+      };
 
+      param.addIf(order != null, "ordering", order);
+      param.addIf(priceLTE != null, "price_lte", priceLTE);
+      param.addIf(priceGTE != null, "price_gte", priceGTE);
       final res = await dio.get(
         url,
-        queryParameters: {
-          "page": page,
-          "size": limit,
-          "state": state,
-          "sub_category": category,
-          "search": query.value,
-        },
+        queryParameters: param,
         options: Options(
           headers: {
             "Authorization": "Bearer ${token["access"]}",
@@ -55,8 +63,6 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       for (final thumb in res.data["results"]) {
         thumbs.add(ListingThumb.fromJson(thumb));
       }
-
-      thumbs.sort((a, b) => a.updated.compareTo(b.updated));
 
       page += 1;
       final isLastPage = thumbs.length < limit;
