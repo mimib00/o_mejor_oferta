@@ -6,11 +6,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/models/offer.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/main_button.dart';
 import 'package:mejor_oferta/views/offer/controller/offers_controller.dart';
+import 'package:mejor_oferta/views/profile/pages/offers/update.dart';
 
 class OfferTile extends StatefulWidget {
   final int id;
@@ -26,7 +28,7 @@ class OfferTile extends StatefulWidget {
 }
 
 class _OfferTileState extends State<OfferTile> {
-  final OffersController controller = Get.find();
+  final OffersController controller = Get.isRegistered<OffersController>() ? Get.find() : Get.put(OffersController());
 
   bool pending = true;
 
@@ -66,6 +68,7 @@ class _OfferTileState extends State<OfferTile> {
         builder: (context, snapshot) {
           if (offer == null) return Container();
           pending = offer!.status == OfferStatus.pending;
+          final mine = offer!.user.id == Authenticator.instance.user.value!.id;
           return Container(
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.symmetric(vertical: 5),
@@ -91,29 +94,58 @@ class _OfferTileState extends State<OfferTile> {
                 ),
                 const SizedBox(height: 20),
                 pending
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: MainButton(
-                              onTap: () async {
-                                await controller.rejectOffer(offer!.id);
-                                setState(() {});
-                              },
-                              text: "Reject offer",
-                            ),
-                          ),
-                          Expanded(
-                            child: MainButton(
-                              onTap: () async {
-                                await controller.acceptOffer(offer!.id);
-                                setState(() {});
-                              },
-                              text: "Accept offer",
-                            ),
-                          ),
-                        ],
-                      )
+                    ? mine
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: MainButton(
+                                  onTap: () async {
+                                    await controller.cancelOffer(offer!.id, offer!.listing);
+                                    setState(() {});
+                                  },
+                                  text: "Cancel offer",
+                                ),
+                              ),
+                              Expanded(
+                                child: MainButton(
+                                  onTap: () async {
+                                    await Get.to(
+                                      UpdateOffer(
+                                        listing: offer!.listing,
+                                        id: offer!.id,
+                                      ),
+                                    );
+                                    setState(() {});
+                                  },
+                                  text: "Update offer",
+                                ),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: MainButton(
+                                  onTap: () async {
+                                    await controller.rejectOffer(offer!.id);
+                                    setState(() {});
+                                  },
+                                  text: "Reject offer",
+                                ),
+                              ),
+                              Expanded(
+                                child: MainButton(
+                                  onTap: () async {
+                                    await controller.acceptOffer(offer!.id);
+                                    setState(() {});
+                                  },
+                                  text: "Accept offer",
+                                ),
+                              ),
+                            ],
+                          )
                     : Text(
                         offer!.status.name,
                         style: text1.copyWith(fontWeight: FontWeight.bold),

@@ -87,6 +87,8 @@ class OffersController extends GetxController {
     }
   }
 
+  Future<void> updateOffer() async {}
+
   Future<List<Offer>> getMyOffers() async {
     try {
       Loader.instance.showCircularProgressIndicatorWithText();
@@ -154,6 +156,34 @@ class OffersController extends GetxController {
     try {
       Loader.instance.showCircularProgressIndicatorWithText();
       final url = "$baseUrl/offers/${listing!.id}/offers/$id/decline/";
+      final token = Authenticator.instance.fetchToken();
+
+      await dio.get(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      Get.back();
+    } on DioError catch (e, stackTrace) {
+      Get.back();
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      Get.back();
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<void> cancelOffer(int id, Listing listing) async {
+    try {
+      Loader.instance.showCircularProgressIndicatorWithText();
+      final url = "$baseUrl/offers/${listing.id}/offers/$id/cancel/";
       final token = Authenticator.instance.fetchToken();
 
       await dio.get(

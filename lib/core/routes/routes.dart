@@ -20,6 +20,8 @@ import 'package:mejor_oferta/views/offer/offers.dart';
 import 'package:mejor_oferta/views/post/post.dart';
 import 'package:mejor_oferta/views/post/report.dart';
 import 'package:mejor_oferta/views/profile/pages/account/account_settings.dart';
+import 'package:mejor_oferta/views/profile/pages/offers/offers.dart';
+import 'package:mejor_oferta/views/profile/pages/offers/update.dart';
 import 'package:mejor_oferta/views/profile/pages/saves/saved.dart';
 import 'package:mejor_oferta/views/root/root.dart';
 import 'package:mejor_oferta/views/splash/splash.dart';
@@ -33,6 +35,7 @@ class Routes {
   static const addPost = "/add_post";
   static const profileAccount = "/profile/account";
   static const profileSaved = "/profile/saved";
+  static const profileOffers = "/profile/offers";
   static const post = "/post";
   static const postReport = "/post/report";
   static const offers = "/offers";
@@ -57,6 +60,7 @@ class Routes {
     GetPage<Widget>(name: addPost, page: () => const AddPost(), binding: AddPostBinding()),
     GetPage<Widget>(name: profileAccount, page: () => const AccountSettings(), binding: AccountBinding()),
     GetPage<Widget>(name: profileSaved, page: () => const SavedPosts()),
+    GetPage<Widget>(name: profileOffers, page: () => const MyOfferScreen(), binding: OfferBinding()),
     GetPage<Widget>(name: post, page: () => const PostScreen(), binding: PostBinding()),
     GetPage<Widget>(name: offers, page: () => const OfferScreen(), binding: OffersBinding()),
     GetPage<Widget>(name: myOffers, page: () => const SeeOffers(), binding: OffersBinding()),

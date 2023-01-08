@@ -10,6 +10,7 @@ import 'package:mejor_oferta/views/inbox/controller/chat_controller.dart';
 import 'package:mejor_oferta/views/offer/controller/offers_controller.dart';
 import 'package:mejor_oferta/views/post/controller/post_controller.dart';
 import 'package:mejor_oferta/views/profile/controller/account_controller.dart';
+import 'package:mejor_oferta/views/profile/controller/offers_controller.dart';
 import 'package:mejor_oferta/views/profile/controller/profile_controller.dart';
 import 'package:mejor_oferta/views/root/controller/navigator_controller.dart';
 import 'package:mejor_oferta/views/selling/controller/selling_controller.dart';
@@ -65,6 +66,13 @@ class AccountBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AccountController());
+  }
+}
+
+class OfferBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(OfferController());
   }
 }
 

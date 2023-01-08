@@ -82,10 +82,10 @@ class ProfileScreen extends GetView<ProfileController> {
                       "Offers",
                       style: headline2,
                     ),
-                    const ProfileTile(
-                      icon: UniconsLine.dollar_alt,
-                      title: "My Offers",
-                    ),
+                    ProfileTile(
+                        icon: UniconsLine.dollar_alt,
+                        title: "My Offers",
+                        onTap: () => Get.toNamed(Routes.profileOffers)),
                     Text(
                       "Saves",
                       style: headline2,
