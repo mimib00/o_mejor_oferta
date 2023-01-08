@@ -18,6 +18,27 @@ class DashboardController extends GetxController {
 
   int total = 0;
 
+  Future<void> archive(int id) async {
+    try {
+      Loader.instance.showCircularProgressIndicatorWithText();
+      final url = "$baseUrl/listings/listings/$id/archive/";
+      final token = Authenticator.instance.fetchToken();
+      await dio.post(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      Get.back();
+    } on DioError catch (e) {
+      Get.back();
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    }
+  }
+
   Future<void> markSold({Listing? list}) async {
     try {
       Loader.instance.showCircularProgressIndicatorWithText();

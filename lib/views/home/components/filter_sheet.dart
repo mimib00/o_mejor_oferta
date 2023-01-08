@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
