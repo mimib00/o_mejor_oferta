@@ -12,6 +12,7 @@ import 'package:mejor_oferta/views/home/components/filter_sheet.dart';
 import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -19,133 +20,133 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor5,
-      appBar: AppBar(toolbarHeight: 0),
-      body: SmartRefresher(
+    return Container(
+      color: kPrimaryColor5,
+      child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
-        controller: controller.refreshController,
-        onRefresh: () => {controller.stop = false, controller.page = 1, controller.pagingController.refresh()},
-        child: ListView(
-          children: [
-            AppBar(
-              automaticallyImplyLeading: false,
-              centerTitle: false,
-              toolbarHeight: kToolbarHeight + 10,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "O Mejor ",
-                    style: headline1.copyWith(fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    "Oferta",
-                    style: headline1.copyWith(fontWeight: FontWeight.w700, color: kPrimaryColor),
-                  ),
-                ],
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () => Get.toNamed(Routes.notification),
-                  icon: const Icon(Icons.notifications_outlined),
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            expandedHeight: 170,
+            pinned: true,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "O Mejor ",
+                  style: headline1.copyWith(fontWeight: FontWeight.w700),
+                ),
+                Text(
+                  "Oferta",
+                  style: headline1.copyWith(fontWeight: FontWeight.w700, color: kPrimaryColor),
                 ),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              color: Colors.white,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(
-                    UniconsLine.search,
-                    color: kPrimaryColor,
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              background: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 50),
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          UniconsLine.search,
+                          color: kPrimaryColor,
+                        ),
+                        hintText: "Search",
+                        isDense: true,
+                        border:
+                            OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
+                        fillColor: kPrimaryColor5,
+                        filled: true,
+                      ),
+                      onChanged: (value) {
+                        controller.query.value = value;
+                      },
+                    ),
                   ),
-                  hintText: "Search",
-                  isDense: true,
-                  border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
-                  fillColor: kPrimaryColor5,
-                  filled: true,
-                ),
-                onChanged: (value) {
-                  controller.query.value = value;
-                },
+                ],
               ),
             ),
-            Container(
-              color: Colors.white,
-              child: TabBar(
-                controller: controller.tabController,
-                labelPadding: EdgeInsets.zero,
-                indicatorColor: Colors.transparent,
-                onTap: (value) {
-                  switch (value) {
-                    case 0:
-                      Get.bottomSheet(
-                        LocationSheet(
-                          onTap: (state) {
-                            controller.stop = false;
-                            controller.page = 1;
-                            controller.state = state.id;
-                            controller.pagingController.refresh();
-                          },
-                          onReset: () {
-                            controller.stop = false;
-                            controller.page = 1;
-                            controller.state = null;
-                            Get.back();
-                            controller.pagingController.refresh();
-                          },
-                        ),
-                      );
-                      break;
-                    case 1:
-                      Get.bottomSheet(
-                        CategorySheet(
-                          onTap: (category) {
-                            controller.stop = false;
-                            controller.page = 1;
-                            controller.category = category.id;
-                            controller.pagingController.refresh();
-                            Get.back();
-                          },
-                          onReset: () {
-                            controller.stop = false;
-                            controller.page = 1;
-                            controller.category = null;
-                            Get.back();
-                            controller.pagingController.refresh();
-                            Get.back();
-                          },
-                        ),
-                      );
-                      break;
-                    case 2:
-                      Get.bottomSheet(
-                        FilterSheet(
-                          onTap: (priceLTE, priceGTE, order) {
-                            controller.stop = false;
-                            controller.page = 1;
-                            controller.order = order;
-                            controller.pagingController.refresh();
-                            Get.back();
-                          },
-                          onReset: () {
-                            controller.stop = false;
-                            controller.page = 1;
-                            controller.order = null;
-                            controller.priceGTE = null;
-                            controller.priceLTE = null;
-                            controller.pagingController.refresh();
-                            Get.back();
-                          },
-                        ),
-                      );
-                      break;
-                  }
-                },
-                tabs: [
-                  Tab(
+            bottom: TabBar(
+              controller: controller.tabController,
+              labelPadding: EdgeInsets.zero,
+              indicatorColor: Colors.transparent,
+              onTap: (value) {
+                switch (value) {
+                  case 0:
+                    Get.bottomSheet(
+                      LocationSheet(
+                        onTap: (state) {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.state = state.id;
+                          controller.pagingController.refresh();
+                        },
+                        onReset: () {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.state = null;
+                          Get.back();
+                          controller.pagingController.refresh();
+                        },
+                      ),
+                    );
+                    break;
+                  case 1:
+                    Get.bottomSheet(
+                      CategorySheet(
+                        onTap: (category) {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.category = category.id;
+                          controller.pagingController.refresh();
+                          Get.back();
+                        },
+                        onReset: () {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.category = null;
+                          Get.back();
+                          controller.pagingController.refresh();
+                          Get.back();
+                        },
+                      ),
+                    );
+                    break;
+                  case 2:
+                    Get.bottomSheet(
+                      FilterSheet(
+                        onTap: (priceLTE, priceGTE, order) {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.order = order;
+                          controller.pagingController.refresh();
+                          Get.back();
+                        },
+                        onReset: () {
+                          controller.stop = false;
+                          controller.page = 1;
+                          controller.order = null;
+                          controller.priceGTE = null;
+                          controller.priceLTE = null;
+                          controller.pagingController.refresh();
+                          Get.back();
+                        },
+                      ),
+                    );
+                    break;
+                }
+              },
+              tabs: [
+                Container(
+                  color: Colors.white,
+                  child: Tab(
                     child: Row(
                       children: [
                         const SizedBox(width: 10),
@@ -161,7 +162,10 @@ class HomeScreen extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                  Tab(
+                ),
+                Container(
+                  color: Colors.white,
+                  child: Tab(
                     child: Row(
                       children: [
                         const SizedBox(width: 10),
@@ -177,16 +181,26 @@ class HomeScreen extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                  const Tab(
-                    child: Icon(UniconsLine.filter),
+                ),
+                Container(
+                  color: Colors.white,
+                  child: Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(UniconsLine.filter),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              child: Column(
-                children: [
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
                   Obx(
                     () {
                       return controller.query.value.isEmpty
@@ -236,8 +250,8 @@ class HomeScreen extends GetView<HomeController> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
