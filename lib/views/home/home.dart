@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/components/location_sheet.dart';
@@ -27,6 +28,12 @@ class HomeScreen extends GetView<HomeController> {
             backgroundColor: Colors.white,
             expandedHeight: 170,
             pinned: true,
+            actions: [
+              IconButton(
+                onPressed: () => Get.toNamed(Routes.notification),
+                icon: const Icon(Icons.notifications_outlined),
+              ),
+            ],
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

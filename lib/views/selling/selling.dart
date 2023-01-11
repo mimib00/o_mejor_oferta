@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/selling/controller/selling_controller.dart';
 import 'package:mejor_oferta/views/selling/tabs/archived_tab.dart';
@@ -29,7 +30,7 @@ class SellingScreen extends GetView<SellingController> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Get.toNamed(Routes.notification),
             icon: const Icon(Icons.notifications_outlined),
           ),
         ],
