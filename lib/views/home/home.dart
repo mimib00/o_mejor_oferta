@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/components/location_sheet.dart';
@@ -11,8 +10,6 @@ import 'package:mejor_oferta/views/home/components/category_sheet.dart';
 import 'package:mejor_oferta/views/home/components/filter_sheet.dart';
 import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
 
 class HomeScreen extends GetView<HomeController> {
