@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/views/profile/components/profile_info.dart';
 import 'package:mejor_oferta/views/profile/components/profile_tile.dart';
 import 'package:mejor_oferta/views/profile/controller/profile_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -32,46 +33,7 @@ class ProfileScreen extends GetView<ProfileController> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 10),
             children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                horizontalTitleGap: 0,
-                leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(45),
-                  child: CachedNetworkImage(
-                    imageUrl: "",
-                    height: 80,
-                    width: 80,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) {
-                      return Container(
-                        height: 80,
-                        width: 80,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: kPrimaryColor,
-                        ),
-                        child: const Icon(
-                          UniconsLine.user,
-                          color: Colors.white,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                title: Text(
-                  user.name,
-                  style: headline2,
-                ),
-                subtitle: RatingBarIndicator(
-                  rating: 4,
-                  itemBuilder: (context, index) => const Icon(
-                    UniconsSolid.star,
-                    color: Colors.amber,
-                  ),
-                  itemCount: 5,
-                  itemSize: 20,
-                ),
-              ),
+              ProfileInfoTile(user: user),
               SizedBox(height: 3.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
@@ -82,10 +44,7 @@ class ProfileScreen extends GetView<ProfileController> {
                       "Offers",
                       style: headline2,
                     ),
-                    ProfileTile(
-                        icon: UniconsLine.dollar_alt,
-                        title: "My Offers",
-                        onTap: () => Get.toNamed(Routes.profileOffers)),
+                    ProfileTile(icon: UniconsLine.dollar_alt, title: "My Offers", onTap: () => Get.toNamed(Routes.profileOffers)),
                     Text(
                       "Saves",
                       style: headline2,

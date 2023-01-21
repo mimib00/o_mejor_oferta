@@ -7,6 +7,10 @@ class User {
   final double? lat;
   final double? long;
   final String? photo;
+  final String? facebookHandle;
+  final int sold;
+  final int bought;
+  final bool nsfwAllowed;
 
   User(
     this.id,
@@ -17,6 +21,10 @@ class User {
     this.lat,
     this.long,
     this.photo,
+    this.facebookHandle,
+    this.sold,
+    this.bought,
+    this.nsfwAllowed,
   );
 
   factory User.fromJson(Map<String, dynamic> data) {
@@ -29,6 +37,10 @@ class User {
       double.parse(data["location_lat"] ?? "0"),
       double.parse(data["location_long"] ?? "0"),
       data["profile_picture"],
+      data["facebook_handle"] == null ? null : "https://www.facebook.com/${data["facebook_handle"]}",
+      data["sold_items"],
+      data["bought_items"],
+      data["is_nsfw_allowed"],
     );
   }
 }

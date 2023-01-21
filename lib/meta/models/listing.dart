@@ -67,7 +67,7 @@ class Listing {
   final String title;
   final String description;
   final Category subCategory;
-  final Brand brand;
+  final Brand? brand;
   final ListingStatus status;
   final States state;
   final double lat;
@@ -116,7 +116,7 @@ class Listing {
       data["name"],
       data["description"],
       Category.fromJson(data["sub_category"]),
-      Brand.fromJson(data["product_model"]),
+      data["product_model"] == null ? null : Brand.fromJson(data["product_model"]),
       ListingStatus.getStatus(data["status"]),
       States.fromJson(data["state"]),
       double.parse(data["location_lat"]),

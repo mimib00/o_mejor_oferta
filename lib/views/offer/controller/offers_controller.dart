@@ -124,10 +124,10 @@ class OffersController extends GetxController {
     return [];
   }
 
-  Future<void> acceptOffer(int id) async {
+  Future<void> acceptOffer(int id, int listingId) async {
     try {
       Loader.instance.showCircularProgressIndicatorWithText();
-      final url = "$baseUrl/offers/${listing!.id}/offers/$id/accept/";
+      final url = "$baseUrl/offers/$listingId/offers/$id/accept/";
       final token = Authenticator.instance.fetchToken();
 
       await dio.get(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/chat.dart';

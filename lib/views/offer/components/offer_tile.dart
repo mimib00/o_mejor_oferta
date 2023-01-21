@@ -137,7 +137,7 @@ class _OfferTileState extends State<OfferTile> {
                               Expanded(
                                 child: MainButton(
                                   onTap: () async {
-                                    await controller.acceptOffer(offer!.id);
+                                    await controller.acceptOffer(offer!.id, offer!.listing.id);
                                     setState(() {});
                                   },
                                   text: "Accept offer",
