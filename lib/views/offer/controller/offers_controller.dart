@@ -11,8 +11,10 @@ import 'package:mejor_oferta/meta/models/chat.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/models/offer.dart';
 import 'package:mejor_oferta/meta/widgets/loader.dart';
+import 'package:mejor_oferta/views/dashboard/controller/dashboard_controller.dart';
 
 class OffersController extends GetxController {
+  final DashboardController controller = Get.put(DashboardController());
   final TextEditingController price = TextEditingController();
   final dio = Dio();
 
@@ -87,8 +89,6 @@ class OffersController extends GetxController {
     }
   }
 
-  Future<void> updateOffer() async {}
-
   Future<List<Offer>> getMyOffers() async {
     try {
       Loader.instance.showCircularProgressIndicatorWithText();
@@ -138,6 +138,7 @@ class OffersController extends GetxController {
           },
         ),
       );
+      await controller.markSold(list: listingId);
       Get.back();
     } on DioError catch (e, stackTrace) {
       Get.back();

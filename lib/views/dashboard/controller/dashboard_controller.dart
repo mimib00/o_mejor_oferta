@@ -39,10 +39,10 @@ class DashboardController extends GetxController {
     }
   }
 
-  Future<void> markSold({Listing? list}) async {
+  Future<void> markSold({int? list}) async {
     try {
       Loader.instance.showCircularProgressIndicatorWithText();
-      final url = "$baseUrl/listings/listings/${list?.id ?? listing!.id}/mark_sold/";
+      final url = "$baseUrl/listings/listings/${list ?? listing!.id}/mark_sold/";
       final token = Authenticator.instance.fetchToken();
       await dio.post(
         url,

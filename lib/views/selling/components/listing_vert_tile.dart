@@ -34,7 +34,7 @@ class ListingVertTile extends StatelessWidget {
             onTap: () async {
               final DashboardController controller = Get.put(DashboardController());
               final SellingController sellingController = Get.put(SellingController());
-              await controller.markSold(list: listing);
+              await controller.markSold(list: listing.id);
               sellingController.getActiveListings();
             },
             child: Text(
