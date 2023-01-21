@@ -11,6 +11,7 @@ class User {
   final int sold;
   final int bought;
   final bool nsfwAllowed;
+  final double rating;
 
   User(
     this.id,
@@ -25,6 +26,7 @@ class User {
     this.sold,
     this.bought,
     this.nsfwAllowed,
+    this.rating,
   );
 
   factory User.fromJson(Map<String, dynamic> data) {
@@ -37,10 +39,11 @@ class User {
       double.parse(data["location_lat"] ?? "0"),
       double.parse(data["location_long"] ?? "0"),
       data["profile_picture"],
-      data["facebook_handle"] == null ? null : "https://www.facebook.com/${data["facebook_handle"]}",
+      data["facebook_handle"] == null || data["facebook_handle"] == "" ? null : "https://www.facebook.com/${data["facebook_handle"]}",
       data["sold_items"],
       data["bought_items"],
       data["is_nsfw_allowed"],
+      data["average_rating"] ?? 0,
     );
   }
 }

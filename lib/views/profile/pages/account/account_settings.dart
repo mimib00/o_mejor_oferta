@@ -4,6 +4,7 @@ import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/profile/controller/account_controller.dart';
 import 'package:mejor_oferta/views/profile/pages/account/sections/email/email.dart';
+import 'package:mejor_oferta/views/profile/pages/account/sections/facebook/facebook.dart';
 import 'package:mejor_oferta/views/profile/pages/account/sections/location/location.dart';
 import 'package:mejor_oferta/views/profile/pages/account/sections/name/name.dart';
 import 'package:mejor_oferta/views/profile/pages/account/sections/phone/phone.dart';
@@ -61,6 +62,16 @@ class AccountSettings extends GetView<AccountController> {
                 leading: const Icon(UniconsLine.location_point),
                 title: Text(
                   user.state ?? "Not set yet",
+                  style: text1,
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              ),
+              ListTile(
+                onTap: () => Get.to(() => FacebookSection(), arguments: user.facebookHandle),
+                horizontalTitleGap: 0,
+                leading: const Icon(UniconsLine.facebook_f),
+                title: Text(
+                  user.facebookHandle ?? "Not set yet",
                   style: text1,
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios_rounded),

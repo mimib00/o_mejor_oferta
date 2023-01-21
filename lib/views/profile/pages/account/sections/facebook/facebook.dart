@@ -5,15 +5,16 @@ import 'package:mejor_oferta/meta/widgets/text_input.dart';
 import 'package:mejor_oferta/views/profile/controller/account_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class EmailSection extends GetView<AccountController> {
-  EmailSection({super.key});
+class FacebookSection extends GetView<AccountController> {
+  FacebookSection({super.key});
 
   final TextEditingController input = TextEditingController();
 
   final GlobalKey<FormState> form = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    final text = Get.arguments.toString();
+    final text = Get.arguments;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -25,17 +26,16 @@ class EmailSection extends GetView<AccountController> {
             children: [
               SizedBox(height: 2.h),
               Text(
-                "Your Email",
+                "Your Facebook handle",
                 style: text2.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: .5.h),
               CustomTextInput(
                 controller: input,
-                labelText: "Email",
-                hintText: text,
+                labelText: "Facebook handle",
+                hintText: text ?? "Not set yet",
                 validator: (value) {
                   if (value == null || value.isEmpty) return "Field required";
-                  if (!value.isEmail) return "Enter a valid Email";
                   return null;
                 },
               ),
@@ -50,7 +50,7 @@ class EmailSection extends GetView<AccountController> {
                         if (form.currentState!.validate()) {
                           controller.updateUser(
                             {
-                              "email": input.text.trim(),
+                              "facebook_handle": input.text.trim(),
                             },
                           );
                         }

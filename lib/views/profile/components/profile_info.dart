@@ -51,7 +51,7 @@ class ProfileInfoTile extends StatelessWidget {
               style: headline2,
             ),
             RatingBarIndicator(
-              rating: 4,
+              rating: user.rating,
               itemBuilder: (context, index) => const Icon(
                 UniconsSolid.star,
                 color: Colors.amber,

@@ -1,15 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/profile/components/profile_info.dart';
 import 'package:mejor_oferta/views/profile/components/profile_tile.dart';
+import 'package:mejor_oferta/views/profile/components/verification_tile.dart';
 import 'package:mejor_oferta/views/profile/controller/profile_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({super.key});
@@ -40,6 +40,34 @@ class ProfileScreen extends GetView<ProfileController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      "Verify your account to build reputaton",
+                      style: headline3,
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        const VerificationTile(
+                          icon: Icons.email_outlined,
+                          title: "Email verification",
+                          active: true,
+                        ),
+                        const VerificationTile(
+                          icon: UniconsLine.phone,
+                          title: "Phone verification",
+                          active: true,
+                        ),
+                        VerificationTile(
+                          onTap: () {
+                            launchUrl(Uri.parse(user.facebookHandle!));
+                          },
+                          icon: UniconsLine.facebook_f,
+                          title: "Connect Facebook",
+                          active: user.facebookHandle != null,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
                     Text(
                       "Offers",
                       style: headline2,
