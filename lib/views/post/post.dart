@@ -14,6 +14,7 @@ import 'package:mejor_oferta/meta/widgets/main_button.dart';
 import 'package:mejor_oferta/views/offer/controller/offers_controller.dart';
 import 'package:mejor_oferta/views/post/components/attribute_tile.dart';
 import 'package:mejor_oferta/views/post/controller/post_controller.dart';
+import 'package:mejor_oferta/views/post/seller_profile.dart';
 import 'package:readmore/readmore.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
@@ -168,9 +169,14 @@ class PostScreen extends GetView<PostController> {
                           style: text2.copyWith(color: kWhiteColor4),
                         ),
                         const SizedBox(width: 5),
-                        Text(
-                          listing.owner.name,
-                          style: headline3.copyWith(fontWeight: FontWeight.w600),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => SellerProfile(id: listing.owner.id));
+                          },
+                          child: Text(
+                            listing.owner.name,
+                            style: headline3.copyWith(fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ],
                     ),

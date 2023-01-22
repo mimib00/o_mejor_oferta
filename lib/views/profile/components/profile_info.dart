@@ -7,9 +7,11 @@ import 'package:unicons/unicons.dart';
 
 class ProfileInfoTile extends StatelessWidget {
   final User user;
+  final bool showStatus;
   const ProfileInfoTile({
     super.key,
     required this.user,
+    this.showStatus = true,
   });
 
   @override
@@ -59,38 +61,41 @@ class ProfileInfoTile extends StatelessWidget {
               itemCount: 5,
               itemSize: 20,
             ),
-            Row(
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: user.bought.toString(),
-                        style: headline3.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                        text: " Bought",
-                        style: text1,
-                      ),
-                    ],
+            Visibility(
+              visible: showStatus,
+              child: Row(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: user.bought.toString(),
+                          style: headline3.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: " Bought",
+                          style: text1,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 20),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: user.sold.toString(),
-                        style: headline3.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                        text: " Sold",
-                        style: text1,
-                      ),
-                    ],
+                  const SizedBox(width: 20),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: user.sold.toString(),
+                          style: headline3.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: " Sold",
+                          style: text1,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),
