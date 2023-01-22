@@ -33,6 +33,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   String? priceLTE;
   String? priceGTE;
   String? radius;
+  String? boosted;
 
   Future<void> getListings() async {
     try {
@@ -51,6 +52,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       param.addIf(priceLTE != null, "price_lte", priceLTE);
       param.addIf(priceGTE != null, "price_gte", priceGTE);
       param.addIf(radius != null, "coordinates_in_radius", radius);
+      param.addIf(boosted != null, "is_promoted", boosted);
       final res = await dio.get(
         url,
         queryParameters: param,

@@ -45,7 +45,7 @@ class BoostController extends GetxController {
 
   Future<void> subscribe(int package, int listing) async {
     try {
-      const url = "$baseUrl/payments/create-payment/";
+      const url = "$baseUrl/payments/create-payment-boosting/";
       final token = Authenticator.instance.fetchToken();
       Loader.instance.showCircularProgressIndicatorWithText();
       final res = await dio.post(

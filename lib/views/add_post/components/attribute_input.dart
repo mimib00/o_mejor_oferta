@@ -20,8 +20,7 @@ class AttributeInput extends GetView<AddPostController> {
   @override
   Widget build(BuildContext context) {
     Widget child = Container();
-    log(attribute.title);
-    log(attribute.type.name);
+
     switch (attribute.type) {
       case AttributeTypes.number:
         child = Column(
@@ -40,9 +39,7 @@ class AttributeInput extends GetView<AddPostController> {
                   controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                   return;
                 }
-                if (controller.attributes
-                    .where((element) => element["possible_attribute"] == attribute.id)
-                    .isNotEmpty) {
+                if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
                   controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                 }
                 final data = {
@@ -122,12 +119,9 @@ class AttributeInput extends GetView<AddPostController> {
             return Column(
               children: attribute.choices.map(
                 (e) {
-                  final values =
-                      controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
-                          ? ""
-                          : controller.attributes
-                              .where((element) => element["possible_attribute"] == attribute.id)
-                              .first["value"];
+                  final values = controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
+                      ? ""
+                      : controller.attributes.where((element) => element["possible_attribute"] == attribute.id).first["value"];
                   return RadioListTile(
                     title: Text(e.capitalize ?? ""),
                     value: e.toLowerCase(),
@@ -136,9 +130,7 @@ class AttributeInput extends GetView<AddPostController> {
                     enableFeedback: false,
                     groupValue: values,
                     onChanged: (value) {
-                      if (controller.attributes
-                          .where((element) => element["possible_attribute"] == attribute.id)
-                          .isNotEmpty) {
+                      if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
                         controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                       }
                       final data = {
@@ -199,9 +191,7 @@ class AttributeInput extends GetView<AddPostController> {
                   children: [
                     ElevatedButton(
                       onPressed: controller.images.isEmpty
-                          ? controller.attributes
-                                  .where((element) => element["possible_attribute"] == attribute.id)
-                                  .isEmpty
+                          ? controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
                               ? null
                               : () {
                                   controller.nextInfo();

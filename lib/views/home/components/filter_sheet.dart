@@ -10,6 +10,7 @@ class FilterSheet extends StatefulWidget {
     String? priceGTE,
     String? order,
     String? distance,
+    String? boost,
   )? onTap;
   final Function()? onReset;
   const FilterSheet({
@@ -46,6 +47,8 @@ class _FilterSheetState extends State<FilterSheet> {
   String? gte;
 
   double slider = 0;
+
+  bool boosted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +119,27 @@ class _FilterSheetState extends State<FilterSheet> {
                   }).toList(),
                 ),
               ),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              "Sort by bossted",
+              style: text2.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: EdgeInsets.zero,
+              value: boosted,
+              checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              activeColor: kPrimaryColor,
+              visualDensity: VisualDensity.compact,
+              onChanged: (value) {
+                if (value == null) return;
+                setState(() {
+                  boosted = value;
+                });
+              },
+              title: const Text("Boosted only"),
             ),
             const SizedBox(height: 30),
             Text(
@@ -218,6 +242,7 @@ class _FilterSheetState extends State<FilterSheet> {
                       gte,
                       choice,
                       radius,
+                      boosted.toString().capitalize,
                     );
                   },
                   style: ElevatedButton.styleFrom(
