@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mejor_oferta/core/controller/location_controller.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -7,6 +9,7 @@ class FilterSheet extends StatefulWidget {
     String? priceLTE,
     String? priceGTE,
     String? order,
+    String? distance,
   )? onTap;
   final Function()? onReset;
   const FilterSheet({
@@ -42,6 +45,8 @@ class _FilterSheetState extends State<FilterSheet> {
   String? lte;
   String? gte;
 
+  double slider = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,142 +59,177 @@ class _FilterSheetState extends State<FilterSheet> {
         ),
         color: Colors.white,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Filters",
-                style: headline2.copyWith(fontWeight: FontWeight.bold),
-              ),
-              Visibility(
-                visible: widget.onReset != null,
-                child: GestureDetector(
-                  onTap: widget.onReset,
-                  child: Text(
-                    "Reset",
-                    style: text2.copyWith(fontWeight: FontWeight.bold, color: kPrimaryColor),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Filters",
+                  style: headline2.copyWith(fontWeight: FontWeight.bold),
+                ),
+                Visibility(
+                  visible: widget.onReset != null,
+                  child: GestureDetector(
+                    onTap: widget.onReset,
+                    child: Text(
+                      "Reset",
+                      style: text2.copyWith(fontWeight: FontWeight.bold, color: kPrimaryColor),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Text(
-            "Sort by",
-            style: text2.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 5),
-          DropdownButtonHideUnderline(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                border: Border.all(color: kWhiteColor3),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButton<String>(
-                value: choice,
-                onChanged: (value) {
-                  if (value == null) return;
-                  setState(() {
-                    choice = value;
-                  });
-                },
-                icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                isExpanded: true,
-                items: choices.map((e) {
-                  final index = choices.indexOf(e);
-                  return DropdownMenuItem(
-                    value: keys[index],
-                    child: Text(e),
-                  );
-                }).toList(),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Text(
+              "Sort by",
+              style: text2.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            DropdownButtonHideUnderline(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: kWhiteColor3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: DropdownButton<String>(
+                  value: choice,
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(() {
+                      choice = value;
+                    });
+                  },
+                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                  isExpanded: true,
+                  items: choices.map((e) {
+                    final index = choices.indexOf(e);
+                    return DropdownMenuItem(
+                      value: keys[index],
+                      child: Text(e),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 30),
-          Text(
-            "Sort by min to max price",
-            style: text2.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 5),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  onChanged: (value) {
-                    lte = value;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "\$ min",
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kWhiteColor3),
-                      borderRadius: BorderRadius.circular(10),
+            const SizedBox(height: 30),
+            Text(
+              "Sort by min to max price",
+              style: text2.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) {
+                      gte = value;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "\$ min",
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kWhiteColor3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kWhiteColor3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      fillColor: kWhiteColor,
+                      filled: true,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kWhiteColor3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    fillColor: kWhiteColor,
-                    filled: true,
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              const Text("OR"),
-              const SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  onChanged: (value) {
-                    gte = value;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "\$ max",
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kWhiteColor3),
-                      borderRadius: BorderRadius.circular(10),
+                const SizedBox(width: 10),
+                const Text("OR"),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) {
+                      lte = value;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "\$ max",
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kWhiteColor3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kWhiteColor3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      fillColor: kWhiteColor,
+                      filled: true,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kWhiteColor3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    fillColor: kWhiteColor,
-                    filled: true,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  widget.onTap?.call(lte, gte, choice);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
-                  textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Text(
+              "Sort by distance",
+              style: text2.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Slider(
+              value: slider,
+              label: slider == 100 ? "Max" : "${slider.round()} km",
+              divisions: 5,
+              thumbColor: kPrimaryColor,
+              activeColor: kPrimaryColor,
+              inactiveColor: kPrimaryColor10,
+              onChanged: (value) {
+                setState(() {
+                  slider = value;
+                });
+              },
+              min: 0,
+              max: 100,
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    String radius = "";
+                    if (slider > 0) {
+                      final LocationController controller = Get.find();
+                      radius = "${controller.locationData.latitude}, ${controller.locationData.longitude}, $slider";
+                    }
+
+                    widget.onTap?.call(
+                      lte,
+                      gte,
+                      choice,
+                      radius,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
+                    textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  child: const Text("Filter"),
                 ),
-                child: const Text("Filter"),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

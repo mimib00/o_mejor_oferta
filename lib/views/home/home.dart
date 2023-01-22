@@ -125,10 +125,13 @@ class HomeScreen extends GetView<HomeController> {
                   case 2:
                     Get.bottomSheet(
                       FilterSheet(
-                        onTap: (priceLTE, priceGTE, order) {
+                        onTap: (priceLTE, priceGTE, order, radius) {
                           controller.stop = false;
                           controller.page = 1;
                           controller.order = order;
+                          controller.priceGTE = priceGTE;
+                          controller.priceLTE = priceLTE;
+                          controller.radius = radius;
                           controller.pagingController.refresh();
                           Get.back();
                         },
@@ -138,6 +141,7 @@ class HomeScreen extends GetView<HomeController> {
                           controller.order = null;
                           controller.priceGTE = null;
                           controller.priceLTE = null;
+                          controller.radius = null;
                           controller.pagingController.refresh();
                           Get.back();
                         },
