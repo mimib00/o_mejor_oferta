@@ -64,8 +64,7 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                         hintText: "Search",
                         isDense: true,
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
+                        border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
                         fillColor: kPrimaryColor5,
                         filled: true,
                       ),
