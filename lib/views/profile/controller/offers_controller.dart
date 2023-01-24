@@ -43,26 +43,24 @@ class OfferController extends GetxController with GetTickerProviderStateMixin {
     return null;
   }
 
-  Future<List<Offer>> getMyOffers() async {
+  Future<List<ListingThumb>> getMyOfferdListings() async {
     try {
-      const url = "$baseUrl/offers/my-pending-offers/";
+      const url = "$baseUrl/listings/listings/listings-on-which-i-offered/";
       final token = Authenticator.instance.fetchToken();
       final res = await dio.get(
         url,
+        queryParameters: {"ordering": "-price"},
         options: Options(
           headers: {
             "Authorization": "Bearer ${token["access"]}",
           },
         ),
       );
-
-      final List<Offer> offers = [];
-      for (var offer in res.data) {
-        final listing = await getListing(offer["listing"]);
-        if (listing == null) continue;
-        offers.add(Offer.fromJson(offer, listing));
+      final List<ListingThumb> listings = [];
+      for (var listing in res.data) {
+        listings.add(ListingThumb.fromJson(listing));
       }
-      return offers;
+      return listings;
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
@@ -75,9 +73,39 @@ class OfferController extends GetxController with GetTickerProviderStateMixin {
     return [];
   }
 
-  Future<List<Offer>> getOffered() async {
+  Future<List<ListingThumb>> getMyAllListings() async {
     try {
-      const url = "$baseUrl/offers/offers-i-got/";
+      const url = "$baseUrl/listings/listings/my-listings/";
+      final token = Authenticator.instance.fetchToken();
+      final res = await dio.get(
+        url,
+        queryParameters: {"ordering": "-created_at"},
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      final List<ListingThumb> listings = [];
+      for (var listing in res.data) {
+        listings.add(ListingThumb.fromJson(listing));
+      }
+      return listings;
+    } on DioError catch (e, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    } catch (e, stackTrace) {
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return [];
+  }
+
+  Future<List<Offer>> getOffers(int id) async {
+    try {
+      final url = "$baseUrl/offers/$id/offers/";
       final token = Authenticator.instance.fetchToken();
       final res = await dio.get(
         url,
@@ -87,12 +115,10 @@ class OfferController extends GetxController with GetTickerProviderStateMixin {
           },
         ),
       );
-
       final List<Offer> offers = [];
       for (var offer in res.data) {
-        final listing = await getListing(offer["listing"]);
-        if (listing == null) continue;
-        offers.add(Offer.fromJson(offer, listing));
+        final listing = await getListing(id);
+        offers.add(Offer.fromJson(offer, listing!));
       }
       return offers;
     } on DioError catch (e, stackTrace) {

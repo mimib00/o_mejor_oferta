@@ -5,6 +5,7 @@ import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/dashboard/controller/dashboard_controller.dart';
+import 'package:mejor_oferta/views/profile/pages/offers/offer_details.dart';
 import 'package:mejor_oferta/views/selling/controller/selling_controller.dart';
 
 class ListingVertTile extends StatelessWidget {
@@ -68,6 +69,13 @@ class ListingVertTile extends StatelessWidget {
                 height: 100,
                 width: 100,
                 fit: BoxFit.cover,
+                errorWidget: (context, url, error) {
+                  return Container(
+                    alignment: Alignment.center,
+                    color: kPrimaryColor,
+                    child: const Icon(Icons.error),
+                  );
+                },
               ),
             ),
             const SizedBox(width: 10),
@@ -84,6 +92,54 @@ class ListingVertTile extends StatelessWidget {
                 ],
               ),
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ListingThumbVertTile extends StatelessWidget {
+  final ListingThumb listing;
+  const ListingThumbVertTile({
+    super.key,
+    required this.listing,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Get.to(OfferDetails(id: listing.id)),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                imageUrl: listing.image,
+                height: 50,
+                width: 50,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) {
+                  return Container(
+                    alignment: Alignment.center,
+                    color: kPrimaryColor,
+                    child: const Icon(Icons.error),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              listing.title,
+              style: text1,
+            ),
           ],
         ),
       ),
