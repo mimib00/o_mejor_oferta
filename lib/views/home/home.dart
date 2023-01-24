@@ -230,8 +230,6 @@ class HomeScreen extends GetView<HomeController> {
                     },
                   ),
                   PagedGridView<int, ListingThumb>(
-                    showNewPageProgressIndicatorAsGridChild: false,
-                    showNoMoreItemsIndicatorAsGridChild: false,
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
