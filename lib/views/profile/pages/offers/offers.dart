@@ -21,10 +21,10 @@ class MyOfferScreen extends GetView<OfferController> {
           labelStyle: text1,
           tabs: const [
             Tab(
-              text: "My Offers",
+              text: "Offered",
             ),
             Tab(
-              text: "Offered",
+              text: "My Offers",
             ),
           ],
         ),

@@ -69,10 +69,23 @@ class ProfileScreen extends GetView<ProfileController> {
                     ),
                     const SizedBox(height: 15),
                     Text(
+                      "Transactions",
+                      style: headline2,
+                    ),
+                    ProfileTile(
+                      icon: UniconsLine.dollar_alt,
+                      title: "Purchased items",
+                      onTap: () => Get.toNamed(Routes.profileBought),
+                    ),
+                    Text(
                       "Offers",
                       style: headline2,
                     ),
-                    ProfileTile(icon: UniconsLine.dollar_alt, title: "My Offers", onTap: () => Get.toNamed(Routes.profileOffers)),
+                    ProfileTile(
+                      icon: UniconsLine.pricetag_alt,
+                      title: "My Offers",
+                      onTap: () => Get.toNamed(Routes.profileOffers),
+                    ),
                     Text(
                       "Saves",
                       style: headline2,
