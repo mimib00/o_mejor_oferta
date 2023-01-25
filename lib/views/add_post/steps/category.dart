@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/components/category_tile.dart';
 import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart';
+import 'package:mejor_oferta/views/membership/membership.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CategoryStep extends GetView<AddPostController> {
@@ -34,22 +36,32 @@ class CategoryStep extends GetView<AddPostController> {
               }
               if (snapshot.data == null || snapshot.data!.isEmpty) return Container();
               final categories = snapshot.data!;
-              return GridView.builder(
-                itemCount: categories.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemBuilder: (context, index) {
-                  return CategoryTile(
-                    onTap: () {
-                      controller.category = categories[index];
-                      controller.next();
+              return Obx(
+                () {
+                  final user = Authenticator.instance.user.value!;
+                  return GridView.builder(
+                    itemCount: categories.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemBuilder: (context, index) {
+                      return CategoryTile(
+                        onTap: () {
+                          final paidCategories = ["Adult Entreatment"];
+
+                          if (paidCategories.contains(categories[index].name) && !user.nsfwAllowed) {
+                            Get.to(() => MembershipScreen(category: categories[index]));
+                          }
+                          controller.category = categories[index];
+                          controller.next();
+                        },
+                        category: categories[index],
+                      );
                     },
-                    category: categories[index],
                   );
                 },
               );

@@ -35,6 +35,13 @@ class BoosterScreen extends GetView<BoostController> {
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
+                      errorWidget: (context, url, error) {
+                        return Container(
+                          alignment: Alignment.center,
+                          color: kPrimaryColor,
+                          child: const Icon(Icons.error),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 10),

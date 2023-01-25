@@ -4,6 +4,7 @@ class Packages {
   final String description;
   final double price;
   final int duration;
+  final String type;
 
   Packages(
     this.id,
@@ -11,6 +12,7 @@ class Packages {
     this.description,
     this.price,
     this.duration,
+    this.type,
   );
   factory Packages.fromJson(Map<String, dynamic> data) {
     return Packages(
@@ -19,6 +21,7 @@ class Packages {
       data["description"],
       data["price"],
       data["duration_days"],
+      data["package_type"],
     );
   }
 }

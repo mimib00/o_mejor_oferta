@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
-import 'package:mejor_oferta/meta/models/offer.dart';
 import 'package:mejor_oferta/meta/widgets/loading.dart';
 import 'package:mejor_oferta/views/profile/controller/offers_controller.dart';
 import 'package:mejor_oferta/views/selling/components/listing_vert_tile.dart';
