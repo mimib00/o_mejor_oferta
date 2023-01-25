@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/views/OTP/components/counter.dart';
 import 'package:mejor_oferta/views/OTP/controller/otp_controller.dart';
 import 'package:pinput/pinput.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -62,7 +63,13 @@ class OtpScreen extends GetView<OtpController> {
                   ),
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 20.h),
+              Counter(
+                time: 30,
+                label: "Resend OTP",
+                onTap: () => controller.sendOtp(),
+              ),
+              SizedBox(height: 5.h),
               Obx(
                 () {
                   return Visibility(
