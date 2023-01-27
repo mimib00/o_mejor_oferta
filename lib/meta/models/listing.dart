@@ -74,7 +74,7 @@ class Listing {
   final double long;
   final double price;
   final bool isNegotiable;
-  final String condition;
+  final String? condition;
   final DateTime created;
   final DateTime updated;
   final User owner;
@@ -122,7 +122,7 @@ class Listing {
       double.parse(data["location_lat"]),
       double.parse(data["location_long"]),
       double.parse(data["price"]),
-      data["is_negotiable"],
+      data["is_negotiable"] ?? false,
       data["get_condition_display"],
       DateTime.parse(data["created_at"]),
       DateTime.parse(data["updated_at"]),

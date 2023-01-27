@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
@@ -37,7 +39,9 @@ class AttributeInput extends GetView<AddPostController> {
                   controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                   return;
                 }
-                if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
+                if (controller.attributes
+                    .where((element) => element["possible_attribute"] == attribute.id)
+                    .isNotEmpty) {
                   controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                 }
                 final data = {
@@ -108,8 +112,82 @@ class AttributeInput extends GetView<AddPostController> {
         );
         break;
       case AttributeTypes.boolean:
+        child = Obx(
+          () {
+            final attribs = [];
+            for (var attrib in controller.attributes) {
+              attribs.add(attrib['possible_attribute']);
+            }
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Checkbox(
+                  visualDensity: VisualDensity.compact,
+                  value: attribs.contains(attribute.id),
+                  activeColor: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  side: const BorderSide(width: 1.5, color: kWhiteColor3),
+                  onChanged: (value) {
+                    log(controller.attributes.toString());
+                    log(attribs.toString());
+                    if (attribs.contains(attribute.id)) {
+                      controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                    } else {
+                      final data = {
+                        "value": value.toString(),
+                        "possible_attribute": attribute.id,
+                      };
+                      controller.attributes.add(data);
+                    }
+                  },
+                ),
+                Text(
+                  'Is ${attribute.title}',
+                  style: text2,
+                ),
+              ],
+            );
+          },
+        );
         break;
       case AttributeTypes.checkbox:
+        child = Obx(
+          () {
+            return Column(
+              children: attribute.choices.map(
+                (e) {
+                  final attribs = [];
+                  for (var attrib in controller.attributes) {
+                    attribs.add(attrib['item']);
+                  }
+                  return CheckboxListTile(
+                    title: Text(e.capitalize ?? ""),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: attribs.contains(e),
+                    activeColor: kPrimaryColor,
+                    contentPadding: EdgeInsets.zero,
+                    enableFeedback: false,
+                    checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                    onChanged: (value) {
+                      if (attribs.contains(e)) {
+                        controller.attributes.removeWhere((element) => element["item"] == e);
+                      } else {
+                        final data = {
+                          'item': e,
+                          "value": e,
+                          "possible_attribute": attribute.id,
+                        };
+                        controller.attributes.add(data);
+                      }
+                    },
+                  );
+                },
+              ).toList(),
+            );
+          },
+        );
         break;
       case AttributeTypes.radiobox:
         child = Obx(
@@ -117,9 +195,12 @@ class AttributeInput extends GetView<AddPostController> {
             return Column(
               children: attribute.choices.map(
                 (e) {
-                  final values = controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
-                      ? ""
-                      : controller.attributes.where((element) => element["possible_attribute"] == attribute.id).first["value"];
+                  final values =
+                      controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
+                          ? ""
+                          : controller.attributes
+                              .where((element) => element["possible_attribute"] == attribute.id)
+                              .first["value"];
                   return RadioListTile(
                     title: Text(e.capitalize ?? ""),
                     value: e.toLowerCase(),
@@ -128,14 +209,17 @@ class AttributeInput extends GetView<AddPostController> {
                     enableFeedback: false,
                     groupValue: values,
                     onChanged: (value) {
-                      if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
+                      if (controller.attributes
+                          .where((element) => element["possible_attribute"] == attribute.id)
+                          .isNotEmpty) {
                         controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                      } else {
+                        final data = {
+                          "value": value,
+                          "possible_attribute": attribute.id,
+                        };
+                        controller.attributes.add(data);
                       }
-                      final data = {
-                        "value": value,
-                        "possible_attribute": attribute.id,
-                      };
-                      controller.attributes.add(data);
                     },
                   );
                 },
@@ -189,8 +273,14 @@ class AttributeInput extends GetView<AddPostController> {
                   children: [
                     ElevatedButton(
                       onPressed: controller.images.isEmpty
-                          ? controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
-                              ? null
+                          ? attribute.required
+                              ? controller.attributes
+                                      .where((element) => element["possible_attribute"] == attribute.id)
+                                      .isEmpty
+                                  ? null
+                                  : () {
+                                      controller.nextInfo();
+                                    }
                               : () {
                                   controller.nextInfo();
                                 }

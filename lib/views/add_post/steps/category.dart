@@ -51,13 +51,14 @@ class CategoryStep extends GetView<AddPostController> {
                     itemBuilder: (context, index) {
                       return CategoryTile(
                         onTap: () {
-                          final paidCategories = ["Adult Entreatment"];
+                          final paidCategories = ["Adult Entertainment"];
 
                           if (paidCategories.contains(categories[index].name) && !user.nsfwAllowed) {
                             Get.to(() => MembershipScreen(category: categories[index]));
+                          } else {
+                            controller.category = categories[index];
+                            controller.next();
                           }
-                          controller.category = categories[index];
-                          controller.next();
                         },
                         category: categories[index],
                       );

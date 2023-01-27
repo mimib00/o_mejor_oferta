@@ -136,7 +136,12 @@ class ChatController extends GetxController {
       );
       for (var thread in res.data) {
         if (updating) {
-          final index = threads.indexWhere((element) => element.id == thread["id"]);
+          int index = 0;
+          if (threads.isNotEmpty) {
+            final val = threads.indexWhere((element) => element.id == thread["id"]);
+            index = val == -1 ? 0 : val;
+          }
+
           if (threads[index].message != thread["id"]) {
             threads[index] = InboxThread.fromJson(thread);
           }
@@ -161,7 +166,6 @@ class ChatController extends GetxController {
         Uri.parse("wss://o-mejor-oferta.herokuapp.com/chat/").replace(queryParameters: {"token": token["access"]});
     channel = WebSocketChannel.connect(url);
     channel.stream.listen((event) {
-      log(event.toString());
       messagesHandler(jsonDecode(event));
     });
   }

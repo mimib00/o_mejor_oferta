@@ -13,6 +13,7 @@ import 'package:mejor_oferta/core/controller/location_controller.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/user.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/meta/widgets/loader.dart';
 
 class Authenticator extends GetxController {
   /// Handels all user actions
@@ -113,6 +114,29 @@ class Authenticator extends GetxController {
     }
   }
 
+  Future<void> updateUser(Map<String, dynamic> data) async {
+    try {
+      Loader.instance.showCircularProgressIndicatorWithText();
+      const url = "$baseUrl/authentication/users/me/";
+      final token = Authenticator.instance.fetchToken();
+      await dio.patch(
+        url,
+        data: data,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token["access"]}",
+          },
+        ),
+      );
+      await Authenticator.instance.getUser();
+      Get.back();
+    } on DioError catch (e) {
+      Get.back();
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    }
+  }
+
   Future<void> setFCMToken() async {
     try {
       final fcm = await FirebaseMessaging.instance.getToken();
@@ -172,7 +196,7 @@ class Authenticator extends GetxController {
 
   Future<void> deleteUser() async {
     try {
-      const url = "$baseUrl/authentication/users/me";
+      const url = "$baseUrl/authentication/users/me/";
       final tokens = fetchToken();
       await dio.delete(
         url,
@@ -184,7 +208,7 @@ class Authenticator extends GetxController {
       );
       await logout();
     } on DioError catch (e) {
-      await logout();
+      log(e.message);
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
     }

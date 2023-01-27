@@ -9,6 +9,7 @@ import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
+import 'package:mejor_oferta/meta/models/state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
@@ -24,8 +25,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   bool stop = false;
 
-  int? state;
-  int? category;
+  Rx<States?> state = Rx(null);
+  Rx<Category?> category = Rx(null);
 
   RxString query = "".obs;
 
@@ -43,8 +44,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       final param = {
         "page": page,
         "size": limit,
-        "state": state,
-        "sub_category": category,
+        "state": state.value?.id,
+        "sub_category": category.value?.id,
         "search": query.value,
       };
 

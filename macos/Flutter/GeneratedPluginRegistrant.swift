@@ -10,7 +10,7 @@ import firebase_messaging
 import firebase_storage
 import flutter_local_notifications
 import location
-import path_provider_macos
+import path_provider_foundation
 import smart_auth
 import sqflite
 import url_launcher_macos

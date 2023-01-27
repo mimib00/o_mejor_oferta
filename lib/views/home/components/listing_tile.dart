@@ -30,6 +30,7 @@ class ListingTile extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: listing.image,
                         fit: BoxFit.cover,
+                        width: double.infinity,
                         errorWidget: (context, url, error) {
                           return Container(
                             alignment: Alignment.center,
@@ -82,6 +83,7 @@ class ListingTile extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: listing.image,
                       fit: BoxFit.cover,
+                      width: double.infinity,
                       errorWidget: (context, url, error) {
                         return Container(
                           alignment: Alignment.center,

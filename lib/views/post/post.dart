@@ -63,11 +63,6 @@ class PostScreen extends GetView<PostController> {
                 child: const Icon(UniconsLine.ban),
               ),
               const SizedBox(width: 10),
-              // GestureDetector(
-              //   onTap: () {},
-              //   child: const Icon(UniconsLine.share_alt),
-              // ),
-              // const SizedBox(width: 10),
               GestureDetector(
                 onTap: () async => await controller.toggleSave(),
                 child: Icon(
@@ -76,6 +71,21 @@ class PostScreen extends GetView<PostController> {
                 ),
               ),
               const SizedBox(width: 10),
+              Visibility(
+                visible: !mine,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Icon(
+                        UniconsLine.edit,
+                        color: saved ? Colors.yellow : null,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
+                ),
+              ),
             ],
           ),
           body: ListView(
@@ -298,24 +308,7 @@ class PostScreen extends GetView<PostController> {
                     const SizedBox(height: 15)
                   ],
                 )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          child: MainButton(
-                            onTap: () => Get.toNamed(Routes.myOffers, arguments: listing),
-                            text: "See Offers",
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15)
-                  ],
-                ),
+              : const SizedBox.shrink(),
         );
       },
     );

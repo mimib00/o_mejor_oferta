@@ -64,7 +64,8 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                         hintText: "Search",
                         isDense: true,
-                        border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
+                        border:
+                            OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
                         fillColor: kPrimaryColor5,
                         filled: true,
                       ),
@@ -88,13 +89,13 @@ class HomeScreen extends GetView<HomeController> {
                         onTap: (state) {
                           controller.stop = false;
                           controller.page = 1;
-                          controller.state = state.id;
+                          controller.state.value = state;
                           controller.pagingController.refresh();
                         },
                         onReset: () {
                           controller.stop = false;
                           controller.page = 1;
-                          controller.state = null;
+                          controller.state.value = null;
                           Get.back();
                           controller.pagingController.refresh();
                         },
@@ -107,14 +108,14 @@ class HomeScreen extends GetView<HomeController> {
                         onTap: (category) {
                           controller.stop = false;
                           controller.page = 1;
-                          controller.category = category.id;
+                          controller.category.value = category;
                           controller.pagingController.refresh();
                           Get.back();
                         },
                         onReset: () {
                           controller.stop = false;
                           controller.page = 1;
-                          controller.category = null;
+                          controller.category.value = null;
                           Get.back();
                           controller.pagingController.refresh();
                           Get.back();
@@ -143,6 +144,7 @@ class HomeScreen extends GetView<HomeController> {
                           controller.priceGTE = null;
                           controller.priceLTE = null;
                           controller.radius = null;
+                          controller.boosted = null;
                           controller.pagingController.refresh();
                           Get.back();
                         },
@@ -152,43 +154,59 @@ class HomeScreen extends GetView<HomeController> {
                 }
               },
               tabs: [
-                Container(
-                  color: Colors.white,
-                  child: Tab(
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        const Icon(UniconsLine.location_point),
-                        const SizedBox(width: 5),
-                        const Text("Location"),
-                        const Spacer(),
-                        Container(
-                          height: 20,
-                          width: 1.0,
-                          color: kWhiteColor5,
-                        )
-                      ],
-                    ),
-                  ),
+                Obx(
+                  () {
+                    controller.state.value;
+                    return Container(
+                      color: Colors.white,
+                      child: Tab(
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 10),
+                            const Icon(UniconsLine.location_point),
+                            const SizedBox(width: 5),
+                            Text(
+                              controller.state.value != null ? controller.state.value!.name : "Location",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const Spacer(),
+                            Container(
+                              height: 20,
+                              width: 1.0,
+                              color: kWhiteColor5,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                Container(
-                  color: Colors.white,
-                  child: Tab(
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        const Icon(UniconsLine.web_grid),
-                        const SizedBox(width: 5),
-                        const Text("Category"),
-                        const Spacer(),
-                        Container(
-                          height: 20,
-                          width: 1.0,
-                          color: kWhiteColor5,
-                        )
-                      ],
-                    ),
-                  ),
+                Obx(
+                  () {
+                    controller.category.value;
+                    return Container(
+                      color: Colors.white,
+                      child: Tab(
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 10),
+                            const Icon(UniconsLine.web_grid),
+                            const SizedBox(width: 5),
+                            Text(
+                              controller.category.value != null ? controller.category.value!.name : "Category",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const Spacer(),
+                            Container(
+                              height: 20,
+                              width: 1.0,
+                              color: kWhiteColor5,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 Container(
                   color: Colors.white,
@@ -229,6 +247,7 @@ class HomeScreen extends GetView<HomeController> {
                           : Container();
                     },
                   ),
+                  const SizedBox(height: 10),
                   PagedGridView<int, ListingThumb>(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
@@ -245,7 +264,7 @@ class HomeScreen extends GetView<HomeController> {
                       noItemsFoundIndicatorBuilder: (context) => Center(
                         child: Text(
                           "No Posts Here 🙃",
-                          style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),
+                          style: headline3.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
                       itemBuilder: (context, item, index) {

@@ -28,7 +28,6 @@ class RegisterScreen extends GetView<RegisterController> {
                   labelText: "Name",
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Field required";
-                    if (!value.contains(" ")) return "Must provide First and last name";
                     return null;
                   },
                 ),
@@ -37,13 +36,13 @@ class RegisterScreen extends GetView<RegisterController> {
                   labelText: "Email",
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Field required";
-                    if (!value.isEmail) return "Email miss formated";
+                    if (!value.isEmail) return "Email miss formatted";
                     return null;
                   },
                 ),
                 CustomTextInput(
                   controller: controller.phone,
-                  labelText: "Phone number",
+                  labelText: "Ex: +92123456789",
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Field required";

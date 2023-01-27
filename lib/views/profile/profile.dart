@@ -33,7 +33,10 @@ class ProfileScreen extends GetView<ProfileController> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 10),
             children: [
-              ProfileInfoTile(user: user),
+              ProfileInfoTile(
+                user: user,
+                changePhoto: true,
+              ),
               SizedBox(height: 3.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
@@ -62,7 +65,7 @@ class ProfileScreen extends GetView<ProfileController> {
                             launchUrl(Uri.parse(user.facebookHandle!));
                           },
                           icon: UniconsLine.facebook_f,
-                          title: "Connect Facebook",
+                          title: "Facebook",
                           active: user.facebookHandle != null,
                         ),
                       ],
