@@ -83,11 +83,12 @@ class Authenticator extends GetxController {
         url,
         data: data,
       );
+
       Get.offAllNamed(Routes.login);
     } on DioError catch (e) {
       Get.back();
       log(e.response!.data.toString());
-      Fluttertoast.showToast(msg: e.message);
+      Fluttertoast.showToast(msg: e.response?.data.toString() ?? e.message);
     }
   }
 

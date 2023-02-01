@@ -36,7 +36,7 @@ class OtpController extends GetxController {
       update();
     } on DioError catch (e) {
       log(e.message);
-      Fluttertoast.showToast(msg: e.message);
+      Fluttertoast.showToast(msg: e.response?.data.toString() ?? e.message);
     }
   }
 
@@ -54,7 +54,6 @@ class OtpController extends GetxController {
       update();
     } on DioError catch (e) {
       log(e.message);
-      log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
     }
   }
