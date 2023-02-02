@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:mejor_oferta/core/controller/locale_controller.dart';
 import 'package:mejor_oferta/core/controller/location_controller.dart';
 import 'package:mejor_oferta/core/controller/notification_controller.dart';
+import 'package:mejor_oferta/core/localization/locale.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/core/theme/app_theme.dart';
 import 'package:mejor_oferta/firebase_options.dart';
@@ -15,6 +17,8 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init("Auth");
+  await GetStorage.init("Locale");
+  await Get.putAsync(() async => LocaleController(), permanent: true);
   Get.put(LocationController(), permanent: true);
   Get.put(NotificationController(), permanent: true);
   Stripe.publishableKey =
@@ -29,12 +33,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, deviceType) {
-        return GetMaterialApp(
-          title: 'O Mejor Oferta',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          getPages: Routes.allRoutes,
-          initialRoute: Routes.splash,
+        return Obx(
+          () {
+            final LocaleController localeController = Get.find();
+            return GetMaterialApp(
+              title: 'O Mejor Oferta',
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light,
+              getPages: Routes.allRoutes,
+              initialRoute: Routes.splash,
+              locale: localeController.locale.value,
+              translations: LocalizationService(),
+            );
+          },
         );
       },
     );

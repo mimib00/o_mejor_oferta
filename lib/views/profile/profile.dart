@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
+import 'package:mejor_oferta/core/controller/locale_controller.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/profile/components/profile_info.dart';
@@ -13,9 +14,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final LocaleController localeController = Get.find();
+    String value = localeController.locale.value!.languageCode;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
@@ -110,6 +112,37 @@ class ProfileScreen extends GetView<ProfileController> {
                     Text(
                       "Help",
                       style: headline2,
+                    ),
+                    StatefulBuilder(
+                      builder: (context, setState) {
+                        return ProfileTile(
+                          icon: Icons.language,
+                          title: "Language",
+                          trailing: DropdownButton(
+                            value: value,
+                            underline: const SizedBox.shrink(),
+                            items: [
+                              DropdownMenuItem(
+                                value: 'es',
+                                child: Text('es'.tr),
+                              ),
+                              DropdownMenuItem(
+                                value: 'en',
+                                child: Text('en'.tr),
+                              ),
+                            ],
+                            onChanged: (val) {
+                              if (val == null) return;
+                              setState(
+                                () {
+                                  value = val;
+                                },
+                              );
+                              localeController.saveLocale(value);
+                            },
+                          ),
+                        );
+                      },
                     ),
                     const ProfileTile(
                       icon: UniconsLine.question_circle,

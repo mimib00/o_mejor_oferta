@@ -166,7 +166,7 @@ class HomeScreen extends GetView<HomeController> {
                             const Icon(UniconsLine.location_point),
                             const SizedBox(width: 5),
                             Text(
-                              controller.state.value != null ? controller.state.value!.name : "Location",
+                              controller.state.value != null ? controller.state.value!.name : "location_title".tr,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const Spacer(),

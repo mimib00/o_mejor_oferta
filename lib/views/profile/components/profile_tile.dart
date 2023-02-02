@@ -8,7 +8,13 @@ class ProfileTile extends StatelessWidget {
   final String title;
   final Widget? trailing;
   final Function()? onTap;
-  const ProfileTile({super.key, required this.icon, required this.title, this.trailing, this.onTap});
+  const ProfileTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.trailing,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
