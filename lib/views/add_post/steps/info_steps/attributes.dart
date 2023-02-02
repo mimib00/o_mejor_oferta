@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
+import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/components/attribute_input.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AttributesStep extends StatelessWidget {
   final Attributes attribute;
+  final bool editing;
+  final Listing? listing;
   const AttributesStep({
     super.key,
     required this.attribute,
+    this.editing = false,
+    this.listing,
   });
 
   @override
@@ -28,7 +33,11 @@ class AttributesStep extends StatelessWidget {
             style: text2,
           ),
           const SizedBox(height: 20),
-          AttributeInput(attribute: attribute)
+          AttributeInput(
+            attribute: attribute,
+            editing: editing,
+            listing: listing,
+          )
         ],
       ),
     );

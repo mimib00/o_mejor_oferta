@@ -76,7 +76,7 @@ class PostScreen extends GetView<PostController> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => Get.toNamed(Routes.editPost, arguments: listing),
                       child: Icon(
                         UniconsLine.edit,
                         color: saved ? Colors.yellow : null,

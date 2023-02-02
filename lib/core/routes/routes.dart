@@ -8,6 +8,7 @@ import 'package:mejor_oferta/views/auth/register.dart';
 import 'package:mejor_oferta/views/boost/boost.dart';
 import 'package:mejor_oferta/views/boost/boost_how.dart';
 import 'package:mejor_oferta/views/dashboard/dashboard.dart';
+import 'package:mejor_oferta/views/edit_post/edit_post.dart';
 import 'package:mejor_oferta/views/forgot/forgot.dart';
 import 'package:mejor_oferta/views/forgot/password_rest.dart';
 import 'package:mejor_oferta/views/inbox/chat_room.dart';
@@ -33,6 +34,7 @@ class Routes {
   static const register = "/register";
   static const otp = "/otp";
   static const addPost = "/add_post";
+  static const editPost = "/edit_post";
   static const profileAccount = "/profile/account";
   static const profileSaved = "/profile/saved";
   static const profileBought = "/profile/bought";
@@ -59,6 +61,7 @@ class Routes {
     GetPage<Widget>(name: register, page: () => const RegisterScreen(), binding: RegisterBinding()),
     GetPage<Widget>(name: otp, page: () => const OtpScreen(), binding: OtpBinding()),
     GetPage<Widget>(name: addPost, page: () => const AddPost(), binding: AddPostBinding()),
+    GetPage<Widget>(name: editPost, page: () => const EditPost(), binding: EditPostBinding()),
     GetPage<Widget>(name: profileAccount, page: () => const AccountSettings(), binding: AccountBinding()),
     GetPage<Widget>(name: profileSaved, page: () => const SavedPosts()),
     GetPage<Widget>(name: profileBought, page: () => const BoughtItems()),

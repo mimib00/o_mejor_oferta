@@ -23,12 +23,14 @@ import 'package:mejor_oferta/views/add_post/steps/info_steps/attributes.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/brands.dart';
 import 'package:mejor_oferta/views/add_post/steps/location.dart';
 import 'package:mejor_oferta/views/add_post/steps/sub_category.dart';
+import 'package:mejor_oferta/views/home/controller/home_controller.dart';
 import 'package:uuid/uuid.dart';
 
 class AddPostController extends gety.GetxController {
   final dio = Dio();
 
   final LocationController controller = gety.Get.find();
+  final HomeController homeController = gety.Get.find();
 
   gety.RxInt _step = 0.obs;
   gety.RxInt _infoStep = 1.obs;
@@ -268,6 +270,9 @@ class AddPostController extends gety.GetxController {
           },
         ),
       );
+      homeController.stop = false;
+      homeController.page = 0;
+      homeController.pagingController.refresh();
       gety.Get.back();
       gety.Get.back();
     } on DioError catch (e) {

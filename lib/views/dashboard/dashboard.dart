@@ -41,6 +41,26 @@ class DashboardScreen extends GetView<DashboardController> {
                         style: headline3.copyWith(color: kPrimaryColor),
                       ),
                     ),
+                    CupertinoActionSheetAction(
+                      onPressed: () {
+                        Get.back();
+                        Get.toNamed(Routes.post, parameters: {"id": listing.id.toString()});
+                      },
+                      child: Text(
+                        "View post",
+                        style: headline3.copyWith(color: kPrimaryColor),
+                      ),
+                    ),
+                    CupertinoActionSheetAction(
+                      onPressed: () {
+                        Get.back();
+                        Get.toNamed(Routes.editPost, arguments: listing);
+                      },
+                      child: Text(
+                        "Edit post",
+                        style: headline3.copyWith(color: kPrimaryColor),
+                      ),
+                    ),
                   ],
                   cancelButton: CupertinoActionSheetAction(
                     onPressed: () => Get.back(),

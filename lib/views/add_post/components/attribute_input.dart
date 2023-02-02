@@ -3,22 +3,34 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
+import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/text_input.dart';
 import 'package:mejor_oferta/views/add_post/components/image_selector.dart';
 import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart';
+import 'package:mejor_oferta/views/edit_post/controller/edit_post_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class AttributeInput extends GetView<AddPostController> {
+class AttributeInput extends StatelessWidget {
   final Attributes attribute;
+  final bool editing;
+  final Listing? listing;
   AttributeInput({
     super.key,
     required this.attribute,
+    this.editing = false,
+    this.listing,
   });
-  final TextEditingController input = TextEditingController();
+
   final GlobalKey<FormState> form = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    final controller = editing ? Get.put(AddPostController()) : Get.find<AddPostController>();
+    final editController = editing ? Get.find<EditPostController>() : Get.put(EditPostController());
+    final attrib =
+        attribute.id < 0 ? null : listing?.attributes.firstWhere((element) => element.title == attribute.title);
+    final TextEditingController input = TextEditingController(text: editing ? attrib?.value : '');
+
     Widget child = Container();
 
     switch (attribute.type) {
@@ -35,21 +47,40 @@ class AttributeInput extends GetView<AddPostController> {
                 return null;
               },
               onChanged: (value) {
-                if (value == null || value.isEmpty) {
-                  controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
-                  return;
+                if (editing) {
+                  if (value == null || value.isEmpty) {
+                    editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                    return;
+                  }
+                  if (editController.attributes
+                      .where((element) => element["possible_attribute"] == attribute.id)
+                      .isNotEmpty) {
+                    editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                  }
+                  final data = {
+                    "id": attrib!.id,
+                    "value": value,
+                    "possible_attribute": attribute.id,
+                  };
+                  if (attribute.title.toLowerCase() == "price") editController.price = value;
+                  editController.attributes.add(data);
+                } else {
+                  if (value == null || value.isEmpty) {
+                    controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                    return;
+                  }
+                  if (controller.attributes
+                      .where((element) => element["possible_attribute"] == attribute.id)
+                      .isNotEmpty) {
+                    controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                  }
+                  final data = {
+                    "value": value,
+                    "possible_attribute": attribute.id,
+                  };
+                  if (attribute.title.toLowerCase() == "price") controller.price = value;
+                  controller.attributes.add(data);
                 }
-                if (controller.attributes
-                    .where((element) => element["possible_attribute"] == attribute.id)
-                    .isNotEmpty) {
-                  controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
-                }
-                final data = {
-                  "value": value,
-                  "possible_attribute": attribute.id,
-                };
-                if (attribute.title.toLowerCase() == "price") controller.price = value;
-                controller.attributes.add(data);
               },
             ),
             Obx(
@@ -69,8 +100,13 @@ class AttributeInput extends GetView<AddPostController> {
                         side: const BorderSide(width: 1.5, color: kWhiteColor3),
                         onChanged: (value) {
                           if (value == null) return;
-                          controller.negotiable.value = value;
-                          controller.update();
+                          if (editing) {
+                            editController.negotiable.value = value;
+                            editController.update();
+                          } else {
+                            controller.negotiable.value = value;
+                            controller.update();
+                          }
                         },
                       ),
                       Text(
@@ -94,20 +130,40 @@ class AttributeInput extends GetView<AddPostController> {
             return null;
           },
           onChanged: (value) {
-            if (value == null || value.isEmpty) {
-              controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
-              return;
+            if (editing) {
+              if (value == null || value.isEmpty) {
+                editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                return;
+              }
+              if (editController.attributes
+                  .where((element) => element["possible_attribute"] == attribute.id)
+                  .isNotEmpty) {
+                editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+              }
+              final data = {
+                "id": attrib!.id,
+                "value": value,
+                "possible_attribute": attribute.id,
+                "title": value,
+              };
+              if (attribute.title.toLowerCase() == "title") editController.title = value;
+              editController.attributes.add(data);
+            } else {
+              if (value == null || value.isEmpty) {
+                controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                return;
+              }
+              if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
+                controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+              }
+              final data = {
+                "value": value,
+                "possible_attribute": attribute.id,
+                "title": value,
+              };
+              if (attribute.title.toLowerCase() == "title") controller.title = value;
+              controller.attributes.add(data);
             }
-            if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
-              controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
-            }
-            final data = {
-              "value": value,
-              "possible_attribute": attribute.id,
-              "title": value,
-            };
-            if (attribute.title.toLowerCase() == "title") controller.title = value;
-            controller.attributes.add(data);
           },
         );
         break;
@@ -115,8 +171,14 @@ class AttributeInput extends GetView<AddPostController> {
         child = Obx(
           () {
             final attribs = [];
-            for (var attrib in controller.attributes) {
-              attribs.add(attrib['possible_attribute']);
+            if (editing) {
+              for (var attrib in editController.attributes) {
+                attribs.add(attrib['possible_attribute']);
+              }
+            } else {
+              for (var attrib in controller.attributes) {
+                attribs.add(attrib['possible_attribute']);
+              }
             }
             return Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -130,16 +192,28 @@ class AttributeInput extends GetView<AddPostController> {
                   ),
                   side: const BorderSide(width: 1.5, color: kWhiteColor3),
                   onChanged: (value) {
-                    log(controller.attributes.toString());
-                    log(attribs.toString());
-                    if (attribs.contains(attribute.id)) {
-                      controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                    if (editing) {
+                      if (attribs.contains(attribute.id)) {
+                        editController.attributes
+                            .removeWhere((element) => element["possible_attribute"] == attribute.id);
+                      } else {
+                        final data = {
+                          "id": attrib!.id,
+                          "value": value.toString(),
+                          "possible_attribute": attribute.id,
+                        };
+                        editController.attributes.add(data);
+                      }
                     } else {
-                      final data = {
-                        "value": value.toString(),
-                        "possible_attribute": attribute.id,
-                      };
-                      controller.attributes.add(data);
+                      if (attribs.contains(attribute.id)) {
+                        controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                      } else {
+                        final data = {
+                          "value": value.toString(),
+                          "possible_attribute": attribute.id,
+                        };
+                        controller.attributes.add(data);
+                      }
                     }
                   },
                 ),
@@ -159,8 +233,14 @@ class AttributeInput extends GetView<AddPostController> {
               children: attribute.choices.map(
                 (e) {
                   final attribs = [];
-                  for (var attrib in controller.attributes) {
-                    attribs.add(attrib['item']);
+                  if (editing) {
+                    for (var attrib in editController.attributes) {
+                      attribs.add(attrib['item']);
+                    }
+                  } else {
+                    for (var attrib in controller.attributes) {
+                      attribs.add(attrib['item']);
+                    }
                   }
                   return CheckboxListTile(
                     title: Text(e.capitalize ?? ""),
@@ -171,15 +251,29 @@ class AttributeInput extends GetView<AddPostController> {
                     enableFeedback: false,
                     checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                     onChanged: (value) {
-                      if (attribs.contains(e)) {
-                        controller.attributes.removeWhere((element) => element["item"] == e);
+                      if (editing) {
+                        if (attribs.contains(e)) {
+                          editController.attributes.removeWhere((element) => element["item"] == e);
+                        } else {
+                          final data = {
+                            "id": attrib!.id,
+                            'item': e,
+                            "value": e,
+                            "possible_attribute": attribute.id,
+                          };
+                          editController.attributes.add(data);
+                        }
                       } else {
-                        final data = {
-                          'item': e,
-                          "value": e,
-                          "possible_attribute": attribute.id,
-                        };
-                        controller.attributes.add(data);
+                        if (attribs.contains(e)) {
+                          controller.attributes.removeWhere((element) => element["item"] == e);
+                        } else {
+                          final data = {
+                            'item': e,
+                            "value": e,
+                            "possible_attribute": attribute.id,
+                          };
+                          controller.attributes.add(data);
+                        }
                       }
                     },
                   );
@@ -195,12 +289,24 @@ class AttributeInput extends GetView<AddPostController> {
             return Column(
               children: attribute.choices.map(
                 (e) {
-                  final values =
-                      controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
-                          ? ""
-                          : controller.attributes
-                              .where((element) => element["possible_attribute"] == attribute.id)
-                              .first["value"];
+                  dynamic values;
+                  if (editing) {
+                    values = editController.attributes
+                            .where((element) => element["possible_attribute"] == attribute.id)
+                            .isEmpty
+                        ? ''
+                        : editController.attributes
+                            .where((element) => element["possible_attribute"] == attribute.id)
+                            .first["value"];
+                  } else {
+                    values =
+                        controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
+                            ? ""
+                            : controller.attributes
+                                .where((element) => element["possible_attribute"] == attribute.id)
+                                .first["value"];
+                  }
+
                   return RadioListTile(
                     title: Text(e.capitalize ?? ""),
                     value: e.toLowerCase(),
@@ -209,16 +315,32 @@ class AttributeInput extends GetView<AddPostController> {
                     enableFeedback: false,
                     groupValue: values,
                     onChanged: (value) {
-                      if (controller.attributes
-                          .where((element) => element["possible_attribute"] == attribute.id)
-                          .isNotEmpty) {
-                        controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                      if (editing) {
+                        if (editController.attributes
+                            .where((element) => element["possible_attribute"] == attribute.id)
+                            .isNotEmpty) {
+                          editController.attributes
+                              .removeWhere((element) => element["possible_attribute"] == attribute.id);
+                        } else {
+                          final data = {
+                            "id": attrib!.id,
+                            "value": value,
+                            "possible_attribute": attribute.id,
+                          };
+                          editController.attributes.add(data);
+                        }
                       } else {
-                        final data = {
-                          "value": value,
-                          "possible_attribute": attribute.id,
-                        };
-                        controller.attributes.add(data);
+                        if (controller.attributes
+                            .where((element) => element["possible_attribute"] == attribute.id)
+                            .isNotEmpty) {
+                          controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                        } else {
+                          final data = {
+                            "value": value,
+                            "possible_attribute": attribute.id,
+                          };
+                          controller.attributes.add(data);
+                        }
                       }
                     },
                   );
@@ -229,7 +351,7 @@ class AttributeInput extends GetView<AddPostController> {
         );
         break;
       case AttributeTypes.images:
-        child = const ImageSelector();
+        child = ImageSelector(editing: editing);
         break;
       case AttributeTypes.textarea:
         child = CustomTextInput(
@@ -241,19 +363,39 @@ class AttributeInput extends GetView<AddPostController> {
             return null;
           },
           onChanged: (value) {
-            if (value == null || value.isEmpty) {
-              controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
-              return;
+            if (editing) {
+              if (value == null || value.isEmpty) {
+                editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                return;
+              }
+              if (editController.attributes
+                  .where((element) => element["possible_attribute"] == attribute.id)
+                  .isNotEmpty) {
+                editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+              }
+
+              final data = {
+                "id": attrib!.id,
+                "value": value,
+                "possible_attribute": attribute.id,
+              };
+              if (attribute.title.toLowerCase() == "description") editController.description = value;
+              editController.attributes.add(data);
+            } else {
+              if (value == null || value.isEmpty) {
+                controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+                return;
+              }
+              if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
+                controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
+              }
+              final data = {
+                "value": value,
+                "possible_attribute": attribute.id,
+              };
+              if (attribute.title.toLowerCase() == "description") controller.description = value;
+              controller.attributes.add(data);
             }
-            if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
-              controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
-            }
-            final data = {
-              "value": value,
-              "possible_attribute": attribute.id,
-            };
-            if (attribute.title.toLowerCase() == "description") controller.description = value;
-            controller.attributes.add(data);
           },
         );
         break;
@@ -266,27 +408,39 @@ class AttributeInput extends GetView<AddPostController> {
           SizedBox(height: 10.h),
           Obx(
             () {
+              editController.negotiable.value;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: controller.images.isEmpty
-                          ? attribute.required
-                              ? controller.attributes
-                                      .where((element) => element["possible_attribute"] == attribute.id)
-                                      .isEmpty
-                                  ? null
+                      onPressed: editing
+                          ? () {
+                              log((editController.infoSteps.length == editController.infoStepy.value).toString());
+                              log((editController.infoSteps.length).toString());
+                              log((editController.infoStepy.value).toString());
+                              if (editController.infoSteps.length == editController.infoStepy.value) {
+                                editController.updateListing(listing!);
+                              } else {
+                                editController.nextInfo();
+                              }
+                            }
+                          : controller.images.isEmpty
+                              ? attribute.required
+                                  ? controller.attributes
+                                          .where((element) => element["possible_attribute"] == attribute.id)
+                                          .isEmpty
+                                      ? null
+                                      : () {
+                                          controller.nextInfo();
+                                        }
                                   : () {
                                       controller.nextInfo();
                                     }
                               : () {
-                                  controller.nextInfo();
-                                }
-                          : () {
-                              controller.postListing();
-                            },
+                                  controller.postListing();
+                                },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         textStyle: headline3,
