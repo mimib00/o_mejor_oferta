@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
@@ -58,7 +56,7 @@ class AttributeInput extends StatelessWidget {
                     editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                   }
                   final data = {
-                    "id": attrib!.id,
+                    "id": attrib?.id,
                     "value": value,
                     "possible_attribute": attribute.id,
                   };
@@ -141,7 +139,7 @@ class AttributeInput extends StatelessWidget {
                 editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
               }
               final data = {
-                "id": attrib!.id,
+                "id": attrib?.id,
                 "value": value,
                 "possible_attribute": attribute.id,
                 "title": value,
@@ -198,7 +196,7 @@ class AttributeInput extends StatelessWidget {
                             .removeWhere((element) => element["possible_attribute"] == attribute.id);
                       } else {
                         final data = {
-                          "id": attrib!.id,
+                          "id": attrib?.id,
                           "value": value.toString(),
                           "possible_attribute": attribute.id,
                         };
@@ -256,7 +254,7 @@ class AttributeInput extends StatelessWidget {
                           editController.attributes.removeWhere((element) => element["item"] == e);
                         } else {
                           final data = {
-                            "id": attrib!.id,
+                            "id": attrib?.id,
                             'item': e,
                             "value": e,
                             "possible_attribute": attribute.id,
@@ -323,7 +321,7 @@ class AttributeInput extends StatelessWidget {
                               .removeWhere((element) => element["possible_attribute"] == attribute.id);
                         } else {
                           final data = {
-                            "id": attrib!.id,
+                            "id": attrib?.id,
                             "value": value,
                             "possible_attribute": attribute.id,
                           };
@@ -375,7 +373,7 @@ class AttributeInput extends StatelessWidget {
               }
 
               final data = {
-                "id": attrib!.id,
+                "id": attrib?.id,
                 "value": value,
                 "possible_attribute": attribute.id,
               };
@@ -417,9 +415,6 @@ class AttributeInput extends StatelessWidget {
                     ElevatedButton(
                       onPressed: editing
                           ? () {
-                              log((editController.infoSteps.length == editController.infoStepy.value).toString());
-                              log((editController.infoSteps.length).toString());
-                              log((editController.infoStepy.value).toString());
                               if (editController.infoSteps.length == editController.infoStepy.value) {
                                 editController.updateListing(listing!);
                               } else {
