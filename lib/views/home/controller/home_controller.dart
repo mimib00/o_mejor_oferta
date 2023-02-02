@@ -42,7 +42,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       const url = "$baseUrl/listings/listings/";
       final token = Authenticator.instance.fetchToken();
       final param = {
-        "page": page,
+        "page": page == 0 ? 1 : page,
         "size": limit,
         "state": state.value?.id,
         "sub_category": category.value?.id,
