@@ -14,7 +14,7 @@ class ForgotPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Forgot password"),
+        title: Text("forgot_pass_title".tr),
       ),
       body: Form(
         key: form,
@@ -32,7 +32,7 @@ class ForgotPassword extends StatelessWidget {
                   return null;
                 },
                 decoration: InputDecoration(
-                  hintText: "Phone number",
+                  hintText: "phone_title".tr,
                   isDense: true,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
@@ -57,7 +57,7 @@ class ForgotPassword extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
                         textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      child: const Text("Send"),
+                      child: Text("send_btn".tr),
                     ),
                   ),
                 ],

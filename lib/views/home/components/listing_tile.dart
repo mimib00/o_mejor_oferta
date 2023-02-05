@@ -22,7 +22,7 @@ class ListingTile extends StatelessWidget {
         child: listing.boosted
             ? Banner(
                 location: BannerLocation.topStart,
-                message: "Promoted",
+                message: "promoted_title".tr,
                 color: kPrimaryColor,
                 child: Column(
                   children: [

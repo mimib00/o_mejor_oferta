@@ -16,7 +16,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 Future<void> subscribe(int package, {int? listing}) async {
   try {
     final dio = Dio();
-    final url = listing == null ? "$baseUrl/payments/create-payment-nsfw/" : "$baseUrl/payments/create-payment-boosting/";
+    final url =
+        listing == null ? "$baseUrl/payments/create-payment-nsfw/" : "$baseUrl/payments/create-payment-boosting/";
 
     final token = Authenticator.instance.fetchToken();
     Loader.instance.showCircularProgressIndicatorWithText();
@@ -109,7 +110,7 @@ class PackageTile extends GetView<BoostController> {
                   padding: EdgeInsets.only(left: 8.w, right: 8.w),
                   textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                 ),
-                child: const Text("Subscribe"),
+                child: Text("subscribe_btn".tr),
               ),
             ],
           ),

@@ -60,7 +60,7 @@ class LocationSheet extends GetView<AddPostController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Locations",
+                "location_title".tr,
                 style: headline2.copyWith(fontWeight: FontWeight.bold),
               ),
               Visibility(
@@ -68,7 +68,7 @@ class LocationSheet extends GetView<AddPostController> {
                 child: GestureDetector(
                   onTap: onReset,
                   child: Text(
-                    "Reset",
+                    "reset".tr,
                     style: text2.copyWith(fontWeight: FontWeight.bold, color: kPrimaryColor),
                   ),
                 ),
@@ -103,7 +103,7 @@ class LocationSheet extends GetView<AddPostController> {
                               UniconsLine.search,
                               color: kPrimaryColor,
                             ),
-                            hintText: "Search location",
+                            hintText: 'search_location'.tr,
                             isDense: true,
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),

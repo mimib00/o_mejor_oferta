@@ -40,15 +40,15 @@ class SellingScreen extends GetView<SellingController> {
           labelColor: kPrimaryColor,
           unselectedLabelColor: Colors.black,
           labelStyle: text1,
-          tabs: const [
+          tabs: [
             Tab(
-              text: "Selling",
+              text: "selling_title".tr,
             ),
             Tab(
-              text: "Sold",
+              text: "sold_title".tr,
             ),
             Tab(
-              text: "Archive",
+              text: "archive_title".tr,
             )
           ],
         ),

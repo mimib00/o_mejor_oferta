@@ -19,7 +19,7 @@ class LocationSection extends GetView<AccountController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "You location",
+              "location_msg".tr,
               style: headline3,
             ),
             const SizedBox(height: 20),
@@ -44,7 +44,7 @@ class LocationSection extends GetView<AccountController> {
                       children: [
                         const SizedBox(width: 10),
                         Text(
-                          controller.location.value.isEmpty ? text ?? " Location" : controller.location.value,
+                          controller.location.value.isEmpty ? text ?? "location_title".tr : controller.location.value,
                           style: text1.copyWith(color: kWhiteColor4),
                         ),
                       ],
@@ -73,7 +73,7 @@ class LocationSection extends GetView<AccountController> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       textStyle: headline3,
                     ),
-                    child: const Text("Update"),
+                    child: Text("update_btn".tr),
                   ),
                 ],
               ),

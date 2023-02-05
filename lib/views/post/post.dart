@@ -43,7 +43,7 @@ class PostScreen extends GetView<PostController> {
         if (controller.listing.value == null) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Details"),
+              title: Text("details_title".tr),
             ),
             body: const Center(
               child: Loading(),
@@ -56,7 +56,7 @@ class PostScreen extends GetView<PostController> {
         final mine = listing.owner.id != me.id;
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Details"),
+            title: Text("details_title".tr),
             actions: [
               GestureDetector(
                 onTap: () => Get.toNamed(Routes.postReport, parameters: {"id": listing.id.toString()}),
@@ -148,7 +148,7 @@ class PostScreen extends GetView<PostController> {
                       style: headline1,
                     ),
                     Text(
-                      "Posted on ${DateFormat("dd-mm-yyy hh:mm a").format(listing.created)} ${listing.state.name}",
+                      "${'posted_on'.tr} ${DateFormat("dd-mm-yyy hh:mm a").format(listing.created)} ${listing.state.name}",
                       style: text2.copyWith(color: kWhiteColor4),
                     ),
                     Padding(
@@ -175,7 +175,7 @@ class PostScreen extends GetView<PostController> {
                     Row(
                       children: [
                         Text(
-                          "For sale by",
+                          "sale_by".tr,
                           style: text2.copyWith(color: kWhiteColor4),
                         ),
                         const SizedBox(width: 5),
@@ -195,7 +195,7 @@ class PostScreen extends GetView<PostController> {
                       child: const Divider(),
                     ),
                     Text(
-                      "Features",
+                      "features_title".tr,
                       style: headline3.copyWith(fontWeight: FontWeight.w600),
                     ),
                     GridView.builder(
@@ -216,7 +216,7 @@ class PostScreen extends GetView<PostController> {
                       child: const Divider(),
                     ),
                     Text(
-                      "Description",
+                      "description_title".tr,
                       style: headline3.copyWith(fontWeight: FontWeight.w600),
                     ),
                     ReadMoreText(
@@ -294,13 +294,13 @@ class PostScreen extends GetView<PostController> {
                               final OffersController offersController = Get.put(OffersController());
                               offersController.createChatRoom(listings: listing);
                             },
-                            text: "Chat",
+                            text: "chat_btn".tr,
                           ),
                         ),
                         Expanded(
                           child: MainButton(
                             onTap: () => Get.toNamed(Routes.offers, arguments: listing),
-                            text: "Make Offer",
+                            text: "make_offer_btn".tr,
                           ),
                         ),
                       ],

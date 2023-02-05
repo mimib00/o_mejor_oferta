@@ -15,7 +15,7 @@ class NavigatorController extends GetxController {
     const Inbox(),
     Container(),
     const SellingScreen(),
-    ProfileScreen(),
+    const ProfileScreen(),
   ];
 
   void goto(int i) {

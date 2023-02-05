@@ -12,7 +12,7 @@ class NotificationScreen extends GetView<NotificationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notifications"),
+        title: Text("notifications_title".tr),
       ),
       body: FutureBuilder<List<NotificationMessage>>(
         future: controller.getNotifications(),

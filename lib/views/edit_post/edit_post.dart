@@ -14,7 +14,7 @@ class EditPost extends GetView<EditPostController> {
     Listing listing = Get.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit an ad"),
+        title: Text("edit_ad_title".tr),
       ),
       body: FutureBuilder(
         future: controller.getAttributes(listing),

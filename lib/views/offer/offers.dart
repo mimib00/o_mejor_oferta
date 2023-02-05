@@ -46,7 +46,7 @@ class OfferScreen extends GetView<OffersController> {
             ),
             const SizedBox(height: 30),
             Text(
-              "Enter your offer",
+              "enter_offer".tr,
               style: headline2.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 15),
@@ -69,7 +69,7 @@ class OfferScreen extends GetView<OffersController> {
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
                 textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
               ),
-              child: const Text("Send Offer"),
+              child: Text("send_offer_btn".tr),
             ),
           ],
         ),

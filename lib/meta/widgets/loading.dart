@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -25,7 +26,7 @@ class Loading extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Loading",
+                  "loading_title".tr,
                   style: text2.copyWith(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(width: 3.w),

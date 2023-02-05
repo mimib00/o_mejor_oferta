@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mejor_oferta/views/boost/components/how_tile.dart';
 
 class BoostHowScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class BoostHowScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("How boosting works"),
+        title: Text("how_boost_work_title".tr),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 40),

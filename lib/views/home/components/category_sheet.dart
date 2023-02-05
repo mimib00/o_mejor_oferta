@@ -34,7 +34,7 @@ class CategorySheet extends GetView<HomeController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Categories",
+                "categories_title".tr,
                 style: headline2.copyWith(fontWeight: FontWeight.bold),
               ),
               Visibility(
@@ -42,7 +42,7 @@ class CategorySheet extends GetView<HomeController> {
                 child: GestureDetector(
                   onTap: onReset,
                   child: Text(
-                    "Reset",
+                    "reset".tr,
                     style: text2.copyWith(fontWeight: FontWeight.bold, color: kPrimaryColor),
                   ),
                 ),

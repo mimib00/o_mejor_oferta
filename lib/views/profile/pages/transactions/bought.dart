@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
@@ -51,7 +52,7 @@ class BoughtItems extends StatelessWidget {
     return Scaffold(
       backgroundColor: kPrimaryColor5,
       appBar: AppBar(
-        title: const Text("Purchased Items"),
+        title: Text("purchased_items_title".tr),
       ),
       body: FutureBuilder<List<ListingThumb>>(
         future: getMyPurchases(),

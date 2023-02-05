@@ -23,12 +23,16 @@ class OtpScreen extends GetView<OtpController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 2.h),
-              Text("Enter authentication code", style: headline1),
+              Text(
+                "enter_code_title".tr,
+                style: headline1,
+                textAlign: TextAlign.center,
+              ),
               SizedBox(height: 2.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                 child: Text(
-                  "Enter the 6-digit that we have sent via the phone number ${controller.phone}",
+                  "${'enter_code_mg'.tr} ${controller.phone}",
                   style: headline3.copyWith(fontWeight: FontWeight.w600),
                   textAlign: TextAlign.center,
                 ),
@@ -66,7 +70,7 @@ class OtpScreen extends GetView<OtpController> {
               SizedBox(height: 20.h),
               Counter(
                 time: 30,
-                label: "Resend OTP",
+                label: "resend_btn".tr,
                 onTap: () => controller.sendOtp(),
               ),
               SizedBox(height: 5.h),
@@ -97,7 +101,7 @@ class OtpScreen extends GetView<OtpController> {
                               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
                               textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            child: const Text("Continue"),
+                            child: Text("continue_btn".tr),
                           ),
                         ),
                       ],

@@ -72,7 +72,7 @@ class _FilterSheetState extends State<FilterSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Filters",
+                  "filters_title".tr,
                   style: headline2.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Visibility(
@@ -80,7 +80,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   child: GestureDetector(
                     onTap: widget.onReset,
                     child: Text(
-                      "Reset",
+                      "reset".tr,
                       style: text2.copyWith(fontWeight: FontWeight.bold, color: kPrimaryColor),
                     ),
                   ),
@@ -89,7 +89,7 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
             const SizedBox(height: 30),
             Text(
-              "Sort by",
+              "sort_by".tr,
               style: text2.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
@@ -122,7 +122,7 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
             const SizedBox(height: 30),
             Text(
-              "Sort by bossted",
+              "sort_boosted".tr,
               style: text2.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
@@ -143,7 +143,7 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
             const SizedBox(height: 30),
             Text(
-              "Sort by min to max price",
+              "sort_price".tr,
               style: text2.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
@@ -175,7 +175,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                const Text("OR"),
+                Text("or_msg".tr.toUpperCase()),
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
@@ -206,7 +206,7 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
             const SizedBox(height: 30),
             Text(
-              "Sort by distance",
+              "sort_distance".tr,
               style: text2.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
@@ -249,7 +249,7 @@ class _FilterSheetState extends State<FilterSheet> {
                     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
                     textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  child: const Text("Filter"),
+                  child: Text("filter_title".tr),
                 ),
               ],
             ),

@@ -26,7 +26,7 @@ class ListingVertTile extends StatelessWidget {
           GestureDetector(
             onTap: () => Get.toNamed(Routes.boost, arguments: listing),
             child: Text(
-              "Boost",
+              "boost_btn".tr,
               style: text2.copyWith(color: kPrimaryColor),
             ),
           ),
@@ -39,7 +39,7 @@ class ListingVertTile extends StatelessWidget {
               sellingController.getActiveListings();
             },
             child: Text(
-              "Mark as sold",
+              "mark_sold_btn".tr,
               style: text2.copyWith(color: kPrimaryColor),
             ),
           ),

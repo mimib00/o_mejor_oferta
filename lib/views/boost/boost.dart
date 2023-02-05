@@ -18,7 +18,7 @@ class BoosterScreen extends GetView<BoostController> {
     Listing listing = Get.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sell Faster"),
+        title: Text("sell_fast_title".tr),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -103,7 +103,7 @@ class BoosterScreen extends GetView<BoostController> {
                         color: kPrimaryColor,
                       ),
                       Text(
-                        "Get an average of 20x more views each day.",
+                        "feat_1".tr,
                         style: text1,
                       )
                     ],
@@ -116,7 +116,7 @@ class BoosterScreen extends GetView<BoostController> {
                         color: kPrimaryColor,
                       ),
                       Text(
-                        "Promote for multiple days.",
+                        "feat_2".tr,
                         style: text1,
                       )
                     ],
@@ -129,7 +129,7 @@ class BoosterScreen extends GetView<BoostController> {
                         color: kPrimaryColor,
                       ),
                       Text(
-                        "Switch promotion to any item.",
+                        "feat_3".tr,
                         style: text1,
                       )
                     ],
@@ -141,7 +141,7 @@ class BoosterScreen extends GetView<BoostController> {
                       TextButton(
                         onPressed: () => Get.toNamed(Routes.boostHow),
                         child: Text(
-                          "How does promoting work?",
+                          "how_boost_work_title".tr,
                           style: headline3.copyWith(color: kPrimaryColor),
                         ),
                       )

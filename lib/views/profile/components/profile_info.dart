@@ -130,7 +130,7 @@ class ProfileInfoTile extends StatelessWidget {
                               style: headline3.copyWith(fontWeight: FontWeight.bold),
                             ),
                             TextSpan(
-                              text: " Bought",
+                              text: " ${'bought_title'.tr}",
                               style: text1,
                             ),
                           ],
@@ -145,7 +145,7 @@ class ProfileInfoTile extends StatelessWidget {
                               style: headline3.copyWith(fontWeight: FontWeight.bold),
                             ),
                             TextSpan(
-                              text: " Sold",
+                              text: " ${'sold_title'.tr}",
                               style: text1,
                             ),
                           ],

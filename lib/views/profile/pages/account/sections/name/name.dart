@@ -24,13 +24,13 @@ class NameSection extends GetView<AccountController> {
             children: [
               SizedBox(height: 2.h),
               Text(
-                "Your Name",
+                "name_msg".tr,
                 style: text2.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: .5.h),
               CustomTextInput(
                 controller: input,
-                labelText: "Name",
+                labelText: "name_title".tr,
                 hintText: text,
                 validator: (value) {
                   if (value == null || value.isEmpty) return "Field required";
@@ -57,7 +57,7 @@ class NameSection extends GetView<AccountController> {
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         textStyle: headline3,
                       ),
-                      child: const Text("Update"),
+                      child: Text("update_btn".tr),
                     ),
                   ],
                 ),

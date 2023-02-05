@@ -20,11 +20,11 @@ class ProfileScreen extends GetView<ProfileController> {
     String value = localeController.locale.value!.languageCode;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: Text("profile_title".tr),
         actions: [
           TextButton(
             onPressed: () => Authenticator.instance.logout(),
-            child: const Text("Log out"),
+            child: Text("logout_btn".tr),
           ),
         ],
       ),
@@ -46,20 +46,20 @@ class ProfileScreen extends GetView<ProfileController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Verify your account to build reputaton",
-                      style: headline3,
+                      "verify_title".tr,
+                      style: text1.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Row(
                       children: [
-                        const VerificationTile(
+                        VerificationTile(
                           icon: Icons.email_outlined,
-                          title: "Email verification",
+                          title: "email_verification_title".tr,
                           active: true,
                         ),
-                        const VerificationTile(
+                        VerificationTile(
                           icon: UniconsLine.phone,
-                          title: "Phone verification",
+                          title: "phone_verification_title".tr,
                           active: true,
                         ),
                         VerificationTile(
@@ -67,57 +67,57 @@ class ProfileScreen extends GetView<ProfileController> {
                             launchUrl(Uri.parse(user.facebookHandle!));
                           },
                           icon: UniconsLine.facebook_f,
-                          title: "Facebook",
+                          title: "facebook_verification_title".tr,
                           active: user.facebookHandle != null,
                         ),
                       ],
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      "Transactions",
+                      "transactions_title".tr,
                       style: headline2,
                     ),
                     ProfileTile(
                       icon: UniconsLine.dollar_alt,
-                      title: "Purchased items",
+                      title: "purchased_items_title".tr,
                       onTap: () => Get.toNamed(Routes.profileBought),
                     ),
                     Text(
-                      "Offers",
+                      "offers_title".tr,
                       style: headline2,
                     ),
                     ProfileTile(
                       icon: UniconsLine.pricetag_alt,
-                      title: "My Offers",
+                      title: "my_offers_title".tr,
                       onTap: () => Get.toNamed(Routes.profileOffers),
                     ),
                     Text(
-                      "Saves",
+                      "saves_title".tr,
                       style: headline2,
                     ),
                     ProfileTile(
                       icon: UniconsLine.star,
-                      title: "Save items",
+                      title: "saved_title".tr,
                       onTap: () => Get.toNamed(Routes.profileSaved),
                     ),
                     Text(
-                      "Account",
+                      "account_title".tr,
                       style: headline2,
                     ),
                     ProfileTile(
                       icon: UniconsLine.setting,
-                      title: "Account settings",
+                      title: "account_settings_title".tr,
                       onTap: () => Get.toNamed(Routes.profileAccount),
                     ),
                     Text(
-                      "Help",
+                      "help_title".tr,
                       style: headline2,
                     ),
                     StatefulBuilder(
                       builder: (context, setState) {
                         return ProfileTile(
                           icon: Icons.language,
-                          title: "Language",
+                          title: "language_title".tr,
                           trailing: DropdownButton(
                             value: value,
                             underline: const SizedBox.shrink(),
@@ -143,10 +143,6 @@ class ProfileScreen extends GetView<ProfileController> {
                           ),
                         );
                       },
-                    ),
-                    const ProfileTile(
-                      icon: UniconsLine.question_circle,
-                      title: "Help center",
                     ),
                   ],
                 ),

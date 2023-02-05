@@ -11,7 +11,7 @@ class AddPost extends GetView<AddPostController> {
       () {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Post an ad"),
+            title: Text("post_ad_title".tr),
           ),
           body: controller.step,
         );

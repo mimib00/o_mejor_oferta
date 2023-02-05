@@ -23,13 +23,13 @@ class PhoneSection extends GetView<AccountController> {
             children: [
               SizedBox(height: 2.h),
               Text(
-                "Your Phone",
+                "phone_msg".tr,
                 style: text2.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: .5.h),
               CustomTextInput(
                 controller: input,
-                labelText: "Phone",
+                labelText: "phone_title".tr,
                 hintText: text,
                 validator: (value) {
                   if (value == null || value.isEmpty) return "Field required";
@@ -56,7 +56,7 @@ class PhoneSection extends GetView<AccountController> {
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         textStyle: headline3,
                       ),
-                      child: const Text("Update"),
+                      child: Text("update_btn".tr),
                     ),
                   ],
                 ),

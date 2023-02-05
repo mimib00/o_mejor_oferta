@@ -6,6 +6,7 @@ import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/text_input.dart';
 import 'package:mejor_oferta/views/auth/controller/login_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
@@ -14,7 +15,7 @@ class LoginScreen extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: Text("login_title".tr),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -28,7 +29,7 @@ class LoginScreen extends GetView<LoginController> {
                 SizedBox(height: 2.h),
                 CustomTextInput(
                   controller: controller.email,
-                  labelText: "Email",
+                  labelText: "email_title".tr,
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Field required";
                     if (!value.isEmail) return "Email miss formatted";
@@ -37,7 +38,7 @@ class LoginScreen extends GetView<LoginController> {
                 ),
                 CustomTextInput(
                   controller: controller.password,
-                  labelText: "Password",
+                  labelText: "password_title".tr,
                   obscure: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Field required";
@@ -48,22 +49,22 @@ class LoginScreen extends GetView<LoginController> {
                 GestureDetector(
                   onTap: () => Get.toNamed(Routes.forgot),
                   child: Text(
-                    "Forgot password?",
+                    "forgot_pass_btn".tr,
                     style: text1.copyWith(color: kPrimaryColor, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(height: 15.h),
                 Wrap(
                   children: [
-                    Text("By continuing, you agree to our ", style: text1.copyWith(fontWeight: FontWeight.w400)),
+                    Text("${'continue_msg'.tr} ", style: text1.copyWith(fontWeight: FontWeight.w400)),
                     GestureDetector(
-                      onTap: () => Get.toNamed(Routes.terms),
-                      child: Text("Terms of Service ", style: text1.copyWith(color: kPrimaryColor)),
+                      onTap: () => launchUrl(Uri.parse('https://omejorofertapr.com/terms-of-service')),
+                      child: Text("${'terms_title'.tr} ", style: text1.copyWith(color: kPrimaryColor)),
                     ),
-                    Text("and ", style: text1.copyWith(fontWeight: FontWeight.w400)),
+                    Text("${'and_msg'.tr} ", style: text1.copyWith(fontWeight: FontWeight.w400)),
                     GestureDetector(
-                      onTap: () => Get.toNamed(Routes.policy),
-                      child: Text("Privacy Policy.", style: text1.copyWith(color: kPrimaryColor)),
+                      onTap: () => launchUrl(Uri.parse('https://omejorofertapr.com/privacy-policies')),
+                      child: Text("${'policy_title'.tr}.", style: text1.copyWith(color: kPrimaryColor)),
                     ),
                   ],
                 ),
@@ -86,7 +87,7 @@ class LoginScreen extends GetView<LoginController> {
                         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
                         textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      child: const Text("Login"),
+                      child: Text("login_btn".tr),
                     ),
                   ],
                 ),
@@ -95,13 +96,13 @@ class LoginScreen extends GetView<LoginController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don’t have an account? ",
+                      "${'no_account_msg'.tr} ",
                       style: headline3,
                     ),
                     GestureDetector(
                       onTap: () => Get.toNamed(Routes.register),
                       child: Text(
-                        "Sign up",
+                        "sign_up_title".tr,
                         style: headline3.copyWith(color: kPrimaryColor, fontWeight: FontWeight.w600),
                       ),
                     ),

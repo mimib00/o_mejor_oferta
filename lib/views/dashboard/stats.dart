@@ -21,7 +21,7 @@ class StatsScreen extends GetView<DashboardController> {
     final listing = controller.listing;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Item dashboard"),
+        title: Text("dashboard_title".tr),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -71,7 +71,7 @@ class StatsScreen extends GetView<DashboardController> {
                         Row(
                           children: [
                             Text(
-                              "Total views :",
+                              "${'total_view_title'.tr} :",
                               style: text1.copyWith(color: kWhiteColor6),
                             ),
                             const SizedBox(width: 8),
@@ -297,14 +297,14 @@ class StatsScreen extends GetView<DashboardController> {
                     padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10),
                     textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  label: const Text("Boost Plus"),
+                  label: Text("boost_btn".tr),
                   icon: const Icon(Icons.keyboard_double_arrow_up_sharp),
                 ),
               ],
             ),
             const SizedBox(height: 30),
             Text(
-              "Get an average of 20x more views each day",
+              "feat_1".tr,
               style: text1.copyWith(color: kWhiteColor6),
             )
           ],

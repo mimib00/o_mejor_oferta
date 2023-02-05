@@ -62,7 +62,7 @@ class _ChatReportState extends State<ChatReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Report"),
+        title: Text("report_btn".tr),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 10),

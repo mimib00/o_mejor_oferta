@@ -40,7 +40,7 @@ class ChatRoom extends GetView<ChatController> {
                       },
                       isDestructiveAction: true,
                       child: Text(
-                        "Block",
+                        "block_btn".tr,
                         style: headline3.copyWith(color: kWarningColor),
                       ),
                     ),
@@ -50,7 +50,7 @@ class ChatRoom extends GetView<ChatController> {
                         Get.toNamed(Routes.inboxReport, parameters: {"id": id!})
                       },
                       child: Text(
-                        "Report",
+                        "report_btn".tr,
                         style: headline3.copyWith(color: kPrimaryColor),
                       ),
                     ),
@@ -58,7 +58,7 @@ class ChatRoom extends GetView<ChatController> {
                   cancelButton: CupertinoActionSheetAction(
                     onPressed: () => Get.back(),
                     child: Text(
-                      "Cancel",
+                      "cancel_btn".tr,
                       style: headline3.copyWith(color: kPrimaryColor),
                     ),
                   ),

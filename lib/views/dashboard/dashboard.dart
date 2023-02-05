@@ -22,7 +22,7 @@ class DashboardScreen extends GetView<DashboardController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Item dashboard"),
+        title: Text("dashboard_title".tr),
         actions: [
           IconButton(
             onPressed: () {
@@ -37,7 +37,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         Get.back();
                       },
                       child: Text(
-                        "Archive",
+                        "archive_title".tr,
                         style: headline3.copyWith(color: kPrimaryColor),
                       ),
                     ),
@@ -47,7 +47,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         Get.toNamed(Routes.post, parameters: {"id": listing.id.toString()});
                       },
                       child: Text(
-                        "View post",
+                        "view_post_btn".tr,
                         style: headline3.copyWith(color: kPrimaryColor),
                       ),
                     ),
@@ -57,7 +57,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         Get.toNamed(Routes.editPost, arguments: listing);
                       },
                       child: Text(
-                        "Edit post",
+                        "edit_post_btn".tr,
                         style: headline3.copyWith(color: kPrimaryColor),
                       ),
                     ),
@@ -65,7 +65,7 @@ class DashboardScreen extends GetView<DashboardController> {
                   cancelButton: CupertinoActionSheetAction(
                     onPressed: () => Get.back(),
                     child: Text(
-                      "Cancel",
+                      "cancel_btn".tr,
                       style: headline3.copyWith(color: kPrimaryColor),
                     ),
                   ),
@@ -126,25 +126,25 @@ class DashboardScreen extends GetView<DashboardController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 10.w),
+                    padding: EdgeInsets.only(left: 5.w),
                     child: ElevatedButton(
                       onPressed: () => controller.markSold(),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 12),
+                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 12),
                         textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      child: const Text("Mark as sold"),
+                      child: Text("mark_sold_btn".tr),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 10.w),
+                    padding: EdgeInsets.only(right: 5.w),
                     child: ElevatedButton.icon(
                       onPressed: () => Get.toNamed(Routes.boost, arguments: listing),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10),
+                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 10),
                         textStyle: headline3.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      label: const Text("Sell faster"),
+                      label: Text("sell_fast_btn".tr),
                       icon: const Icon(Icons.keyboard_double_arrow_up_sharp),
                     ),
                   ),
@@ -160,7 +160,7 @@ class DashboardScreen extends GetView<DashboardController> {
                 color: kPrimaryColor,
               ),
               title: Text(
-                "Item preformance",
+                "prefomance_btn".tr,
                 style: headline3,
               ),
               trailing: const Icon(

@@ -16,7 +16,7 @@ class OfferDetails extends GetView<OfferController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Offers"),
+        title: Text("offers_title".tr),
       ),
       body: FutureBuilder<List<Offer>>(
         future: controller.getOffers(id),

@@ -59,7 +59,7 @@ class FacebookSection extends GetView<AccountController> {
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         textStyle: headline3,
                       ),
-                      child: const Text("Update"),
+                      child: Text("update_btn".tr),
                     ),
                   ],
                 ),

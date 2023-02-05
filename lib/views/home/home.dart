@@ -62,7 +62,7 @@ class HomeScreen extends GetView<HomeController> {
                           UniconsLine.search,
                           color: kPrimaryColor,
                         ),
-                        hintText: "Search",
+                        hintText: "search".tr,
                         isDense: true,
                         border:
                             OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
@@ -193,7 +193,7 @@ class HomeScreen extends GetView<HomeController> {
                             const Icon(UniconsLine.web_grid),
                             const SizedBox(width: 5),
                             Text(
-                              controller.category.value != null ? controller.category.value!.name : "Category",
+                              controller.category.value != null ? controller.category.value!.name : "category_title".tr,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const Spacer(),

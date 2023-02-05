@@ -26,6 +26,7 @@ class BoostController extends GetxController {
 
       List<Packages> packages = [];
       for (var package in res.data) {
+        if (package["package_type"] == "NSFW_CONTENT") continue;
         packages.add(Packages.fromJson(package));
       }
       return packages;

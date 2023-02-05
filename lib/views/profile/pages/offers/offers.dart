@@ -12,19 +12,19 @@ class MyOfferScreen extends GetView<OfferController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Offers"),
+        title: Text("my_offers_title".tr),
         bottom: TabBar(
           controller: controller.tabController,
           indicatorColor: kPrimaryColor,
           labelColor: kPrimaryColor,
           unselectedLabelColor: Colors.black,
           labelStyle: text1,
-          tabs: const [
+          tabs: [
             Tab(
-              text: "Offered",
+              text: "offerd_title".tr,
             ),
             Tab(
-              text: "My Offers",
+              text: "my_offers_title".tr,
             ),
           ],
         ),

@@ -17,7 +17,7 @@ class AccountSettings extends GetView<AccountController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Account settings"),
+        title: Text("account_settings_title".tr),
       ),
       body: Obx(
         () {
@@ -61,7 +61,7 @@ class AccountSettings extends GetView<AccountController> {
                 horizontalTitleGap: 0,
                 leading: const Icon(UniconsLine.location_point),
                 title: Text(
-                  user.state ?? "Not set yet",
+                  user.state ?? "not_set".tr,
                   style: text1,
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios_rounded),
@@ -71,7 +71,7 @@ class AccountSettings extends GetView<AccountController> {
                 horizontalTitleGap: 0,
                 leading: const Icon(UniconsLine.facebook_f),
                 title: Text(
-                  user.facebookHandle ?? "Not set yet",
+                  user.facebookHandle ?? "not_set".tr,
                   style: text1,
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios_rounded),
@@ -79,29 +79,29 @@ class AccountSettings extends GetView<AccountController> {
               ListTile(
                 onTap: () {
                   Get.defaultDialog(
-                    title: "Are you sure?",
-                    content: const Text(
-                      "Are you sure you want to delete your account?",
+                    title: "delete_title".tr,
+                    content: Text(
+                      "delete_body".tr,
                       textAlign: TextAlign.center,
                     ),
                     confirm: TextButton(
                       onPressed: () => Authenticator.instance.deleteUser(),
-                      child: const Text(
-                        "Yes",
-                        style: TextStyle(color: kWarningColor),
+                      child: Text(
+                        "yes".tr,
+                        style: const TextStyle(color: kWarningColor),
                       ),
                     ),
                     cancel: TextButton(
                       onPressed: () => Get.back(),
-                      child: const Text(
-                        "No",
+                      child: Text(
+                        "no".tr,
                       ),
                     ),
                   );
                 },
                 horizontalTitleGap: 0,
                 title: Text(
-                  "Delete Account",
+                  "delete_account_btn".tr,
                   style: text1.copyWith(color: kWarningColor),
                 ),
               ),

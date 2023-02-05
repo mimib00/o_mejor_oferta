@@ -38,7 +38,7 @@ class Loader {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Loading",
+                    "loading_title".tr,
                     style: text2.copyWith(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(width: 3.w),

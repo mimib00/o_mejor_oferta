@@ -15,7 +15,7 @@ class Inbox extends GetView<ChatController> {
     controller.messages.clear();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Inbox"),
+        title: Text("inbox_title".tr),
       ),
       body: FutureBuilder(
         future: controller.getThreads(),
@@ -40,7 +40,7 @@ class Inbox extends GetView<ChatController> {
                           UniconsLine.search,
                           color: kPrimaryColor,
                         ),
-                        hintText: "Search",
+                        hintText: "search".tr,
                         isDense: true,
                         border:
                             OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
