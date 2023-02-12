@@ -18,18 +18,18 @@ class ConditionStep extends GetView<AddPostController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Select Condition",
+                "condition_title".tr,
                 style: headline3,
               ),
               const SizedBox(height: 5),
               Text(
-                "What is the condition of your item?",
+                "condition_msg".tr,
                 style: text2,
               ),
               const SizedBox(height: 20),
               ConditionTile(
-                title: "New",
-                description: "Select only if the item is brand new.",
+                title: "new_title".tr,
+                description: "new_msg".tr,
                 selected: controller.condition.value == "New",
                 onTap: (value) {
                   controller.condition.value = value;
@@ -37,8 +37,8 @@ class ConditionStep extends GetView<AddPostController> {
                 },
               ),
               ConditionTile(
-                title: "Used",
-                description: "Select only if the item has been used before.",
+                title: "used_title".tr,
+                description: "used_msg".tr,
                 selected: controller.condition.value == "Used",
                 onTap: (value) {
                   controller.condition.value = value;
@@ -46,8 +46,8 @@ class ConditionStep extends GetView<AddPostController> {
                 },
               ),
               ConditionTile(
-                title: "Used - Like New",
-                description: "Select only if the item has been used before but look new.",
+                title: "like_new_title",
+                description: "like_new_msg".tr,
                 selected: controller.condition.value == "Used - Like New",
                 onTap: (value) {
                   controller.condition.value = value;

@@ -232,7 +232,7 @@ class AddPostController extends gety.GetxController {
         "price": price,
         "is_negotiable": negotiable.value,
         "sub_category": subCategory!.id,
-        "condition": condition.value.replaceAll("-", "").replaceAll(" ", "_").toUpperCase().toUpperCase(),
+        "condition": condition.value.replaceAll("-", "").replaceAll("  ", " ").replaceAll(" ", "_").toUpperCase(),
         "attributes": attributes.toList(),
       };
       List<String> photos = [];

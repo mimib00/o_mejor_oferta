@@ -98,6 +98,14 @@ const Map<String, String> es = {
   'resend_btn': 'Reenviar OTP',
   'send_btn': 'Enviado',
   'continue_btn': 'continuar',
+  'new_title': 'Nuevo',
+  'new_msg': 'Seleccione solo si el artículo es nuevo.',
+  'used_title': 'Usado',
+  'used_msg': 'Seleccione solo si el elemento se ha utilizado antes.',
+  'like_new_title': 'Usado - Como nuevo',
+  'like_new_msg': 'Seleccione solo si el artículo se ha usado antes pero parece nuevo.',
+  'condition_title': "Seleccionar condición",
+  'condition_msg': "¿Cuál es la condición de su artículo?",
   'en': 'Ingles',
   'es': 'Español'
 };
