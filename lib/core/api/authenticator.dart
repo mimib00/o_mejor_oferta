@@ -180,8 +180,8 @@ class Authenticator extends GetxController {
       await dio.patch(
         url,
         data: {
-          "location_lat": controller.locationData.latitude.toString(),
-          "loaction_long": controller.locationData.longitude.toString(),
+          "location_lat": (controller.locationData?.latitude ?? 0).toString(),
+          "loaction_long": (controller.locationData?.longitude ?? 0).toString(),
         },
         options: Options(
           headers: {

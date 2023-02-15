@@ -227,8 +227,8 @@ class AddPostController extends gety.GetxController {
         "description": description,
         "product_model": product?.id,
         "state": location.value!.id,
-        "location_lat": controller.locationData.latitude.toString(),
-        "location_long": controller.locationData.longitude.toString(),
+        "location_lat": (controller.locationData?.latitude ?? 0).toString(),
+        "location_long": (controller.locationData?.longitude ?? 0).toString(),
         "price": price,
         "is_negotiable": negotiable.value,
         "sub_category": subCategory!.id,
@@ -280,7 +280,11 @@ class AddPostController extends gety.GetxController {
       log(e.message);
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
-      return;
+    } catch (e, stackTrace) {
+      gety.Get.back();
+      log(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 

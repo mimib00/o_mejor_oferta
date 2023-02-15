@@ -234,7 +234,8 @@ class _FilterSheetState extends State<FilterSheet> {
                     String radius = "";
                     if (slider > 0) {
                       final LocationController controller = Get.find();
-                      radius = "${controller.locationData.latitude}, ${controller.locationData.longitude}, $slider";
+                      radius =
+                          "${controller.locationData?.latitude ?? 0}, ${controller.locationData?.longitude ?? 0}, $slider";
                     }
 
                     widget.onTap?.call(

@@ -3,7 +3,7 @@ import 'package:location/location.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 
 class LocationController extends GetxController {
-  late LocationData locationData;
+  LocationData? locationData;
   final Location location = Location();
 
   bool _serviceEnabled = false;
