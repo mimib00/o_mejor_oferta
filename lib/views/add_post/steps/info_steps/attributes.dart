@@ -27,11 +27,6 @@ class AttributesStep extends StatelessWidget {
             attribute.title,
             style: headline3,
           ),
-          const SizedBox(height: 5),
-          Text(
-            attribute.description,
-            style: text2,
-          ),
           const SizedBox(height: 20),
           AttributeInput(
             attribute: attribute,

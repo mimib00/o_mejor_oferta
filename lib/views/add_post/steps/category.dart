@@ -22,11 +22,6 @@ class CategoryStep extends GetView<AddPostController> {
             "Select category",
             style: headline3,
           ),
-          const SizedBox(height: 5),
-          Text(
-            "Choose an option below to post an ad",
-            style: text2,
-          ),
           const SizedBox(height: 20),
           FutureBuilder<List<Category>>(
             future: controller.getCategories(),

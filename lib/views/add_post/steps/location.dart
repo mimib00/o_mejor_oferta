@@ -20,11 +20,6 @@ class LocationStep extends GetView<AddPostController> {
             "Select location",
             style: headline3,
           ),
-          const SizedBox(height: 5),
-          Text(
-            "Where are you selling this item",
-            style: text2,
-          ),
           const SizedBox(height: 20),
           GestureDetector(
             onTap: () {

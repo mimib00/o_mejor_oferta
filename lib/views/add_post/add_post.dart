@@ -12,6 +12,20 @@ class AddPost extends GetView<AddPostController> {
         return Scaffold(
           appBar: AppBar(
             title: Text("post_ad_title".tr),
+            leading: IconButton(
+              onPressed: () {
+                if (controller.stepIndex.value == 0) {
+                  Get.back();
+                } else if (controller.stepIndex.value > 0) {
+                  controller.back();
+                } else if (controller.infoStepIndex.value == 0) {
+                  controller.back();
+                } else if (controller.infoStepIndex.value > 0) {
+                  controller.backInfo();
+                }
+              },
+              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            ),
           ),
           body: controller.step,
         );

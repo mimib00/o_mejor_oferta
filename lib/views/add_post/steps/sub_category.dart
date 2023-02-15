@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart';
-import 'package:mejor_oferta/views/add_post/steps/info_steps/condition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SubCategoryStep extends GetView<AddPostController> {
@@ -19,11 +18,6 @@ class SubCategoryStep extends GetView<AddPostController> {
           Text(
             "Select subcategory",
             style: headline3,
-          ),
-          const SizedBox(height: 5),
-          Text(
-            "What is your car sub category",
-            style: text2,
           ),
           const SizedBox(height: 20),
           FutureBuilder<List<Category>>(
@@ -43,9 +37,7 @@ class SubCategoryStep extends GetView<AddPostController> {
                   return ListTile(
                     onTap: () {
                       controller.subCategory = sub;
-                      if (sub.hasCondition) {
-                        controller.infoSteps.add(const ConditionStep());
-                      }
+
                       controller.next();
                     },
                     title: Text(sub.name),

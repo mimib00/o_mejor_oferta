@@ -32,12 +32,12 @@ class AddPostController extends gety.GetxController {
   final LocationController controller = gety.Get.find();
   final HomeController homeController = gety.Get.find();
 
-  gety.RxInt _step = 0.obs;
-  gety.RxInt _infoStep = 1.obs;
+  gety.RxInt stepIndex = 0.obs;
+  gety.RxInt infoStepIndex = 1.obs;
 
-  Widget get step => steps[_step.value];
-  Widget get infoStep => infoSteps[_infoStep.value - 1];
-  double get percentage => _infoStep.value / infoSteps.length;
+  Widget get step => steps[stepIndex.value];
+  Widget get infoStep => infoSteps[infoStepIndex.value - 1];
+  double get percentage => infoStepIndex.value / infoSteps.length;
 
   Category? category;
   Category? subCategory;
@@ -65,14 +65,26 @@ class AddPostController extends gety.GetxController {
   List<Widget> infoSteps = [];
 
   void next() {
-    if (_step.value == steps.length) return;
-    _step.value += 1;
+    if (stepIndex.value == steps.length) return;
+    stepIndex.value += 1;
     update();
   }
 
   void nextInfo() {
-    if (_infoStep.value == infoSteps.length) return;
-    _infoStep.value += 1;
+    if (infoStepIndex.value == infoSteps.length) return;
+    infoStepIndex.value += 1;
+    update();
+  }
+
+  void back() {
+    if (stepIndex.value == 0) return;
+    stepIndex.value -= 1;
+    update();
+  }
+
+  void backInfo() {
+    if (infoStepIndex.value == 0) return;
+    infoStepIndex.value -= 1;
     update();
   }
 
@@ -290,7 +302,7 @@ class AddPostController extends gety.GetxController {
 
   @override
   void onClose() {
-    _step.value = 0;
+    stepIndex.value = 0;
     category = null;
     subCategory = null;
     super.onClose();
