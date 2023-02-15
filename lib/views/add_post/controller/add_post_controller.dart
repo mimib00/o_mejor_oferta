@@ -17,6 +17,7 @@ import 'package:mejor_oferta/meta/models/brand.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/state.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/meta/utils/helper.dart';
 import 'package:mejor_oferta/views/add_post/steps/category.dart';
 import 'package:mejor_oferta/views/add_post/steps/info.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/attributes.dart';
@@ -115,8 +116,10 @@ class AddPostController extends gety.GetxController {
       for (final brand in res.data) {
         brands.add(Brand.fromJson(brand));
       }
-
-      infoSteps.insert(2, BrandsStep(brands: brands, isBrands: false));
+      log(infoSteps.length.toString());
+      infoSteps.insert(1, BrandsStep(brands: brands, isBrands: false));
+      log(infoSteps.length.toString());
+      update();
     } on DioError catch (e) {
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);
@@ -250,17 +253,24 @@ class AddPostController extends gety.GetxController {
       List<String> photos = [];
       final id = uuid.v4();
       for (final image in images) {
+        final bucket = storage.child("listings/$id/${image.name}");
         try {
-          final snapshot = await storage.child("listings/$id/${image.name}").putFile(
-                File(image.path),
-                SettableMetadata(
-                  contentType: "image/jpeg",
-                ),
-              );
+          final snapshot = await bucket.putFile(
+            File(image.path),
+            SettableMetadata(
+              contentType: "image/jpeg",
+            ),
+          );
           if (snapshot.state == TaskState.error || snapshot.state == TaskState.canceled) {
             throw "There was an error during upload";
           }
           if (snapshot.state == TaskState.success) {
+            var offensiveImage = await validateImage(bucket.fullPath, bucket.bucket);
+            if (offensiveImage) {
+              Fluttertoast.showToast(msg: "Offensive Image detected");
+              gety.Get.back();
+              return;
+            }
             var imageUrl = await snapshot.ref.getDownloadURL();
             photos.add(imageUrl);
           }

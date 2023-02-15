@@ -1,14 +1,17 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/meta/models/user.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/meta/utils/helper.dart';
 import 'package:mejor_oferta/meta/widgets/loader.dart';
 import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,30 +46,40 @@ class ProfileInfoTile extends StatelessWidget {
 
                 final photo = await picker.pickImage(source: ImageSource.gallery);
                 if (photo == null) return;
+                final bucket = storage.child("profile/${user.id}/${user.id}");
                 Loader.instance.showCircularProgressIndicatorWithText();
-                final snapshot = await storage.child("profile/${user.id}/${user.id}").putFile(
-                      File(photo.path),
-                      SettableMetadata(
-                        contentType: "image/jpeg",
-                      ),
-                    );
+                final snapshot = await bucket.putFile(
+                  File(photo.path),
+                  SettableMetadata(
+                    contentType: "image/jpeg",
+                  ),
+                );
 
                 if (snapshot.state == TaskState.error || snapshot.state == TaskState.canceled) {
-                  throw "There was an error during upload";
+                  log("There was an error during upload");
+                  return;
                 }
                 if (snapshot.state == TaskState.success) {
-                  var imageUrl = await snapshot.ref.getDownloadURL();
+                  var offensiveImage = await validateImage(bucket.fullPath, bucket.bucket);
+                  if (offensiveImage) {
+                    Fluttertoast.showToast(msg: "Offensive Image detected");
+                    Get.back();
+                    await Authenticator.instance.updateUser({'profile_picture': null});
+                    return;
+                  }
                   Get.back();
-                  Authenticator.instance.updateUser({'profile_picture': imageUrl});
+                  final imageUrl = await snapshot.ref.getDownloadURL();
+
+                  await Authenticator.instance.updateUser({'profile_picture': imageUrl});
                 }
               },
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: CachedNetworkImage(
-                      imageUrl: user.photo ?? "",
+                    child: Image.network(
+                      user.photo ?? "",
                       fit: BoxFit.cover,
-                      errorWidget: (context, url, error) {
+                      errorBuilder: (context, url, error) {
                         return Container(
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,

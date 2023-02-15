@@ -131,9 +131,11 @@ class Authenticator extends GetxController {
       );
       await Authenticator.instance.getUser();
       Get.back();
-    } on DioError catch (e) {
+    } on DioError catch (e, stackTrace) {
       Get.back();
-      log(e.response!.data.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      log(e.message);
+      log((e.response?.data).toString());
       Fluttertoast.showToast(msg: e.message);
     }
   }
