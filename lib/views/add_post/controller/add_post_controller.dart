@@ -40,6 +40,8 @@ class AddPostController extends gety.GetxController {
   Widget get infoStep => infoSteps[infoStepIndex.value - 1];
   double get percentage => infoStepIndex.value / infoSteps.length;
 
+  List<String> words = [];
+
   Category? category;
   Category? subCategory;
 
@@ -308,6 +310,13 @@ class AddPostController extends gety.GetxController {
       debugPrintStack(stackTrace: stackTrace);
       Fluttertoast.showToast(msg: e.toString());
     }
+  }
+
+  @override
+  void onInit() async {
+    words = await getBadWordsList();
+    log(words.toString());
+    super.onInit();
   }
 
   @override

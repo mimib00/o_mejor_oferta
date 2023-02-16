@@ -125,6 +125,16 @@ class AttributeInput extends StatelessWidget {
           labelText: attribute.title,
           validator: (value) {
             if (attribute.required && value == null || value!.isEmpty) return "Field required";
+            final splitted = value.split(' ');
+            if (editing) {
+              for (var word in splitted) {
+                if (editController.words.contains(word.toLowerCase())) return "Bad word found";
+              }
+            } else {
+              for (var word in splitted) {
+                if (controller.words.contains(word.toLowerCase())) return "Bad word found";
+              }
+            }
             return null;
           },
           onChanged: (value) {
@@ -358,6 +368,16 @@ class AttributeInput extends StatelessWidget {
           lines: 8,
           validator: (value) {
             if (attribute.required && value == null || value!.isEmpty) return "Field required";
+            final splitted = value.split(' ');
+            if (editing) {
+              for (var word in splitted) {
+                if (editController.words.contains(word.toLowerCase())) return "Bad word found";
+              }
+            } else {
+              for (var word in splitted) {
+                if (controller.words.contains(word.toLowerCase())) return "Bad word found";
+              }
+            }
             return null;
           },
           onChanged: (value) {
@@ -428,7 +448,9 @@ class AttributeInput extends StatelessWidget {
                                           .isEmpty
                                       ? null
                                       : () {
-                                          controller.nextInfo();
+                                          if (form.currentState!.validate()) {
+                                            controller.nextInfo();
+                                          }
                                         }
                                   : () {
                                       controller.nextInfo();

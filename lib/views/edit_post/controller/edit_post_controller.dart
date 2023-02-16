@@ -14,6 +14,7 @@ import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
+import 'package:mejor_oferta/meta/utils/helper.dart';
 import 'package:mejor_oferta/views/add_post/steps/info_steps/attributes.dart';
 import 'package:mejor_oferta/views/home/controller/home_controller.dart';
 import 'package:uuid/uuid.dart';
@@ -28,6 +29,8 @@ class EditPostController extends GetxController {
   String title = "";
   String description = "";
   String price = "";
+
+  List<String> words = [];
 
   RxString condition = "".obs;
   RxSet<Map<String, dynamic>> attributes = <Map<String, dynamic>>{}.obs;
@@ -186,5 +189,11 @@ class EditPostController extends GetxController {
       Fluttertoast.showToast(msg: e.message);
       return;
     }
+  }
+
+  @override
+  void onInit() async {
+    words = await getBadWordsList();
+    super.onInit();
   }
 }
