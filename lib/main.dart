@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -23,6 +24,9 @@ void main() async {
   Get.put(NotificationController(), permanent: true);
   Stripe.publishableKey =
       "pk_test_51Hlf3VKG6balmX6yeLDOy9jTMylr3N1FulNKOBA8cjGCsGTsPPayUit7Q5zvI4FSCDr272rPe9BixBj47kSa5xVC00JJY85JWU";
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const MyApp());
 }
 

@@ -17,18 +17,18 @@ class BoostHowScreen extends StatelessWidget {
           children: const [
             HowTile(
               image: "assets/phone1.png",
-              title: "Get more views",
-              info: "Promoted posts appear among the first spots buyers see and get an average of 14x more views.",
+              title: "boost_how_1_title",
+              info: "boost_how_1_msg",
             ),
             HowTile(
               image: "assets/phone2.png",
-              title: "Add a boosted spot",
-              info: "Your item appears as a new post in search results as well as in the promoted spot.",
+              title: "boost_how_2_title",
+              info: "boost_how_2_msg",
             ),
             HowTile(
               image: "assets/phone3.png",
-              title: "Boosted spots are shared",
-              info: "Don’t worry if you don’t see your item at the top of the feed. Spots are shared between sellers",
+              title: "boost_how_3_title",
+              info: "boost_how_3_msg",
             ),
           ],
         ),

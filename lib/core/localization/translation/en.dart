@@ -106,6 +106,12 @@ const Map<String, String> en = {
   'like_new_msg': 'Select only if the item has been used before but look new.',
   'condition_title': "Select Condition",
   'condition_msg': "What is the condition of your item?",
+  'boost_how_1_title': "Get more views",
+  "boost_how_1_msg": "Promoted posts appear among the first spots buyers see and get an average of 14x more views.",
+  'boost_how_2_title': "Add a boosted spot",
+  "boost_how_2_msg": "Your item appears as a new post in search results as well as in the promoted spot.",
+  'boost_how_3_title': "Boosted spots are shared",
+  "boost_how_3_msg": "Don’t worry if you don’t see your item at the top of the feed. Spots are shared between sellers.",
   'en': 'English',
   'es': 'Spanish',
 };

@@ -106,6 +106,14 @@ const Map<String, String> es = {
   'like_new_msg': 'Seleccione solo si el artículo se ha usado antes pero parece nuevo.',
   'condition_title': "Seleccionar condición",
   'condition_msg': "¿Cuál es la condición de su artículo?",
+  'boost_how_1_title': "Recibe más vistas",
+  "boost_how_1_msg":
+      "Cuando promueves un anuncio, estos aparecen entre los primeros de sus respectivas categorías y pueden recibir un promedio de 20 vistas más.",
+  'boost_how_2_title': "Añade un lugar para tu anuncio",
+  "boost_how_2_msg": "Su anuncio aparece como promovido cuando se hace una búsqueda.",
+  'boost_how_3_title': "Anuncios promovidos comparten espacios",
+  "boost_how_3_msg":
+      "Si no ves tu anuncio justamente al principio no se preocupe. Los espacios de anuncios promovidos se comparten con otros promovidos de igual forma.",
   'en': 'Ingles',
   'es': 'Español'
 };
