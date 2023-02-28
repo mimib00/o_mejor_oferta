@@ -29,6 +29,13 @@
             {
               "client_id": "274248935088-7fjapkdfmijjqeia44mjlg58cg12grcs.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "274248935088-n525m9743pnov4o86aukc16u4tsn54ig.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.duseca.mejorOferta"
+              }
             }
           ]
         }
