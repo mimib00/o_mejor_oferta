@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyADrvIFULAXZZa9J4ph1BKnqk70Eu5wFfo',
-    appId: '1:1039323289231:android:16ea6cc5ce77c2985f42fa',
-    messagingSenderId: '1039323289231',
-    projectId: 'mejor-oferta-c88d1',
-    storageBucket: 'mejor-oferta-c88d1.appspot.com',
+    apiKey: 'AIzaSyAezpBWhYG3O208C9EKooeJNxNgO2yLceA',
+    appId: '1:274248935088:android:6e267696fbd4e429e7bd75',
+    messagingSenderId: '274248935088',
+    projectId: 'o-mejor-oferta',
+    storageBucket: 'o-mejor-oferta.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD_ptjFzoJLo5oynjuachBULYKSPNRG7VM',
-    appId: '1:1039323289231:ios:8e1daf7dec529f4c5f42fa',
-    messagingSenderId: '1039323289231',
-    projectId: 'mejor-oferta-c88d1',
-    storageBucket: 'mejor-oferta-c88d1.appspot.com',
-    iosClientId: '1039323289231-hgsskt67eurkjt1ukuad7rabpq6naucb.apps.googleusercontent.com',
+    apiKey: 'AIzaSyA-vSn_Aem_QSZyBzXEKFeENC87Jp9yAzM',
+    appId: '1:274248935088:ios:1033bf39763a9f2ce7bd75',
+    messagingSenderId: '274248935088',
+    projectId: 'o-mejor-oferta',
+    storageBucket: 'o-mejor-oferta.appspot.com',
+    iosClientId: '274248935088-n525m9743pnov4o86aukc16u4tsn54ig.apps.googleusercontent.com',
     iosBundleId: 'com.duseca.mejorOferta',
   );
 }
