@@ -5,7 +5,7 @@ import 'package:mejor_oferta/core/config.dart';
 final dio = Dio();
 Future<bool> validateImage(String path, String bucket) async {
   try {
-    const url = 'https://us-central1-mejor-oferta-c88d1.cloudfunctions.net/detectOffensiveImages';
+    const url = 'https://us-east1-o-mejor-oferta.cloudfunctions.net/detectOffensiveImages';
     final res = await dio.post(
       url,
       data: {
