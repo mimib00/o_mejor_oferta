@@ -22,8 +22,7 @@ void main() async {
   await Get.putAsync(() async => LocaleController(), permanent: true);
   Get.put(LocationController(), permanent: true);
   Get.put(NotificationController(), permanent: true);
-  Stripe.publishableKey =
-      "pk_test_51Hlf3VKG6balmX6yeLDOy9jTMylr3N1FulNKOBA8cjGCsGTsPPayUit7Q5zvI4FSCDr272rPe9BixBj47kSa5xVC00JJY85JWU";
+  Stripe.publishableKey = "pk_live_51Me3iXFUo440m80DfCGlvkw5wchrbJn8Dnfmxw57YX2hPuqQEMZQZsWsFLVV408m8UDPXTYLkVz3S826hfvEX3ge00HozyNTsu";
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
