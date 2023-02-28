@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mejor_oferta/views/add_post/controller/add_post_controller.dart';
@@ -16,9 +18,7 @@ class AddPost extends GetView<AddPostController> {
               onPressed: () {
                 if (controller.stepIndex.value == 0) {
                   Get.back();
-                } else if (controller.stepIndex.value > 0) {
-                  controller.back();
-                } else if (controller.infoStepIndex.value == 0) {
+                } else if (controller.stepIndex.value > 0 && controller.infoStepIndex.value == 1) {
                   controller.back();
                 } else if (controller.infoStepIndex.value > 0) {
                   controller.backInfo();

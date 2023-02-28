@@ -86,7 +86,7 @@ class AddPostController extends gety.GetxController {
   }
 
   void backInfo() {
-    if (infoStepIndex.value == 0) return;
+    if (infoStepIndex.value == 1) return;
     infoStepIndex.value -= 1;
     update();
   }
