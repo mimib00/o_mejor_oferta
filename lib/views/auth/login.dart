@@ -32,7 +32,7 @@ class LoginScreen extends GetView<LoginController> {
                   labelText: "email_title".tr,
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Field required";
-                    if (!value.isEmail) return "Email miss formatted";
+                    if (!value.trim().isEmail) return "Email miss formatted";
                     return null;
                   },
                 ),

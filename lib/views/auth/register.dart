@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
 import 'package:mejor_oferta/meta/widgets/text_input.dart';
@@ -37,19 +38,32 @@ class RegisterScreen extends GetView<RegisterController> {
                   labelText: "Email",
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Field required";
-                    if (!value.isEmail) return "Email miss formatted";
+                    if (!value.trim().isEmail) return "Email miss formatted";
                     return null;
                   },
                 ),
-                CustomTextInput(
-                  controller: controller.phone,
-                  labelText: "Ex: +92123456789",
-                  keyboardType: TextInputType.phone,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return "Field required";
-                    if (!value.isPhoneNumber) return "Please enter a valid phone number";
-                    return null;
-                  },
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: const Color(0xffE3E5E5), width: 1),
+                  ),
+                  child: InternationalPhoneNumberInput(
+                    countries: const ["US"],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return "Field required";
+                      if (!value.trim().isPhoneNumber) return "Please enter a valid phone number";
+                      return null;
+                    },
+                    onInputChanged: (value) {
+                      controller.phone = value.phoneNumber ?? "";
+                    },
+                    inputDecoration: const InputDecoration(
+                      hintText: "xxx-xxx-xxxx",
+                    ),
+                  ),
                 ),
                 CustomTextInput(
                   controller: controller.password,
@@ -98,7 +112,7 @@ class RegisterScreen extends GetView<RegisterController> {
                             Routes.otp,
                             parameters: {
                               "signup": "true",
-                              "phone": controller.phone.text.trim(),
+                              "phone": controller.phone.trim(),
                               "name": controller.name.text.trim(),
                               "email": controller.email.text.trim(),
                               "password": controller.password.text.trim(),
