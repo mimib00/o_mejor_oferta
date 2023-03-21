@@ -49,6 +49,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App needs it to upload product images</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App needs it to upload product images</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App needs it for filtering posts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
