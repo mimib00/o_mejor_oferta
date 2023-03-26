@@ -52,37 +52,44 @@ class PostScreen extends GetView<PostController> {
         }
         final listing = controller.listing.value!;
         final saved = controller.saved.value;
-        final me = Authenticator.instance.user.value!;
-        final mine = listing.owner.id != me.id;
+        final me = Authenticator.instance.user.value;
+        final mine = listing.owner.id != me?.id;
         return Scaffold(
           appBar: AppBar(
             title: Text("details_title".tr),
             actions: [
-              GestureDetector(
-                onTap: () => Get.toNamed(Routes.postReport, parameters: {"id": listing.id.toString()}),
-                child: const Icon(UniconsLine.ban),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () async => await controller.toggleSave(),
-                child: Icon(
-                  saved ? Icons.star_rounded : Icons.star_outline,
-                  color: saved ? Colors.yellow : null,
-                ),
-              ),
-              const SizedBox(width: 10),
               Visibility(
-                visible: !mine,
+                visible: me != null,
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () => Get.toNamed(Routes.editPost, arguments: listing),
+                      onTap: () => Get.toNamed(Routes.postReport, parameters: {"id": listing.id.toString()}),
+                      child: const Icon(UniconsLine.ban),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () async => await controller.toggleSave(),
                       child: Icon(
-                        UniconsLine.edit,
+                        saved ? Icons.star_rounded : Icons.star_outline,
                         color: saved ? Colors.yellow : null,
                       ),
                     ),
                     const SizedBox(width: 10),
+                    Visibility(
+                      visible: !mine,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.toNamed(Routes.editPost, arguments: listing),
+                            child: Icon(
+                              UniconsLine.edit,
+                              color: saved ? Colors.yellow : null,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -291,15 +298,27 @@ class PostScreen extends GetView<PostController> {
                         Expanded(
                           child: MainButton(
                             onTap: () {
-                              final OffersController offersController = Get.put(OffersController());
-                              offersController.createChatRoom(listings: listing);
+                              final token = Authenticator.instance.fetchToken();
+                              if (token.isEmpty) {
+                                Get.offAllNamed(Routes.login);
+                              } else {
+                                final OffersController offersController = Get.put(OffersController());
+                                offersController.createChatRoom(listings: listing);
+                              }
                             },
                             text: "chat_btn".tr,
                           ),
                         ),
                         Expanded(
                           child: MainButton(
-                            onTap: () => Get.toNamed(Routes.offers, arguments: listing),
+                            onTap: () {
+                              final token = Authenticator.instance.fetchToken();
+                              if (token.isEmpty) {
+                                Get.offAllNamed(Routes.login);
+                              } else {
+                                Get.toNamed(Routes.offers, arguments: listing);
+                              }
+                            },
                             text: "make_offer_btn".tr,
                           ),
                         ),

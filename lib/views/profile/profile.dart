@@ -22,15 +22,18 @@ class ProfileScreen extends GetView<ProfileController> {
       appBar: AppBar(
         title: Text("profile_title".tr),
         actions: [
-          TextButton(
-            onPressed: () => Authenticator.instance.logout(),
-            child: Text("logout_btn".tr),
+          Visibility(
+            visible: Authenticator.instance.user.value != null,
+            child: TextButton(
+              onPressed: () => Authenticator.instance.logout(),
+              child: Text("logout_btn".tr),
+            ),
           ),
         ],
       ),
       body: Obx(
         () {
-          final user = Authenticator.instance.user.value!;
+          final user = Authenticator.instance.user.value;
           return ListView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -45,69 +48,103 @@ class ProfileScreen extends GetView<ProfileController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "verify_title".tr,
-                      style: text1.copyWith(fontWeight: FontWeight.bold),
+                    Visibility(
+                      visible: user != null,
+                      child: Text(
+                        "verify_title".tr,
+                        style: text1.copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        VerificationTile(
-                          icon: Icons.email_outlined,
-                          title: "email_verification_title".tr,
-                          active: true,
-                        ),
-                        VerificationTile(
-                          icon: UniconsLine.phone,
-                          title: "phone_verification_title".tr,
-                          active: true,
-                        ),
-                        VerificationTile(
-                          onTap: () {
-                            launchUrl(Uri.parse(user.facebookHandle!));
-                          },
-                          icon: UniconsLine.facebook_f,
-                          title: "facebook_verification_title".tr,
-                          active: user.facebookHandle != null,
-                        ),
-                      ],
+                    Visibility(
+                      visible: user != null,
+                      child: Row(
+                        children: [
+                          VerificationTile(
+                            icon: Icons.email_outlined,
+                            title: "email_verification_title".tr,
+                            active: true,
+                          ),
+                          VerificationTile(
+                            icon: UniconsLine.phone,
+                            title: "phone_verification_title".tr,
+                            active: true,
+                          ),
+                          VerificationTile(
+                            onTap: () {
+                              launchUrl(Uri.parse(user?.facebookHandle! ?? ""));
+                            },
+                            icon: UniconsLine.facebook_f,
+                            title: "facebook_verification_title".tr,
+                            active: user?.facebookHandle != null,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 15),
-                    Text(
-                      "transactions_title".tr,
-                      style: headline2,
+                    Visibility(
+                      visible: user != null,
+                      child: Column(
+                        children: [
+                          Text(
+                            "transactions_title".tr,
+                            style: headline2,
+                          ),
+                          ProfileTile(
+                            icon: UniconsLine.dollar_alt,
+                            title: "purchased_items_title".tr,
+                            onTap: () => Get.toNamed(Routes.profileBought),
+                          ),
+                        ],
+                      ),
                     ),
-                    ProfileTile(
-                      icon: UniconsLine.dollar_alt,
-                      title: "purchased_items_title".tr,
-                      onTap: () => Get.toNamed(Routes.profileBought),
+                    Visibility(
+                      visible: user != null,
+                      child: Column(
+                        children: [
+                          Text(
+                            "offers_title".tr,
+                            style: headline2,
+                          ),
+                          ProfileTile(
+                            icon: UniconsLine.pricetag_alt,
+                            title: "my_offers_title".tr,
+                            onTap: () => Get.toNamed(Routes.profileOffers),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      "offers_title".tr,
-                      style: headline2,
+                    Visibility(
+                      visible: user != null,
+                      child: Column(
+                        children: [
+                          Text(
+                            "saves_title".tr,
+                            style: headline2,
+                          ),
+                          ProfileTile(
+                            icon: UniconsLine.star,
+                            title: "saved_title".tr,
+                            onTap: () => Get.toNamed(Routes.profileSaved),
+                          ),
+                        ],
+                      ),
                     ),
-                    ProfileTile(
-                      icon: UniconsLine.pricetag_alt,
-                      title: "my_offers_title".tr,
-                      onTap: () => Get.toNamed(Routes.profileOffers),
-                    ),
-                    Text(
-                      "saves_title".tr,
-                      style: headline2,
-                    ),
-                    ProfileTile(
-                      icon: UniconsLine.star,
-                      title: "saved_title".tr,
-                      onTap: () => Get.toNamed(Routes.profileSaved),
-                    ),
-                    Text(
-                      "account_title".tr,
-                      style: headline2,
-                    ),
-                    ProfileTile(
-                      icon: UniconsLine.setting,
-                      title: "account_settings_title".tr,
-                      onTap: () => Get.toNamed(Routes.profileAccount),
+                    Visibility(
+                      visible: user != null,
+                      child: Column(
+                        children: [
+                          Text(
+                            "account_title".tr,
+                            style: headline2,
+                          ),
+                          ProfileTile(
+                            icon: UniconsLine.setting,
+                            title: "account_settings_title".tr,
+                            onTap: () => Get.toNamed(Routes.profileAccount),
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
                       "help_title".tr,

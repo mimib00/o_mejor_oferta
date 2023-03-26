@@ -40,7 +40,6 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     try {
       if (stop) return;
       const url = "$baseUrl/listings/listings/";
-      final token = Authenticator.instance.fetchToken();
       final param = {
         "page": page == 0 ? 1 : page,
         "size": limit,
@@ -57,11 +56,6 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       final res = await dio.get(
         url,
         queryParameters: param,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer ${token["access"]}",
-          },
-        ),
       );
 
       List<ListingThumb> thumbs = [];
@@ -93,14 +87,9 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   Future<List<FullCategory>> getCategories() async {
     try {
       const url = "$baseUrl/listings/categories-with-subcategories/";
-      final token = Authenticator.instance.fetchToken();
+
       final res = await dio.get(
         url,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer ${token["access"]}",
-          },
-        ),
       );
       List<FullCategory> categories = [];
       for (var category in res.data) {
@@ -123,6 +112,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     try {
       const url = "$baseUrl/listings/listings/promoted-listings/";
       final token = Authenticator.instance.fetchToken();
+      if (token.isEmpty) return [];
       final res = await dio.get(
         url,
         options: Options(

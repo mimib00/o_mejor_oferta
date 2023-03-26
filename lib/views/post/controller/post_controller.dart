@@ -26,20 +26,14 @@ class PostController extends GetxController {
   Future<void> getListing() async {
     try {
       final id = Get.parameters["id"];
+      log(id.toString());
       final url = "$baseUrl/listings/listings/$id";
-      final token = Authenticator.instance.fetchToken();
-      final res = await dio.get(
-        url,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer ${token["access"]}",
-          },
-        ),
-      );
+      final res = await dio.get(url);
       listing.value = Listing.fromJson(res.data);
       saved.value = listing.value?.isFavorite ?? false;
       update();
     } on DioError catch (e, stackTrace) {
+      log('message');
       debugPrintStack(stackTrace: stackTrace);
       log(e.response!.data.toString());
       Fluttertoast.showToast(msg: e.message);

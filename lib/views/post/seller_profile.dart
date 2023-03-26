@@ -15,6 +15,7 @@ import 'package:mejor_oferta/views/home/components/listing_tile.dart';
 import 'package:mejor_oferta/views/profile/components/profile_info.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:unicons/unicons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SellerProfile extends StatelessWidget {
   final int id;
@@ -28,15 +29,7 @@ class SellerProfile extends StatelessWidget {
   Future<User?> getUser() async {
     try {
       final url = "$baseUrl/authentication/users/$id/user-profile-with-listings/";
-      final token = Authenticator.instance.fetchToken();
-      final res = await dio.get(
-        url,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer ${token["access"]}",
-          },
-        ),
-      );
+      final res = await dio.get(url);
       return User.fromJson(res.data);
     } on DioError catch (e, stackTrace) {
       debugPrintStack(stackTrace: stackTrace);
@@ -90,7 +83,7 @@ class SellerProfile extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: Loading());
           if (snapshot.data == null) return Container();
           final user = snapshot.data!;
-          final me = Authenticator.instance.user.value!;
+          final me = Authenticator.instance.user.value;
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -105,7 +98,7 @@ class SellerProfile extends StatelessWidget {
                     ),
                     const Spacer(),
                     Visibility(
-                      visible: me.id != user.id,
+                      visible: me?.id != user.id,
                       child: FloatingActionButton(
                         onPressed: () {
                           double rate = 0;
@@ -151,6 +144,14 @@ class SellerProfile extends StatelessWidget {
                         foregroundColor: Colors.white,
                         child: const Icon(UniconsLine.edit),
                       ),
+                    ),
+                    const SizedBox(width: 8),
+                    FloatingActionButton(
+                      onPressed: () => launchUrl(Uri.parse("tel:${user.phone}")),
+                      elevation: 0,
+                      backgroundColor: kPrimaryColor,
+                      foregroundColor: Colors.white,
+                      child: const Icon(UniconsLine.phone),
                     ),
                   ],
                 ),

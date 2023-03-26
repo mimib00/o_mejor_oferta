@@ -16,6 +16,12 @@ class LoginScreen extends GetView<LoginController> {
     return Scaffold(
       appBar: AppBar(
         title: Text("login_title".tr),
+        actions: [
+          TextButton(
+            onPressed: () => Get.offAllNamed(Routes.root),
+            child: const Text('Skip'),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

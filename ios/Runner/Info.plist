@@ -48,12 +48,10 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App needs it to upload product images</string>
+	<string>App needs it to upload images of products user want to sell</string>
 	<key>NSCameraUsageDescription</key>
-	<string>App needs it to upload product images</string>
+	<string>App needs it to upload images of products user want to sell</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs it for filtering posts</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App needs it for filtering posts</string>
+	<string>App needs it to display location of the post</string>
 </dict>
 </plist>
