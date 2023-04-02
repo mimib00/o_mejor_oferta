@@ -52,6 +52,6 @@
 	<key>NSCameraUsageDescription</key>
 	<string>App needs it to upload images of products user want to sell</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs it to display location of the post</string>
+	<string>App needs it to set location of products user want to sell</string>
 </dict>
 </plist>
