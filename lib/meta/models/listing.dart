@@ -1,8 +1,18 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
+import 'package:mejor_oferta/core/config.dart';
 import 'package:mejor_oferta/meta/models/attributes.dart';
 import 'package:mejor_oferta/meta/models/brand.dart';
 import 'package:mejor_oferta/meta/models/category.dart';
 import 'package:mejor_oferta/meta/models/state.dart';
 import 'package:mejor_oferta/meta/models/user.dart';
+
+import '../utils/constants.dart';
 
 enum ListingStatus {
   draft,
@@ -131,5 +141,28 @@ class Listing {
       data["images"].cast<String>(),
       data["is_favorite"],
     );
+  }
+
+  Future<void> delete() async {
+    try {
+      Get.dialog(const Center(child: CircularProgressIndicator(color: kPrimaryColor)));
+      final dio = Dio();
+      final url = "$baseUrl/listings/listings/$id/";
+      final tokens = Authenticator.instance.fetchToken();
+      await dio.delete(
+        url,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${tokens["access"]}",
+          },
+        ),
+      );
+      Get.back();
+      Get.back();
+    } on DioError catch (e) {
+      Get.back();
+      log(e.response!.data.toString());
+      Fluttertoast.showToast(msg: e.message);
+    }
   }
 }

@@ -36,6 +36,7 @@ const Map<String, String> en = {
   'prefomance_btn': 'Item preformance',
   'view_post_btn': 'View post',
   'edit_post_btn': 'Edit post',
+  'delete_post_btn': 'Delete post',
   'dashboard_title': 'Item Dashboard',
   'total_view_title': 'Total views',
   'subscribe_btn': 'Subscribe',

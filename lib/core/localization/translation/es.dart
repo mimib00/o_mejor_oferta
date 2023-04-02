@@ -36,6 +36,7 @@ const Map<String, String> es = {
   'prefomance_btn': 'Desempeño del articulo',
   'view_post_btn': 'Ver anuncio',
   'edit_post_btn': 'Editar anuncio',
+  'delete_post_btn': 'Eliminar mensaje',
   'dashboard_title': 'Panel del articulo',
   'total_view_title': 'Vistas totales',
   'subscribe_btn': 'Subscribirse',

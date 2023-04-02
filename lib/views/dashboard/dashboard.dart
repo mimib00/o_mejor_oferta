@@ -61,6 +61,16 @@ class DashboardScreen extends GetView<DashboardController> {
                         style: headline3.copyWith(color: kPrimaryColor),
                       ),
                     ),
+                    CupertinoActionSheetAction(
+                      onPressed: () {
+                        Get.back();
+                        listing.delete();
+                      },
+                      child: Text(
+                        "delete_post_btn".tr,
+                        style: headline3.copyWith(color: kWarningColor),
+                      ),
+                    ),
                   ],
                   cancelButton: CupertinoActionSheetAction(
                     onPressed: () => Get.back(),
