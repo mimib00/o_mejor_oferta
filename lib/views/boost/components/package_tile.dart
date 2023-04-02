@@ -16,15 +16,14 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 Future<void> subscribe(int package, {int? listing}) async {
   try {
     final dio = Dio();
-    final url =
-        listing == null ? "$baseUrl/payments/create-payment-nsfw/" : "$baseUrl/payments/create-payment-boosting/";
+    final url = listing == null ? "$baseUrl/payments/create-payment-nsfw/" : "$baseUrl/payments/create-payment-boosting/";
 
     final token = Authenticator.instance.fetchToken();
     Loader.instance.showCircularProgressIndicatorWithText();
     final data = {
       "package": package,
     };
-    data.addIf(listing != null, "listing", listing ?? 0);
+    data.addIf(listing != null, "listing", listing!);
 
     final res = await dio.post(
       url,
@@ -35,6 +34,7 @@ Future<void> subscribe(int package, {int? listing}) async {
         },
       ),
     );
+    log(res.data.toString());
     final secret = res.data["client_secret"];
     await Stripe.instance.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(

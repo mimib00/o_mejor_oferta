@@ -85,6 +85,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     Visibility(
                       visible: user != null,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "transactions_title".tr,
@@ -101,6 +102,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     Visibility(
                       visible: user != null,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "offers_title".tr,
@@ -117,6 +119,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     Visibility(
                       visible: user != null,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "saves_title".tr,
@@ -133,6 +136,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     Visibility(
                       visible: user != null,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "account_title".tr,

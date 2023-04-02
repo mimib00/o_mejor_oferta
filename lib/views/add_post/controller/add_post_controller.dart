@@ -118,9 +118,8 @@ class AddPostController extends gety.GetxController {
       for (final brand in res.data) {
         brands.add(Brand.fromJson(brand));
       }
-      log(infoSteps.length.toString());
+      infoSteps.removeWhere((element) => element.runtimeType == BrandsStep && (element as BrandsStep).isBrands == false);
       infoSteps.insert(1, BrandsStep(brands: brands, isBrands: false));
-      log(infoSteps.length.toString());
       update();
     } on DioError catch (e) {
       log(e.response!.data.toString());

@@ -35,6 +35,7 @@ class CategoryTile extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               category.name,
+              maxLines: 2,
               style: text2.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
