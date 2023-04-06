@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -302,6 +303,12 @@ class AddPostController extends gety.GetxController {
       gety.Get.back();
       log(e.message);
       log(e.response!.data.toString());
+      final data = {
+        "uid": Authenticator.instance.user.value?.id,
+        "created_at": FieldValue.serverTimestamp(),
+        "error": e.message,
+      };
+      await FirebaseFirestore.instance.collection("errors").add(data);
       Fluttertoast.showToast(msg: e.message);
     } catch (e, stackTrace) {
       gety.Get.back();

@@ -25,8 +25,7 @@ class AttributeInput extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = editing ? Get.put(AddPostController()) : Get.find<AddPostController>();
     final editController = editing ? Get.find<EditPostController>() : Get.put(EditPostController());
-    final attrib =
-        attribute.id < 0 ? null : listing?.attributes.firstWhere((element) => element.title == attribute.title);
+    final attrib = attribute.id < 0 ? null : listing?.attributes.firstWhere((element) => element.title == attribute.title);
     final TextEditingController input = TextEditingController(text: editing ? attrib?.value : '');
 
     Widget child = Container();
@@ -50,9 +49,7 @@ class AttributeInput extends StatelessWidget {
                     editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                     return;
                   }
-                  if (editController.attributes
-                      .where((element) => element["possible_attribute"] == attribute.id)
-                      .isNotEmpty) {
+                  if (editController.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
                     editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                   }
                   final data = {
@@ -67,9 +64,7 @@ class AttributeInput extends StatelessWidget {
                     controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                     return;
                   }
-                  if (controller.attributes
-                      .where((element) => element["possible_attribute"] == attribute.id)
-                      .isNotEmpty) {
+                  if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
                     controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                   }
                   final data = {
@@ -143,9 +138,7 @@ class AttributeInput extends StatelessWidget {
                 editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                 return;
               }
-              if (editController.attributes
-                  .where((element) => element["possible_attribute"] == attribute.id)
-                  .isNotEmpty) {
+              if (editController.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
                 editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
               }
               final data = {
@@ -202,8 +195,7 @@ class AttributeInput extends StatelessWidget {
                   onChanged: (value) {
                     if (editing) {
                       if (attribs.contains(attribute.id)) {
-                        editController.attributes
-                            .removeWhere((element) => element["possible_attribute"] == attribute.id);
+                        editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                       } else {
                         final data = {
                           "id": attrib?.id,
@@ -299,20 +291,13 @@ class AttributeInput extends StatelessWidget {
                 (e) {
                   dynamic values;
                   if (editing) {
-                    values = editController.attributes
-                            .where((element) => element["possible_attribute"] == attribute.id)
-                            .isEmpty
+                    values = editController.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
                         ? ''
-                        : editController.attributes
-                            .where((element) => element["possible_attribute"] == attribute.id)
-                            .first["value"];
+                        : editController.attributes.where((element) => element["possible_attribute"] == attribute.id).first["value"];
                   } else {
-                    values =
-                        controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
-                            ? ""
-                            : controller.attributes
-                                .where((element) => element["possible_attribute"] == attribute.id)
-                                .first["value"];
+                    values = controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
+                        ? ""
+                        : controller.attributes.where((element) => element["possible_attribute"] == attribute.id).first["value"];
                   }
 
                   return RadioListTile(
@@ -324,11 +309,8 @@ class AttributeInput extends StatelessWidget {
                     groupValue: values,
                     onChanged: (value) {
                       if (editing) {
-                        if (editController.attributes
-                            .where((element) => element["possible_attribute"] == attribute.id)
-                            .isNotEmpty) {
-                          editController.attributes
-                              .removeWhere((element) => element["possible_attribute"] == attribute.id);
+                        if (editController.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
+                          editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                         } else {
                           final data = {
                             "id": attrib?.id,
@@ -338,9 +320,7 @@ class AttributeInput extends StatelessWidget {
                           editController.attributes.add(data);
                         }
                       } else {
-                        if (controller.attributes
-                            .where((element) => element["possible_attribute"] == attribute.id)
-                            .isNotEmpty) {
+                        if (controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
                           controller.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                         } else {
                           final data = {
@@ -367,7 +347,7 @@ class AttributeInput extends StatelessWidget {
           labelText: attribute.title,
           lines: 8,
           validator: (value) {
-            if (attribute.required && value == null || value!.isEmpty) return "Field required";
+            if (attribute.required && value == null || value!.trim().isEmpty) return "Field required";
             final splitted = value.split(' ');
             if (editing) {
               for (var word in splitted) {
@@ -386,9 +366,7 @@ class AttributeInput extends StatelessWidget {
                 editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
                 return;
               }
-              if (editController.attributes
-                  .where((element) => element["possible_attribute"] == attribute.id)
-                  .isNotEmpty) {
+              if (editController.attributes.where((element) => element["possible_attribute"] == attribute.id).isNotEmpty) {
                 editController.attributes.removeWhere((element) => element["possible_attribute"] == attribute.id);
               }
 
@@ -443,9 +421,7 @@ class AttributeInput extends StatelessWidget {
                             }
                           : controller.images.isEmpty
                               ? attribute.required
-                                  ? controller.attributes
-                                          .where((element) => element["possible_attribute"] == attribute.id)
-                                          .isEmpty
+                                  ? controller.attributes.where((element) => element["possible_attribute"] == attribute.id).isEmpty
                                       ? null
                                       : () {
                                           if (form.currentState!.validate()) {

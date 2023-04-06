@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mejor_oferta/core/api/authenticator.dart';
 import 'package:mejor_oferta/core/routes/routes.dart';
 import 'package:mejor_oferta/meta/models/listing.dart';
 import 'package:mejor_oferta/meta/utils/constants.dart';
@@ -32,6 +34,13 @@ class ListingTile extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: double.infinity,
                         errorWidget: (context, url, error) {
+                          final data = {
+                            "uid": Authenticator.instance.user.value?.id,
+                            "created_at": FieldValue.serverTimestamp(),
+                            "error": error,
+                            "image": url,
+                          };
+                          FirebaseFirestore.instance.collection("errors").add(data);
                           return Container(
                             alignment: Alignment.center,
                             color: kPrimaryColor,
