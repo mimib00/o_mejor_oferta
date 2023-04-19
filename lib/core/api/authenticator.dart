@@ -219,5 +219,6 @@ class Authenticator extends GetxController {
 
   Future<void> logout() async {
     await _removeToken();
+    user.value = null;
   }
 }

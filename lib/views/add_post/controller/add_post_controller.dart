@@ -209,6 +209,7 @@ class AddPostController extends gety.GetxController {
 
   Future<List<Category>> getSubCategories() async {
     try {
+      reset();
       final url = "$baseUrl/listings/categories/${category?.id}/subcategories/";
       final res = await dio.get(url);
 
@@ -331,5 +332,15 @@ class AddPostController extends gety.GetxController {
     category = null;
     subCategory = null;
     super.onClose();
+  }
+
+  void reset() {
+    subCategory = null;
+    condition.value = "";
+    attributes.clear();
+    negotiable.value = false;
+    images.clear();
+    location.value = null;
+    infoSteps.removeWhere((element) => element.runtimeType == BrandsStep);
   }
 }
