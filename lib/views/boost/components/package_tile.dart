@@ -20,10 +20,10 @@ Future<void> subscribe(int package, {int? listing}) async {
 
     final token = Authenticator.instance.fetchToken();
     Loader.instance.showCircularProgressIndicatorWithText();
-    final data = {
+    final Map<String, dynamic> data = {
       "package": package,
     };
-    data.addIf(listing != null, "listing", listing!);
+    data.addIf(listing != null, "listing", listing);
 
     final res = await dio.post(
       url,
@@ -34,7 +34,6 @@ Future<void> subscribe(int package, {int? listing}) async {
         },
       ),
     );
-    log(res.data.toString());
     final secret = res.data["client_secret"];
     await Stripe.instance.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(

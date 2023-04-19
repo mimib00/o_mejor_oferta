@@ -45,41 +45,44 @@ class NotificationController extends GetxController {
   // Notification Config
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  void requestIOSPermissions(FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-  }
-
   Future<void> init() async {
     //Initialization Settings for Android
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
 
     //Initialization Settings for iOS
-    const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
-      requestSoundPermission: true,
-      requestBadgePermission: true,
-      requestAlertPermission: true,
+    final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
+      defaultPresentSound: true,
+      defaultPresentBadge: true,
+      defaultPresentAlert: true,
+      onDidReceiveLocalNotification: (id, title, body, payload) => showNotifications(title, body),
     );
 
     //InitializationSettings for initializing settings for both platforms (Android & iOS)
-    const InitializationSettings initializationSettings =
+    final InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    Platform.isAndroid
+        ? await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!.requestPermission()
+        : await flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()!
+            .requestPermissions(alert: true, sound: true, badge: true);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log(message.sentTime.toString());
+      if (message.notification != null) {
+        log(message.notification!.title.toString());
+        showNotifications(message.notification?.title, message.notification?.body);
+      }
+    });
   }
 
   static const AndroidNotificationDetails _androidNotificationDetails = AndroidNotificationDetails(
     '0',
     'myChannel',
     playSound: true,
-    priority: Priority.max,
-    importance: Importance.max,
+    priority: Priority.high,
+    importance: Importance.high,
     color: Colors.white,
     enableLights: true,
   );
@@ -103,19 +106,6 @@ class NotificationController extends GetxController {
   void onInit() async {
     await init();
 
-    Platform.isAndroid
-        ? await flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
-            .requestPermission()
-        : await flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()!
-            .requestPermissions();
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      if (message.notification != null) {
-        showNotifications(message.notification?.title, message.notification?.body);
-      }
-    });
     super.onInit();
   }
 }

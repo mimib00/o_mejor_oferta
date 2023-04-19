@@ -143,7 +143,6 @@ class Authenticator extends GetxController {
   Future<void> setFCMToken() async {
     try {
       final fcm = await FirebaseMessaging.instance.getToken();
-      if (_box.read("FCM") == fcm) return;
 
       const url = "$baseUrl/notifications/add-fcm-notification-device/";
       final token = fetchToken();
@@ -155,6 +154,7 @@ class Authenticator extends GetxController {
         data: {
           "name": user.value?.name,
           "registration_id": fcm,
+          "active": true,
           "type": Platform.operatingSystem,
         },
         options: Options(
