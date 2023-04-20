@@ -341,6 +341,7 @@ class AddPostController extends gety.GetxController {
     negotiable.value = false;
     images.clear();
     location.value = null;
-    infoSteps.removeWhere((element) => element.runtimeType == BrandsStep);
+    attributes.clear();
+    infoSteps.clear();
   }
 }
