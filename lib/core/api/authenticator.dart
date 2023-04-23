@@ -105,6 +105,7 @@ class Authenticator extends GetxController {
         ),
       );
       user.value = User.fromJson(res.data);
+      log((user.value?.nsfwAllowed).toString());
       update();
       return user.value;
     } on DioError catch (e) {

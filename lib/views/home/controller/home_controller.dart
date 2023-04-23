@@ -40,6 +40,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     try {
       if (stop) return;
       const url = "$baseUrl/listings/listings/";
+      final tokens = Authenticator.instance.fetchToken();
       final param = {
         "page": page == 0 ? 1 : page,
         "size": limit,
@@ -56,6 +57,11 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       final res = await dio.get(
         url,
         queryParameters: param,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${tokens["access"]}",
+          },
+        ),
       );
 
       List<ListingThumb> thumbs = [];
