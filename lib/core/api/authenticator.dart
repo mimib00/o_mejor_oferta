@@ -96,6 +96,7 @@ class Authenticator extends GetxController {
     try {
       const url = "$baseUrl/authentication/users/me";
       final tokens = fetchToken();
+      if (tokens.isEmpty) return null;
       final res = await dio.get(
         url,
         options: Options(
@@ -177,9 +178,11 @@ class Authenticator extends GetxController {
 
   Future<void> updateLocation() async {
     try {
+      log("message");
       final LocationController controller = Get.find();
       const url = "$baseUrl/authentication/users/me/";
       final token = Authenticator.instance.fetchToken();
+      if (token.isEmpty) return;
       await dio.patch(
         url,
         data: {

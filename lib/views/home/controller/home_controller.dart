@@ -58,9 +58,11 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         url,
         queryParameters: param,
         options: Options(
-          headers: {
-            "Authorization": "Bearer ${tokens["access"]}",
-          },
+          headers: tokens.isNotEmpty
+              ? {
+                  "Authorization": "Bearer ${tokens["access"]}",
+                }
+              : null,
         ),
       );
 
